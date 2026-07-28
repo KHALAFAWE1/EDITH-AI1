@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Images generated during runtime
+server/faces/
+server/captures/
+
+# Node
+node_modules/
+
+# Environment
+.env
+
+# Build
+dist/
