@@ -189,20 +189,39 @@ export default function AI() {
     };
   }, [activeTab, selectedDeviceId]);
 
-  // Speech Synthesis Helper
-  const speakArabic = useCallback((text) => {
+  // Female Speech Synthesis Helper matching user language (صوت أنثوي ذكي بنفس لغة المتحدث)
+  const speakFemaleVoice = useCallback((text) => {
     if (!("speechSynthesis" in window) || !text) return;
     window.speechSynthesis.cancel();
 
+    const isArabic = /[\u0600-\u06FF]/.test(text);
+    const targetLang = isArabic ? "ar-SA" : "en-US";
+
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "ar-SA";
-    utterance.rate = 1.05;
-    utterance.pitch = 1.0;
+    utterance.lang = targetLang;
+    utterance.rate = 1.05; // سرعة نطق طبيعية
+    utterance.pitch = 1.18; // ضبط التردد الصوتي ليكون صوتاً أنثوياً ناعماً وواضحاً (Crisp Female Pitch)
 
     const voices = window.speechSynthesis.getVoices();
-    const arabicVoice = voices.find((v) => v.lang.startsWith("ar"));
-    if (arabicVoice) {
-      utterance.voice = arabicVoice;
+    const femaleKeywords = [
+      "salma", "zariyah", "marium", "laila", "hoda", "zeina", "fatima", "nour",
+      "zira", "jenny", "aria", "samantha", "victoria", "karen", "susan", "female", "natural", "google"
+    ];
+
+    // البحث عن صوت أنثوي مخصص للغة المحددة
+    let chosenVoice = voices.find((v) => {
+      const matchLang = isArabic ? v.lang.startsWith("ar") : v.lang.startsWith("en");
+      const isFemale = femaleKeywords.some((k) => v.name.toLowerCase().includes(k));
+      return matchLang && isFemale;
+    });
+
+    // في حال عدم توفر اسم أنثوي محدد، نختار أفضل صوت للغة المحددة
+    if (!chosenVoice) {
+      chosenVoice = voices.find((v) => isArabic ? v.lang.startsWith("ar") : v.lang.startsWith("en"));
+    }
+
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
     }
 
     utterance.onstart = () => setIsSpeaking(true);
@@ -211,6 +230,7 @@ export default function AI() {
 
     window.speechSynthesis.speak(utterance);
   }, []);
+
 
   // Capture Frame and Send to Voice-Vision Assistant
   const triggerVoiceVisionCapture = useCallback(async (promptText) => {
@@ -250,18 +270,19 @@ export default function AI() {
       }
 
       if (autoSpeak && res.data.spoken_text) {
-        speakArabic(res.data.spoken_text);
+        speakFemaleVoice(res.data.spoken_text);
       }
     } catch (err) {
       console.error(err);
       const errorMsg = "حدث خطأ أثناء فحص المشهد.";
       setVoiceResult({ success: false, spoken_text: errorMsg });
       if (soundEffectsEnabled) playCyberSFX("alert");
-      if (autoSpeak) speakArabic(errorMsg);
+      if (autoSpeak) speakFemaleVoice(errorMsg);
     } finally {
       setVoiceProcessing(false);
     }
-  }, [autoSpeak, speakArabic, soundEffectsEnabled]);
+  }, [autoSpeak, speakFemaleVoice, soundEffectsEnabled]);
+
 
   // Continuous Wake Word Listener ("يا إيديث" / "Hey EDITH")
   useEffect(() => {
@@ -924,7 +945,7 @@ export default function AI() {
               </h2>
               {voiceResult?.spoken_text && (
                 <button
-                  onClick={() => speakArabic(voiceResult.spoken_text)}
+                  onClick={() => speakFemaleVoice(voiceResult.spoken_text)}
                   style={{
                     background: "rgba(0, 255, 153, 0.15)",
                     color: "#00ff99",
@@ -941,6 +962,7 @@ export default function AI() {
                   <FaRedo size={10} /> إعادة النطق
                 </button>
               )}
+
             </div>
 
             {/* Client Action Alert Banner */}
