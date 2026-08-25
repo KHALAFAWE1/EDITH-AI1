@@ -47,15 +47,20 @@ class ApiKeyRequest(BaseModel):
     api_key: str
 
 
-EDITH_SYSTEM_PROMPT = """أنت E.D.I.T.H. (Even Dead, I'm The Hero) - المساعد الصوتي والتكتيكي الذكي وفائق القدرة من Stark Industries.
+import psutil
+import platform
+from datetime import datetime
+
+EDITH_SYSTEM_PROMPT = """أنت E.D.I.T.H. (Even Dead, I'm The Hero) - المساعد الصوتي والتكتيكي وفائق الذكاء من Stark Industries.
 - الأسلوب: ذكي جداً، محترف، عبقري، سريع البديهة، ويجيب بنبرة طبيعية فصيحة وممتعة مناسبة للتحدث الصوتي.
 - تفهم العامية المصرية والعربية الفصحى بطلاقة.
 - قدراتك التفاعلية:
   1. الإجابة على أي سؤال في العالم (علمي، تقني، عام، ترفيهي، برمجي، يومي).
-  2. فتح المواقع والتطبيقات عند قول: "افتح كذا" (مثل: افتح كروم، افتح اليوتيوب، افتح واتساب، افتح الآلة الحاسبة، افتح المفكرة، افتح جوجل).
-  3. الاتصال بالأشخاص عند قول: "اتصل على كذا" أو "اتصل بفلان" أو "اتصل برقم كذا".
-  4. إغلاق وإنهاء البرامج عند قول: "اقفل كذا" أو "احذف كذا من العمليات" (مثل: اقفل كروم، اقفل الآلة الحاسبة).
-  5. تحليل الكاميرا والمشهد عند السؤال عن ما هو أمام المستخدم أو مَن يقف في الكاميرا.
+  2. فحص وتشخيص موارد وحالة النظام والجهاز (المعالج، الرامات، القرص، البطارية، الأداء) بدقة عند السؤال عنها.
+  3. فتح المواقع والتطبيقات عند قول: "افتح كذا" (مثل: افتح كروم، افتح اليوتيوب، افتح واتساب، افتح الآلة الحاسبة، افتح المفكرة، افتح جوجل).
+  4. الاتصال بالأشخاص عند قول: "اتصل على كذا" أو "اتصل بفلان" أو "اتصل برقم كذا".
+  5. إغلاق وإنهاء البرامج عند قول: "اقفل كذا" أو "احذف كذا من العمليات" (مثل: اقفل كروم، اقفل الآلة الحاسبة).
+  6. تحليل الكاميرا والمشهد والمشاعر عند السؤال عما هو أمام المستخدم أو مَن يقف في الكاميرا وحالته.
 
 عندما يطلب المستخدم فعلاً أو أمراً تنفيذياً (فتح، إغلاق، اتصال، حذف)، أدرج كتلة الإجراء في ردك بالشكل التالي:
 ```action
@@ -75,6 +80,34 @@ EDITH_SYSTEM_PROMPT = """أنت E.D.I.T.H. (Even Dead, I'm The Hero) - المس�
 كن دائماً جاهزاً ومباشراً واجعل ردك الصوتي جذاباً ومختصراً (2-4 جمل)!"""
 
 GEMINI_MODELS = ["gemini-3.5-flash", "gemini-flash-latest", "gemini-3.7-flash"]
+
+
+def get_live_system_metrics() -> Dict[str, Any]:
+    """قراءة المقاييس الحية لموارد الجهاز"""
+    try:
+        cpu_pct = psutil.cpu_percent(interval=0.1)
+        ram = psutil.virtual_memory()
+        disk = psutil.disk_usage("/")
+        battery = psutil.sensors_battery()
+        
+        battery_pct = round(battery.percent) if battery else 100
+        is_charging = battery.power_plugged if battery else True
+        
+        return {
+            "cpu_percent": cpu_pct,
+            "ram_used_gb": round(ram.used / (1024**3), 1),
+            "ram_total_gb": round(ram.total / (1024**3), 1),
+            "ram_free_gb": round(ram.available / (1024**3), 1),
+            "ram_percent": ram.percent,
+            "disk_percent": disk.percent,
+            "disk_free_gb": round(disk.free / (1024**3), 1),
+            "battery_percent": battery_pct,
+            "is_charging": is_charging,
+            "summary_text": f"المعالج: {cpu_pct}% | الرامات: {round(ram.used / (1024**3), 1)}GB مستخدم من أصل {round(ram.total / (1024**3), 1)}GB ({ram.percent}%) | البطارية: {battery_pct}% ({'متصل بالشاحن' if is_charging else 'يعمل على البطارية'}) | القرص: {disk.percent}%"
+        }
+    except Exception as e:
+        return {"error": str(e), "summary_text": "جاري قراءة الموارد الحية..."}
+
 
 KNOWN_WEB_TARGETS = {
     "youtube": "https://www.youtube.com",
@@ -137,6 +170,7 @@ def execute_system_action(action_data: Dict[str, Any], db: Optional[Session] = N
             web_url = KNOWN_WEB_TARGETS.get(target)
             if not web_url and ("http" in target or ".com" in target or ".net" in target or ".org" in target):
                 web_url = target if target.startswith("http") else f"https://{target}"
+
 
             if web_url:
                 subprocess.Popen(f"start {web_url}", shell=True)
@@ -475,7 +509,9 @@ def voice_vision_assistant(
         client_action = None
         action_status = ""
 
-        # إذا كانت الصورة متوفرة والسؤال بصري
+        telemetry_info = get_live_system_metrics()
+
+        # إذا كانت الصورة متوفرة والسؤال بصري أو عن المشاعر
         if file_path and is_visual_query:
             biometric_context = ""
             if detected_people_info:
@@ -483,22 +519,29 @@ def voice_vision_assistant(
             else:
                 biometric_context = "التعرف البيومتري: لم يتم التعرف على أي وجوه مسجلة في قاعدة البيانات."
 
-            system_voice_instruction = f"""أنت E.D.I.T.H. - المساعد الصوتي التكتيكي الذكي وتتحدث للمستخدم عبر الصوت الآن.
+            system_voice_instruction = f"""أنت E.D.I.T.H. - المساعد الصوتي والتكتيكي الذكي وتتحدث للمستخدم عبر الصوت الآن.
 المستخدم سألك صوتياً: "{voice_prompt}"
 بيانات نظام الكاميرا والتعرف على الوجوه الحالية:
 {biometric_context}
+بيانات موارد الجهاز الحالية:
+{telemetry_info.get('summary_text', '')}
 
 المطلوب منك:
 1. الإجابة باللغة العربية بصوت طبيعي ومباشر ومختصر ومشوق في 2-4 جمل.
-2. إذا كان هناك شخص تم التعرف عليه في البيانات، اذكره باسمه ودوره مباشرة بثقة.
+2. إذا كان هناك شخص تم التعرف عليه في البيانات، اذكره باسمه ودوره مباشرة بثقة، واذكر تعابير وجهه ومشاعره الظاهرة (مثل مبتسم، هادئ، مركز، متفاجئ).
 3. اشرح ما تراه أمام الكاميرا باختصار واحترافية."""
 
             gemini_res = call_gemini_vision(file_path, voice_prompt, api_key, system_override=system_voice_instruction)
             spoken_text = gemini_res.get("description", "")
 
         else:
-            # محادثة صوتية تفاعلية + فحص أوامر النظام والاتصال
-            chat_res = call_gemini_chat(voice_prompt, [], api_key, db)
+            # إذا كان السؤال عن حالة النظام أو موارد الجهاز، نضيف قراءات الحساسات الفعلية
+            is_telemetry_query = any(k in voice_prompt for k in ["حالة", "نظام", "جهاز", "معالج", "رامات", "ذاكرة", "بطارية", "حرارة", "أداء", "telemetry", "diagnostics", "status"])
+            effective_prompt = voice_prompt
+            if is_telemetry_query:
+                effective_prompt = f"{voice_prompt}\n(بيانات موارد الجهاز الحالية الحقيقية: {telemetry_info.get('summary_text', '')})"
+
+            chat_res = call_gemini_chat(effective_prompt, [], api_key, db)
             spoken_text = chat_res.get("reply", "")
             client_action = chat_res.get("client_action")
 
@@ -512,6 +555,7 @@ def voice_vision_assistant(
             "raw_reply": spoken_text,
             "prompt": voice_prompt,
             "client_action": client_action,
+            "telemetry": telemetry_info,
             "biometrics": biometric_faces,
             "detected_names": [f["person"]["full_name"] for f in biometric_faces if f.get("found") and f.get("person")]
         }
@@ -522,6 +566,13 @@ def voice_vision_assistant(
                 os.remove(file_path)
             except Exception:
                 pass
+
+
+@router.get("/telemetry")
+def get_ai_telemetry():
+    """جلب إحصائيات الموارد الحية لواجهة HUD التكتيكية"""
+    return get_live_system_metrics()
+
 
 
 

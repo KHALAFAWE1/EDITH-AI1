@@ -4,8 +4,63 @@ import { api } from "../services/api";
 import { 
   FaRobot, FaEye, FaPaperPlane, FaCamera, FaSpinner, FaMicrochip, 
   FaUser, FaInfoCircle, FaLightbulb, FaKey, FaTimes, FaBolt, 
-  FaMicrophone, FaMicrophoneSlash, FaVolumeUp, FaVolumeMute, FaRedo, FaVideo
+  FaMicrophone, FaMicrophoneSlash, FaVolumeUp, FaVolumeMute, FaRedo, FaVideo,
+  FaBatteryFull, FaHdd, FaMemory, FaSmile, FaVolumeOff, FaBroadcastTower
 } from "react-icons/fa";
+
+// محرك المؤثرات الصوتية المستقبلية التكتيكية (Web Audio Synthesizer)
+const playCyberSFX = (type = "wake") => {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+    if (type === "wake") {
+      // نغمة التنبيه والاستجابة عند قول "يا إيديث" (750Hz -> 1450Hz)
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(750, now);
+      osc.frequency.exponentialRampToValueAtTime(1450, now + 0.16);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } else if (type === "scan") {
+      // مسح راداري بصري
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.linearRampToValueAtTime(850, now + 0.22);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    } else if (type === "confirm") {
+      // نغمة تأكيد تنفيذ أوامر Stark Industries
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.setValueAtTime(1320, now + 0.08);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
+      osc.start(now);
+      osc.stop(now + 0.28);
+    } else if (type === "alert") {
+      // نغمة تحذير أمني
+      osc.type = "square";
+      osc.frequency.setValueAtTime(950, now);
+      osc.frequency.setValueAtTime(650, now + 0.14);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
+      osc.start(now);
+      osc.stop(now + 0.26);
+    }
+  } catch (err) {
+    console.log("SFX error:", err);
+  }
+};
 
 export default function AI() {
   const [activeTab, setActiveTab] = useState("voice_vision"); // "voice_vision" | "chat" | "vision"
@@ -21,7 +76,7 @@ export default function AI() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "مرحباً بك يا فندم! أنا E.D.I.T.H. - المساعد التكتيكي الذكي. تم تزويدي بقدرات التحليل البيومتري، والتعرف على الوجوه، والرؤية الحاسوبية، والتحكم بالنظام، والذكاء الاصطناعي الفائق. كيف يمكنني خدمتك اليوم؟"
+      content: "مرحباً بك يا فندم! أنا E.D.I.T.H. - المساعد التكتيكي الذكي. تم تزويدي بقدرات التحليل البيومتري، والتعرف على الوجوه، والرؤية الحاسوبية، ومراقبة موارد النظام، والذكاء الاصطناعي الفائق. كيف يمكنني خدمتك اليوم؟"
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -39,25 +94,53 @@ export default function AI() {
   const [videoDevices, setVideoDevices] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [isListening, setIsListening] = useState(false);
+  const [isWakeWordActive, setIsWakeWordActive] = useState(true); // الاستماع المستمر لكلمة "يا إيديث"
+  const [wakeWordPulsing, setWakeWordPulsing] = useState(false);
   const [speechTranscript, setSpeechTranscript] = useState("");
   const [voiceProcessing, setVoiceProcessing] = useState(false);
   const [voiceResult, setVoiceResult] = useState(null);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [autoSpeak, setAutoSpeak] = useState(true);
+  const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true);
+
+  // Live System Telemetry
+  const [telemetry, setTelemetry] = useState({
+    cpu_percent: 0,
+    ram_used_gb: 0,
+    ram_total_gb: 8,
+    ram_percent: 0,
+    disk_percent: 0,
+    battery_percent: 100,
+    is_charging: true
+  });
 
   const voiceVideoRef = useRef(null);
   const voiceCanvasRef = useRef(document.createElement("canvas"));
   const recognitionRef = useRef(null);
+  const wakeWordRecognitionRef = useRef(null);
 
-  // Fetch AI Status
+  // Fetch AI Status & System Telemetry
   const fetchStatus = () => {
     api.get("/ai/status")
       .then((res) => setAiStatus(res.data))
       .catch((err) => console.log("AI status check error:", err));
   };
 
+  const fetchTelemetry = () => {
+    api.get("/ai/telemetry")
+      .then((res) => {
+        if (res.data && !res.data.error) {
+          setTelemetry(res.data);
+        }
+      })
+      .catch((err) => console.log("Telemetry check error:", err));
+  };
+
   useEffect(() => {
     fetchStatus();
+    fetchTelemetry();
+    const interval = setInterval(fetchTelemetry, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   // Enumerate Connected Cameras (Laptop, Bluetooth, USB)
@@ -116,7 +199,6 @@ export default function AI() {
     utterance.rate = 1.05;
     utterance.pitch = 1.0;
 
-    // محاولة اختيار صوت عربي عالي الجودة إن وجد
     const voices = window.speechSynthesis.getVoices();
     const arabicVoice = voices.find((v) => v.lang.startsWith("ar"));
     if (arabicVoice) {
@@ -132,53 +214,123 @@ export default function AI() {
 
   // Capture Frame and Send to Voice-Vision Assistant
   const triggerVoiceVisionCapture = useCallback(async (promptText) => {
-    if (!voiceVideoRef.current) return;
-    const video = voiceVideoRef.current;
-    if (video.videoWidth === 0 || video.videoHeight === 0) {
-      alert("الكاميرا قيد التشغيل، يرجى الانتظار ثانية واحدة...");
-      return;
-    }
+    if (soundEffectsEnabled) playCyberSFX("scan");
 
-    const canvas = voiceCanvasRef.current;
-    canvas.width = Math.min(800, video.videoWidth);
-    canvas.height = Math.min(600, video.videoHeight);
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    let blobToSend = null;
+    if (voiceVideoRef.current && voiceVideoRef.current.videoWidth > 0) {
+      const video = voiceVideoRef.current;
+      const canvas = voiceCanvasRef.current;
+      canvas.width = Math.min(800, video.videoWidth);
+      canvas.height = Math.min(600, video.videoHeight);
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      blobToSend = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.85));
+    }
 
     setVoiceProcessing(true);
     setVoiceResult(null);
 
-    canvas.toBlob(
-      async (blob) => {
-        if (!blob) {
-          setVoiceProcessing(false);
-          return;
+    const formData = new FormData();
+    formData.append("voice_prompt", promptText || "إيه اللي قدامي ده ومين موجود في الكاميرا؟");
+    if (blobToSend) {
+      formData.append("photo", blobToSend, "voice_frame.jpg");
+    }
+
+    try {
+      const res = await api.post("/ai/voice-vision", formData);
+      setVoiceResult(res.data);
+      if (res.data.telemetry) setTelemetry(res.data.telemetry);
+
+      if (soundEffectsEnabled) {
+        if (res.data.detected_names && res.data.detected_names.length > 0) {
+          playCyberSFX("confirm");
+        } else if (res.data.client_action) {
+          playCyberSFX("confirm");
         }
+      }
 
-        const formData = new FormData();
-        formData.append("voice_prompt", promptText || "إيه اللي قدامي ده ومين موجود في الكاميرا؟");
-        formData.append("photo", blob, "voice_frame.jpg");
+      if (autoSpeak && res.data.spoken_text) {
+        speakArabic(res.data.spoken_text);
+      }
+    } catch (err) {
+      console.error(err);
+      const errorMsg = "حدث خطأ أثناء فحص المشهد.";
+      setVoiceResult({ success: false, spoken_text: errorMsg });
+      if (soundEffectsEnabled) playCyberSFX("alert");
+      if (autoSpeak) speakArabic(errorMsg);
+    } finally {
+      setVoiceProcessing(false);
+    }
+  }, [autoSpeak, speakArabic, soundEffectsEnabled]);
 
-        try {
-          const res = await api.post("/ai/voice-vision", formData);
-          setVoiceResult(res.data);
+  // Continuous Wake Word Listener ("يا إيديث" / "Hey EDITH")
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition || !isWakeWordActive || activeTab !== "voice_vision") return;
 
-          if (autoSpeak && res.data.spoken_text) {
-            speakArabic(res.data.spoken_text);
+    let wakeRecognition = null;
+    let isStopped = false;
+
+    try {
+      wakeRecognition = new SpeechRecognition();
+      wakeRecognition.lang = "ar-EG";
+      wakeRecognition.continuous = true;
+      wakeRecognition.interimResults = true;
+
+      wakeRecognition.onresult = (event) => {
+        const lastResult = event.results[event.results.length - 1];
+        const transcript = lastResult[0].transcript.trim().toLowerCase();
+
+        // فحص هل نطق المستخدم كلمة التنبيه (يا إيديث / إيديث / Hey EDITH)
+        const wakeWordMatches = ["يا إيديث", "إيديث", "يا ايديث", "ايديث", "hey edith", "edith"];
+        const matched = wakeWordMatches.some((w) => transcript.includes(w));
+
+        if (matched) {
+          // تشغيل صوت التنبيه المستقبلي فوراً
+          if (soundEffectsEnabled) playCyberSFX("wake");
+          setWakeWordPulsing(true);
+          setTimeout(() => setWakeWordPulsing(false), 2000);
+
+          // تنظيف كلمة التنبيه واستخراج الأمر
+          let command = transcript;
+          wakeWordMatches.forEach((w) => {
+            command = command.replace(w, "").trim();
+          });
+
+          if (!command) {
+            command = "ما هي حالة النظام والوضع الحالي؟";
           }
-        } catch (err) {
-          console.error(err);
-          const errorMsg = "حدث خطأ أثناء فحص وتحليل المشهد بالكاميرا.";
-          setVoiceResult({ success: false, spoken_text: errorMsg });
-          if (autoSpeak) speakArabic(errorMsg);
-        } finally {
-          setVoiceProcessing(false);
+
+          setSpeechTranscript(`🎙️ أمر صوتي: "${command}"`);
+          triggerVoiceVisionCapture(command);
         }
-      },
-      "image/jpeg",
-      0.85
-    );
-  }, [autoSpeak, speakArabic]);
+      };
+
+      wakeRecognition.onerror = (e) => {
+        if (!isStopped && isWakeWordActive) {
+          try { wakeRecognition.start(); } catch (_) {}
+        }
+      };
+
+      wakeRecognition.onend = () => {
+        if (!isStopped && isWakeWordActive) {
+          try { wakeRecognition.start(); } catch (_) {}
+        }
+      };
+
+      wakeRecognition.start();
+      wakeWordRecognitionRef.current = wakeRecognition;
+    } catch (err) {
+      console.log("Wake word listener init error:", err);
+    }
+
+    return () => {
+      isStopped = true;
+      try {
+        wakeRecognition?.stop();
+      } catch (_) {}
+    };
+  }, [isWakeWordActive, activeTab, soundEffectsEnabled, triggerVoiceVisionCapture]);
 
   // Speech Recognition (Microphone Listener)
   const toggleVoiceListening = () => {
@@ -199,6 +351,7 @@ export default function AI() {
     setIsSpeaking(false);
 
     const recognition = new SpeechRecognition();
+
     recognition.lang = "ar-EG";
     recognition.interimResults = true;
     recognition.continuous = false;
@@ -454,8 +607,8 @@ export default function AI() {
               position: "relative"
             }}
           >
-            {/* Top Bar: Camera Selector & Status */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            {/* Top Bar: Camera Selector, Telemetry Quick Status & SFX Toggle */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaVideo color="#00d4ff" />
                 <select
@@ -480,9 +633,90 @@ export default function AI() {
                 </select>
               </div>
 
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "#00ff99" }}>
-                <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#00ff99", display: "inline-block", boxShadow: "0 0 8px #00ff99" }}></span>
-                <span>OPTICAL SENSOR ACTIVE</span>
+              {/* Toggles: Wake Word & Cyber SFX */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <button
+                  onClick={() => setIsWakeWordActive(!isWakeWordActive)}
+                  style={{
+                    background: isWakeWordActive ? "rgba(0, 212, 255, 0.15)" : "#192033",
+                    border: isWakeWordActive ? "1px solid #00d4ff" : "1px solid rgba(255, 255, 255, 0.1)",
+                    color: isWakeWordActive ? "#00d4ff" : "#8b9bb4",
+                    borderRadius: "8px",
+                    padding: "5px 10px",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px"
+                  }}
+                  title="الاستماع التلقائي في الخلفية لكلمة «يا إيديث»"
+                >
+                  <FaBroadcastTower /> {isWakeWordActive ? "Wake Word: «يا إيديث» مفعّل 🎙️" : "Wake Word: معطل"}
+                </button>
+
+                <button
+                  onClick={() => setSoundEffectsEnabled(!soundEffectsEnabled)}
+                  style={{
+                    background: soundEffectsEnabled ? "rgba(0, 255, 153, 0.15)" : "#192033",
+                    border: soundEffectsEnabled ? "1px solid #00ff99" : "1px solid rgba(255, 255, 255, 0.1)",
+                    color: soundEffectsEnabled ? "#00ff99" : "#8b9bb4",
+                    borderRadius: "8px",
+                    padding: "5px 10px",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px"
+                  }}
+                >
+                  {soundEffectsEnabled ? <FaVolumeUp /> : <FaVolumeOff />}
+                  {soundEffectsEnabled ? "SFX أصوات تكتيكية" : "كتم المؤثرات"}
+                </button>
+              </div>
+            </div>
+
+            {/* Live System Telemetry HUD Mini-Bar */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", background: "#0d1222", padding: "10px 14px", borderRadius: "10px", border: "1px solid rgba(0, 212, 255, 0.15)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <FaBolt color="#00d4ff" size={13} />
+                <div>
+                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>CPU Load</div>
+                  <div style={{ fontSize: "12px", color: telemetry.cpu_percent > 70 ? "#ff3b5c" : "#00d4ff", fontWeight: 700 }}>
+                    {telemetry.cpu_percent}%
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <FaMemory color="#00ff99" size={13} />
+                <div>
+                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>RAM Usage</div>
+                  <div style={{ fontSize: "12px", color: "#00ff99", fontWeight: 700 }}>
+                    {telemetry.ram_used_gb} / {telemetry.ram_total_gb} GB
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <FaBatteryFull color="#ffd700" size={13} />
+                <div>
+                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>Power & Battery</div>
+                  <div style={{ fontSize: "12px", color: "#ffd700", fontWeight: 700 }}>
+                    {telemetry.battery_percent}% {telemetry.is_charging ? "⚡" : ""}
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                <FaHdd color="#b388ff" size={13} />
+                <div>
+                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>Storage Disk</div>
+                  <div style={{ fontSize: "12px", color: "#b388ff", fontWeight: 700 }}>
+                    {telemetry.disk_percent}%
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -490,7 +724,7 @@ export default function AI() {
             <div
               style={{
                 flex: 1,
-                minHeight: "260px",
+                minHeight: "240px",
                 background: "#000",
                 borderRadius: "14px",
                 overflow: "hidden",
@@ -498,7 +732,9 @@ export default function AI() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                border: "1px solid rgba(0, 212, 255, 0.2)"
+                border: wakeWordPulsing ? "2px solid #ffd700" : "1px solid rgba(0, 212, 255, 0.2)",
+                boxShadow: wakeWordPulsing ? "0 0 30px rgba(255, 215, 0, 0.6)" : "none",
+                transition: "all 0.3s"
               }}
             >
               <video
@@ -520,6 +756,28 @@ export default function AI() {
                 }}
               />
 
+              {/* Wake Word Visual Trigger Pulse Banner */}
+              {wakeWordPulsing && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "15px",
+                    background: "rgba(255, 215, 0, 0.9)",
+                    color: "#050816",
+                    padding: "8px 18px",
+                    borderRadius: "20px",
+                    fontWeight: 900,
+                    fontSize: "13px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    boxShadow: "0 0 20px #ffd700"
+                  }}
+                >
+                  <FaBolt /> E.D.I.T.H. WAKE TRIGGER ACTIVATED!
+                </div>
+              )}
+
               {/* Status Badge Over Video */}
               {voiceProcessing && (
                 <div
@@ -538,7 +796,7 @@ export default function AI() {
                     fontWeight: 700
                   }}
                 >
-                  <FaSpinner className="spin" /> E.D.I.T.H. Analyzing Scene & Biometrics...
+                  <FaSpinner className="spin" /> E.D.I.T.H. Analyzing Scene, Telemetry & Biometrics...
                 </div>
               )}
             </div>
@@ -574,7 +832,7 @@ export default function AI() {
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ fontSize: "12px", color: isListening ? "#ff3b5c" : "#00d4ff", fontWeight: 700 }}>
-                      {isListening ? "🔴 جاري الاستماع لصوتك الآن (تحدث)..." : "المساعد الصوتي البصري جاهز"}
+                      {isListening ? "🔴 جاري الاستماع لصوتك الآن (تحدث)..." : (isWakeWordActive ? "🎙️ قل «يا إيديث» في أي وقت أو اضغط على المايك" : "المساعد الصوتي البصري جاهز")}
                     </span>
                     <button
                       onClick={() => setAutoSpeak(!autoSpeak)}
@@ -594,7 +852,7 @@ export default function AI() {
                     </button>
                   </div>
                   <p style={{ color: "#fff", fontSize: "13px", margin: "4px 0 0 0", minHeight: "18px" }}>
-                    {speechTranscript || "اضغط على زر الميكروفون واسأل: «إيه اللي قدامي ده ومين في الكاميرا؟»"}
+                    {speechTranscript || "قل «يا إيديث ما هي حالة النظام؟» أو «يا إيديث إيه اللي قدامي؟»"}
                   </p>
                 </div>
               </div>
@@ -602,12 +860,12 @@ export default function AI() {
               {/* Quick Voice Shortcut Buttons */}
               <div style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "4px", scrollbarWidth: "thin" }}>
                 {[
+                  "يا إيديث، ما هي حالة موارد الجهاز والنظام؟",
+                  "إيه اللي قدامي ده وما هي المشاعر الظاهرة؟",
                   "افتح اليوتيوب",
-                  "افتح الواتساب",
                   "افتح الآلة الحاسبة",
                   "اقفل الآلة الحاسبة",
                   "اتصل على 01099887766",
-                  "إيه اللي قدامي ده ومين في الكاميرا؟",
                   "احكي لي معلومة ذكية عن الكون"
                 ].map((txt, idx) => (
                   <button
@@ -644,6 +902,7 @@ export default function AI() {
               </div>
             </div>
           </div>
+
 
           {/* Voice Response & Biometric Profile Output */}
           <div
