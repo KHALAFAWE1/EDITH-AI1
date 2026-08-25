@@ -11,6 +11,7 @@ function MainLayout({ children }) {
         height: "100vh",
         background: "#050816",
         overflow: "hidden",
+        position: "relative"
       }}
     >
       <Sidebar />
@@ -21,18 +22,23 @@ function MainLayout({ children }) {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
+          width: "100%"
         }}
       >
         <Navbar />
 
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.3 }}
+          className="main-content-scroll"
           style={{
             flex: 1,
-            padding: "25px",
+            padding: "clamp(12px, 2.5vw, 25px)",
+            paddingBottom: "80px", // مسافة أمان لشريط الموبايل السفلي
             overflowY: "auto",
+            overflowX: "hidden",
+            WebkitOverflowScrolling: "touch"
           }}
         >
           {children}
@@ -42,4 +48,4 @@ function MainLayout({ children }) {
   );
 }
 
-export default MainLayout;
+export default MainLayout;

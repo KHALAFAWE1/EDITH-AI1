@@ -614,17 +614,17 @@ export default function AI() {
 
       {/* MODE 1: Voice Vision Assistant (Requested Feature!) */}
       {activeTab === "voice_vision" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "25px", height: "calc(100vh - 190px)" }}>
+        <div className="voice-vision-grid">
           {/* Live Camera + Voice Trigger HUD */}
           <div
             style={{
               background: "#111827",
               borderRadius: "16px",
               border: "1px solid rgba(0, 212, 255, 0.2)",
-              padding: "20px",
+              padding: "clamp(12px, 2vw, 20px)",
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "14px",
               position: "relative"
             }}
           >
@@ -655,7 +655,7 @@ export default function AI() {
               </div>
 
               {/* Toggles: Wake Word & Cyber SFX */}
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                 <button
                   onClick={() => setIsWakeWordActive(!isWakeWordActive)}
                   style={{
@@ -673,7 +673,7 @@ export default function AI() {
                   }}
                   title="الاستماع التلقائي في الخلفية لكلمة «يا إيديث»"
                 >
-                  <FaBroadcastTower /> {isWakeWordActive ? "Wake Word: «يا إيديث» مفعّل 🎙️" : "Wake Word: معطل"}
+                  <FaBroadcastTower /> {isWakeWordActive ? "Wake Word: مفعّل 🎙️" : "Wake Word: معطل"}
                 </button>
 
                 <button
@@ -693,13 +693,13 @@ export default function AI() {
                   }}
                 >
                   {soundEffectsEnabled ? <FaVolumeUp /> : <FaVolumeOff />}
-                  {soundEffectsEnabled ? "SFX أصوات تكتيكية" : "كتم المؤثرات"}
+                  {soundEffectsEnabled ? "SFX مفعّل" : "كتم"}
                 </button>
               </div>
             </div>
 
             {/* Live System Telemetry HUD Mini-Bar */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px", background: "#0d1222", padding: "10px 14px", borderRadius: "10px", border: "1px solid rgba(0, 212, 255, 0.15)" }}>
+            <div className="telemetry-grid">
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaBolt color="#00d4ff" size={13} />
                 <div>
@@ -709,6 +709,7 @@ export default function AI() {
                   </div>
                 </div>
               </div>
+
 
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaMemory color="#00ff99" size={13} />
@@ -1079,7 +1080,7 @@ export default function AI() {
 
       {/* MODE 2: Tactical AI Chat */}
       {activeTab === "chat" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: "20px", height: "calc(100vh - 190px)" }}>
+        <div className="chat-grid">
           {/* Main Chat Stream */}
           <div
             style={{
@@ -1092,6 +1093,7 @@ export default function AI() {
               boxShadow: "0 10px 30px rgba(0,0,0,0.4)"
             }}
           >
+
             {/* Messages Container */}
             <div style={{ flex: 1, padding: "20px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "16px" }}>
               {messages.map((msg, idx) => (
@@ -1273,7 +1275,7 @@ export default function AI() {
 
       {/* MODE 3: Vision Laboratory (Upload & Custom Questions) */}
       {activeTab === "vision" && (
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "25px", height: "calc(100vh - 190px)" }}>
+        <div className="vision-grid">
           {/* Visual Input Panel */}
           <div
             style={{
@@ -1286,6 +1288,7 @@ export default function AI() {
               gap: "18px"
             }}
           >
+
             <h2 style={{ fontSize: "18px", color: "#fff", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
               <FaEye color="#00d4ff" /> Visual Scene Input
             </h2>

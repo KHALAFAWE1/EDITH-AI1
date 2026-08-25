@@ -153,3 +153,69 @@ html, body {
   color: var(--accent-red);
   border: 1px solid rgba(255, 59, 92, 0.4);
 }
+
+/* ========================================================= */
+/* 📱 Mobile & Tablet Responsive Media Queries (≤ 900px)    */
+/* ========================================================= */
+.voice-vision-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 25px;
+  min-height: calc(100vh - 190px);
+}
+
+.chat-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 20px;
+  min-height: calc(100vh - 190px);
+}
+
+.vision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  min-height: calc(100vh - 190px);
+}
+
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: #0d1222;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 212, 255, 0.15);
+}
+
+@media (max-width: 992px) {
+  .title {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .hero, .voice-vision-grid, .chat-grid, .vision-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    min-height: auto;
+    height: auto;
+  }
+
+  .telemetry-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .camera-preview {
+    height: 240px;
+  }
+
+  .camera-box, .status-box {
+    padding: 14px;
+    border-radius: 12px;
+  }
+}
