@@ -1,0 +1,18 @@
+﻿{
+  "short_name": "EDITH AI",
+  "name": "EDITH AI - Tactical Multi-Modal Assistant",
+  "description": "Tactical AI Assistant with Voice Vision, Face Recognition & System Control",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#050816",
+  "theme_color": "#00d4ff",
+  "display": "standalone",
+  "orientation": "portrait-primary"
+}

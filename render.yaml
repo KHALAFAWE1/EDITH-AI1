@@ -1,0 +1,33 @@
+﻿services:
+  - type: web
+    name: edith-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server.app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: DATABASE_URL
+        fromDatabase:
+          name: edith-db
+          property: connectionString
+      - key: GEMINI_API_KEY
+        sync: false
+
+  - type: web
+    name: edith-dashboard
+    env: static
+    buildCommand: cd dashboard && npm install && npm run build
+    staticPublishPath: dashboard/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: edith-backend
+          property: host
+
+databases:
+  - name: edith-db
+    databaseName: edith_ai
+    user: postgres
+    plan: free

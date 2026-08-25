@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
@@ -11,7 +12,7 @@ class Person(Base):
 
     full_name = Column(String(150), nullable=False)
 
-    person_type = Column(String(50))      # Student / Teacher
+    person_type = Column(String(50))
 
     department = Column(String(100))
 
@@ -27,11 +28,15 @@ class Person(Base):
 
     photo_path = Column(String(300))
 
-    face_embedding = Column(String)
-
     notes = Column(String(500))
 
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()
+    )
+
+    embeddings = relationship(
+        "FaceEmbedding",
+        back_populates="person",
+        cascade="all, delete"
     )
