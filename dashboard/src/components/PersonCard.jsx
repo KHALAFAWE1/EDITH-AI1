@@ -65,17 +65,27 @@ export default function PersonCard({ person, onDelete }) {
             >
               {person.photo_path ? (
                 <img
-                  src={`http://127.0.0.1:8000/${person.photo_path}`}
+                  src={
+                    person.photo_path.startsWith("http")
+                      ? person.photo_path
+                      : `${import.meta.env.VITE_API_URL || ""}/${person.photo_path.replace(/^\/+/, "")}`
+                  }
                   alt={person.full_name}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   onError={(e) => {
-                    e.target.style.display = "none";
+                    // Fallback to direct localhost if relative fails in dev mode
+                    if (!e.target.src.includes("127.0.0.1:8000")) {
+                      e.target.src = `http://127.0.0.1:8000/${person.photo_path.replace(/^\/+/, "")}`;
+                    } else {
+                      e.target.style.display = "none";
+                    }
                   }}
                 />
               ) : (
                 getRoleIcon(person.person_type)
               )}
             </div>
+
             <div>
               <h3 style={{ color: "#ffffff", fontSize: "16px", fontWeight: 600, marginBottom: "4px" }}>
                 {person.full_name}

@@ -142,7 +142,7 @@ export default function Devices() {
       </div>
 
       {/* Main Hardware Resource Panels */}
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "25px", marginBottom: "25px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", marginBottom: "25px" }}>
         {/* Host Node Specs */}
         <div
           style={{
@@ -158,6 +158,7 @@ export default function Devices() {
               <FaServer color="#00d4ff" /> Host Machine Specifications
             </h2>
             <span className="badge badge-green" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+
               <FaCheckCircle /> ONLINE
             </span>
           </div>

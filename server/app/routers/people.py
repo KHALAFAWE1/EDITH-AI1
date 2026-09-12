@@ -37,8 +37,10 @@ def get_db():
         db.close()
 
 
+@router.get("")
 @router.get("/")
 def get_people(db: Session = Depends(get_db)):
+
     """جلب جميع الأشخاص المسجلين في النظام مع عدد بصمات الوجه الخاصة بهم"""
     people = db.query(Person).all()
     result = []

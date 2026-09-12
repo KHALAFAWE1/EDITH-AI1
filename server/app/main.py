@@ -84,22 +84,28 @@ def health_check():
     }
 
 
-# تقديم واجهة المستخدم React (Dashboard) مباشرة من السيرفر كـ Single Page Application
-DIST_DIR = os.path.abspath(os.path.join(SERVER_DIR, "..", "dashboard", "dist"))
+SERVER_DIR = os.path.dirname(os.path.abspath(__file__))
+DIST_DIR = os.path.abspath(os.path.join(SERVER_DIR, "..", "..", "dashboard", "dist"))
+API_PREFIX_TUPLE = ("api", "people", "devices", "vision", "recognition", "ai", "uploads", "docs", "openapi.json", "redoc")
 
 if os.path.exists(DIST_DIR):
     assets_dir = os.path.join(DIST_DIR, "assets")
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
+
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
-        if full_path.startswith("api/") or full_path in ["docs", "openapi.json"]:
-            return None
-        target_file = os.path.join(DIST_DIR, full_path)
+        # منع اعتراض مسارات الـ API أو التوثيق
+        clean_path = full_path.lstrip("/")
+        if any(clean_path == p or clean_path.startswith(f"{p}/") for p in API_PREFIX_TUPLE):
+            raise HTTPException(status_code=404, detail="API route not found")
+
+        target_file = os.path.join(DIST_DIR, clean_path)
         if os.path.exists(target_file) and os.path.isfile(target_file):
             return FileResponse(target_file)
         return FileResponse(os.path.join(DIST_DIR, "index.html"))
+
 else:
     @app.get("/")
     def home():

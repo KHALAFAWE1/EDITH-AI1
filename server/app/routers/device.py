@@ -80,8 +80,10 @@ def get_live_telemetry():
     }
 
 
+@router.get("")
 @router.get("/")
 def get_devices(db: Session = Depends(get_db)):
+
     """جلب قائمة الأجهزة المسجلة في النظام"""
     devices = db.query(Device).all()
     return devices
