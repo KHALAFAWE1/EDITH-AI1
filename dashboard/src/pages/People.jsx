@@ -33,14 +33,20 @@ export default function People() {
     try {
       setLoading(true);
       const res = await api.get("/people");
-      setPeople(res.data);
+      if (Array.isArray(res.data)) {
+        setPeople(res.data);
+      } else {
+        setPeople([]);
+      }
     } catch (err) {
       console.error("Failed to load people:", err);
+      setPeople([]);
       setFeedback({ message: "فشل تحميل قائمة الأشخاص من الخادم", isError: true });
     } finally {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     fetchPeople();
@@ -134,7 +140,8 @@ export default function People() {
   };
 
   // Filtered List
-  const filteredPeople = people.filter((p) => {
+  const safePeopleList = Array.isArray(people) ? people : [];
+  const filteredPeople = safePeopleList.filter((p) => {
     const matchesSearch =
       p.full_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       p.department?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -144,6 +151,7 @@ export default function People() {
 
     return matchesSearch && matchesType;
   });
+
 
   return (
     <MainLayout>

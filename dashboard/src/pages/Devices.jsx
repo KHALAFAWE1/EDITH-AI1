@@ -13,7 +13,9 @@ export default function Devices() {
   const fetchTelemetry = async () => {
     try {
       const res = await api.get("/devices/telemetry");
-      setTelemetry(res.data);
+      if (res.data && typeof res.data === "object" && !res.data.detail) {
+        setTelemetry(res.data);
+      }
     } catch (err) {
       console.warn("Failed to fetch telemetry:", err.message);
     }
@@ -22,13 +24,19 @@ export default function Devices() {
   const fetchDevices = async () => {
     try {
       const res = await api.get("/devices");
-      setDevicesList(res.data);
+      if (Array.isArray(res.data)) {
+        setDevicesList(res.data);
+      } else {
+        setDevicesList([]);
+      }
     } catch (err) {
       console.warn("Failed to fetch devices list:", err.message);
+      setDevicesList([]);
     } finally {
       setLoading(false);
     }
   };
+
 
   useEffect(() => {
     fetchTelemetry();
@@ -297,28 +305,31 @@ export default function Devices() {
         }}
       >
         <h2 style={{ fontSize: "18px", color: "#fff", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-          <FaNetworkWired color="#00d4ff" /> Registered Infrastructure Nodes ({devicesList.length})
+          <FaNetworkWired color="#00d4ff" /> Registered Infrastructure Nodes ({(Array.isArray(devicesList) ? devicesList : []).length})
         </h2>
 
-        {devicesList.length === 0 ? (
+        {(!Array.isArray(devicesList) || devicesList.length === 0) ? (
           <p style={{ color: "#8b9bb4", fontSize: "13px" }}>
             No registered devices found. Click "Sync Host Telemetry" to add this machine.
           </p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {devicesList.map((dev) => (
+            {(Array.isArray(devicesList) ? devicesList : []).map((dev) => (
               <div
                 key={dev.id}
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "12px",
                   background: "#192033",
                   padding: "14px 18px",
                   borderRadius: "12px",
                   border: "1px solid rgba(0, 212, 255, 0.1)"
                 }}
               >
+
                 <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
                   <FaDesktop size={20} color="#00d4ff" />
                   <div>
