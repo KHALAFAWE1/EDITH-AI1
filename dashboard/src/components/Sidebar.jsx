@@ -4,13 +4,13 @@ import {
   FaHome,
   FaUsers,
   FaCamera,
-  FaDesktop,
+  FaSlidersH,
   FaRobot,
-  FaHistory,
-  FaShieldAlt,
-  FaNetworkWired,
   FaGlasses,
-  FaSlidersH
+  FaHistory,
+  FaNetworkWired,
+  FaDesktop,
+  FaShieldAlt
 } from "react-icons/fa";
 
 import "../styles/sidebar.css";
@@ -40,6 +40,11 @@ export default function Sidebar() {
       path: "/cameras",
     },
     {
+      title: t("nav.ai_assistant"),
+      icon: <FaRobot />,
+      path: "/ai",
+    },
+    {
       title: t("nav.smart_glasses"),
       icon: <FaGlasses />,
       path: "/glasses-hud",
@@ -63,11 +68,6 @@ export default function Sidebar() {
       title: t("nav.soc_security"),
       icon: <FaShieldAlt />,
       path: "/security",
-    },
-    {
-      title: t("nav.ai_assistant"),
-      icon: <FaRobot />,
-      path: "/ai",
     },
   ];
 
@@ -94,4 +94,5 @@ export default function Sidebar() {
       </div>
     </div>
   );
-}
+}
+
