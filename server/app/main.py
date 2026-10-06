@@ -22,6 +22,8 @@ from app.routers import security
 from app.routers import events
 from app.routers import cyber
 from app.routers import risk
+from app.routers import cameras
+from app.routers import glasses
 
 from app.database import Base, engine
 from app.models.device import Device
@@ -32,6 +34,8 @@ from app.models.security_log import SecurityLog
 from app.models.event import Event
 from app.models.risk_assessment import RiskAssessment
 from app.models.network_device import NetworkDevice
+from app.models.camera import Camera
+from app.models.pairing_session import PairingSession
 
 # إنشاء كافة الجداول في قاعدة البيانات تلقائياً
 Base.metadata.create_all(bind=engine)
@@ -87,6 +91,8 @@ app.include_router(vision.router)
 app.include_router(people.router)
 app.include_router(recognition.router)
 app.include_router(ai.router)
+app.include_router(cameras.router)
+app.include_router(glasses.router)
 
 
 @app.get("/api/health")
@@ -104,7 +110,7 @@ DIST_DIR = os.path.abspath(os.path.join(SERVER_DIR, "..", "..", "dashboard", "di
 API_PREFIX_TUPLE = (
     "api", "auth", "security", "events", "cyber", "risk",
     "people", "devices", "vision", "recognition", "ai",
-    "uploads", "docs", "openapi.json", "redoc"
+    "cameras", "glasses", "uploads", "docs", "openapi.json", "redoc"
 )
 
 
