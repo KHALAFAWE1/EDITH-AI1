@@ -4,7 +4,7 @@ import psutil
 from datetime import datetime
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
 
 from app.database import SessionLocal
@@ -12,7 +12,7 @@ from app.models.device import Device
 
 router = APIRouter(
     prefix="/devices",
-    tags=["Devices"]
+    tags=["Devices & Host Health"]
 )
 
 
@@ -37,13 +37,29 @@ def get_system_ip():
 
 @router.get("/telemetry")
 def get_live_telemetry():
-    """جلب إحصائيات حية ومباشرة لموارد الجهاز والمكونات المادية"""
+    """جلب إحصائيات حية ومباشرة لموارد الجهاز والمكونات المادية بدون أي قيم وهمية"""
     cpu_percent = psutil.cpu_percent(interval=0.2)
     cpu_count = psutil.cpu_count(logical=True)
     cpu_freq = psutil.cpu_freq()
 
     ram = psutil.virtual_memory()
     disk = psutil.disk_usage("/")
+
+    # بطارية الجهاز إن وجدت
+    battery_info = None
+    try:
+        battery = psutil.sensors_battery()
+        if battery:
+            battery_info = {
+                "percent": battery.percent,
+                "power_plugged": battery.power_plugged,
+                "secsleft": battery.secsleft
+            }
+    except Exception:
+        pass
+
+    # شبكة I/O الحقيقية
+    net_io = psutil.net_io_counters()
 
     boot_time = datetime.fromtimestamp(psutil.boot_time())
     uptime_seconds = (datetime.now() - boot_time).total_seconds()
@@ -55,7 +71,7 @@ def get_live_telemetry():
         "os": f"{platform.system()} {platform.release()}",
         "os_version": platform.version(),
         "machine": platform.machine(),
-        "processor": platform.processor(),
+        "processor": platform.processor() or "Generic x86_64 / ARM",
         "ip_address": get_system_ip(),
         "cpu": {
             "percent": cpu_percent,
@@ -74,16 +90,62 @@ def get_live_telemetry():
             "free_gb": round(disk.free / (1024 ** 3), 2),
             "percent": disk.percent
         },
+        "network_io": {
+            "bytes_sent_mb": round(net_io.bytes_sent / (1024 ** 2), 2),
+            "bytes_recv_mb": round(net_io.bytes_recv / (1024 ** 2), 2)
+        },
+        "battery": battery_info,
         "uptime": f"{hours}h {minutes}m",
         "status": "Online",
         "timestamp": datetime.now().isoformat()
     }
 
 
+@router.get("/processes")
+def get_running_processes(
+    limit: int = Query(25, ge=5, le=100),
+    sort_by: str = Query("cpu", enum=["cpu", "memory", "name", "pid"])
+):
+    """
+    جلب قائمة العمليات الحقيقية الشغالة في النظام (Task Manager Process View)
+    مع التحقق من الصلاحيات والتعامل مع العمليات المحمية
+    """
+    processes = []
+    for proc in psutil.process_iter(['pid', 'name', 'cpu_percent', 'memory_percent', 'username', 'status', 'create_time']):
+        try:
+            info = proc.info
+            # تنظيف وتنسيق القيم
+            mem_mb = round((proc.memory_info().rss / (1024 * 1024)), 1) if hasattr(proc, "memory_info") else 0
+            processes.append({
+                "pid": info['pid'],
+                "name": info['name'] or "System Process",
+                "cpu_percent": info['cpu_percent'] or 0.0,
+                "memory_percent": round(info['memory_percent'] or 0.0, 1),
+                "memory_mb": mem_mb,
+                "username": info['username'] or "SYSTEM",
+                "status": info['status'] or "running"
+            })
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+
+    if sort_by == "cpu":
+        processes.sort(key=lambda x: x["cpu_percent"], reverse=True)
+    elif sort_by == "memory":
+        processes.sort(key=lambda x: x["memory_percent"], reverse=True)
+    elif sort_by == "name":
+        processes.sort(key=lambda x: x["name"].lower())
+    elif sort_by == "pid":
+        processes.sort(key=lambda x: x["pid"])
+
+    return {
+        "total_active_processes": len(processes),
+        "processes": processes[:limit]
+    }
+
+
 @router.get("")
 @router.get("/")
 def get_devices(db: Session = Depends(get_db)):
-
     """جلب قائمة الأجهزة المسجلة في النظام"""
     devices = db.query(Device).all()
     return devices

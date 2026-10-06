@@ -2,68 +2,63 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import StatusCard from "../components/StatusCard";
 import { api } from "../services/api";
-import { FaDesktop, FaMicrochip, FaMemory, FaHdd, FaNetworkWired, FaServer, FaSync, FaClock, FaCheckCircle, FaTrash } from "react-icons/fa";
+import { useLanguage } from "../context/LanguageContext";
+import {
+  FaDesktop,
+  FaMicrochip,
+  FaMemory,
+  FaHdd,
+  FaClock,
+  FaSync,
+  FaTasks,
+  FaBatteryFull,
+  FaPlug,
+  FaNetworkWired,
+  FaCheckCircle
+} from "react-icons/fa";
 
 export default function Devices() {
+  const { t } = useLanguage();
   const [telemetry, setTelemetry] = useState(null);
-  const [devicesList, setDevicesList] = useState([]);
+  const [processes, setProcesses] = useState([]);
+  const [procSort, setProcSort] = useState("cpu");
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
 
-  const fetchTelemetry = async () => {
+  const fetchHostData = async () => {
     try {
+      setLoading(true);
       const res = await api.get("/devices/telemetry");
       if (res.data && typeof res.data === "object" && !res.data.detail) {
         setTelemetry(res.data);
       }
-    } catch (err) {
-      console.warn("Failed to fetch telemetry:", err.message);
-    }
-  };
 
-  const fetchDevices = async () => {
-    try {
-      const res = await api.get("/devices");
-      if (Array.isArray(res.data)) {
-        setDevicesList(res.data);
-      } else {
-        setDevicesList([]);
+      const procRes = await api.get(`/devices/processes?limit=30&sort_by=${procSort}`);
+      if (procRes.data && Array.isArray(procRes.data.processes)) {
+        setProcesses(procRes.data.processes);
       }
     } catch (err) {
-      console.warn("Failed to fetch devices list:", err.message);
-      setDevicesList([]);
+      console.warn("Failed to fetch host health:", err.message);
     } finally {
       setLoading(false);
     }
   };
 
-
   useEffect(() => {
-    fetchTelemetry();
-    fetchDevices();
-    const interval = setInterval(fetchTelemetry, 3000);
+    fetchHostData();
+    const interval = setInterval(fetchHostData, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [procSort]);
 
   const handleSyncHost = async () => {
     try {
       setSyncing(true);
       await api.post("/devices/register-host");
-      await fetchDevices();
+      await fetchHostData();
     } catch (err) {
       console.error("Failed to sync host:", err);
     } finally {
       setSyncing(false);
-    }
-  };
-
-  const handleDeleteDevice = async (id) => {
-    if (!window.confirm("هل تريد حذف هذا الجهاز من قائمة المراقبة؟")) return;
-    try {
-      await api.delete(`/devices/${id}`);
-      fetchDevices();
-    } catch (err) {
-      console.error("Failed to delete device:", err);
     }
   };
 
@@ -80,12 +75,12 @@ export default function Devices() {
   return (
     <MainLayout>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px", flexWrap: "wrap", gap: "10px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaDesktop style={{ color: "#00d4ff" }} /> System Telemetry & Device Monitoring
+            <FaDesktop style={{ color: "#00d4ff" }} /> {t("host.title")}
           </h1>
-          <p className="subtitle">Real-time hardware resource telemetry, host health, and connected infrastructure</p>
+          <p className="subtitle">{t("host.subtitle")}</p>
         </div>
 
         <button
@@ -96,270 +91,143 @@ export default function Devices() {
             color: "#050816",
             border: "none",
             borderRadius: "10px",
-            padding: "12px 20px",
+            padding: "10px 18px",
             fontWeight: 700,
-            fontSize: "14px",
+            fontSize: "13px",
             display: "flex",
             alignItems: "center",
             gap: "8px",
-            cursor: syncing ? "not-allowed" : "pointer",
-            boxShadow: "0 4px 15px rgba(0, 212, 255, 0.4)"
+            cursor: syncing ? "not-allowed" : "pointer"
           }}
         >
-          <FaSync className={syncing ? "spin" : ""} size={14} /> Sync Host Telemetry
+          <FaSync className={syncing ? "spin" : ""} size={13} /> Sync Host State
         </button>
       </div>
 
-      {/* Real-time Hardware Telemetry Bar */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "18px",
-          marginBottom: "25px"
-        }}
-      >
+      {/* Real-Time Hardware Telemetry Gauges */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "25px" }}>
         <StatusCard
           icon={<FaMicrochip />}
-          title="CPU Utilization"
+          title={t("host.cpu")}
           value={`${cpuPercent}%`}
-          subtitle={`${telemetry?.cpu?.cores || "--"} Logical Cores`}
+          subtitle={`${telemetry?.cpu?.cores || "--"} Logical Cores (${telemetry?.cpu?.frequency_mhz || 0} MHz)`}
           accentColor={getProgressColor(cpuPercent)}
         />
         <StatusCard
           icon={<FaMemory />}
-          title="Memory (RAM)"
+          title={t("host.ram")}
           value={`${ramPercent}%`}
           subtitle={`${telemetry?.ram?.used_gb || 0} / ${telemetry?.ram?.total_gb || 0} GB`}
           accentColor={getProgressColor(ramPercent)}
         />
         <StatusCard
           icon={<FaHdd />}
-          title="Primary Storage"
+          title={t("host.storage")}
           value={`${storagePercent}%`}
           subtitle={`${telemetry?.storage?.used_gb || 0} / ${telemetry?.storage?.total_gb || 0} GB`}
           accentColor={getProgressColor(storagePercent)}
         />
         <StatusCard
           icon={<FaClock />}
-          title="System Uptime"
+          title={t("host.uptime")}
           value={telemetry?.uptime || "--"}
           subtitle={`Node: ${telemetry?.hostname || "Localhost"}`}
           accentColor="#00ff99"
         />
       </div>
 
-      {/* Main Hardware Resource Panels */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px", marginBottom: "25px" }}>
-        {/* Host Node Specs */}
-        <div
-          style={{
-            background: "#111827",
-            borderRadius: "16px",
-            border: "1px solid rgba(0, 212, 255, 0.15)",
-            padding: "24px",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.4)"
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
-            <h2 style={{ fontSize: "18px", color: "#fff", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaServer color="#00d4ff" /> Host Machine Specifications
-            </h2>
-            <span className="badge badge-green" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-
-              <FaCheckCircle /> ONLINE
-            </span>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", fontSize: "13px" }}>
-            <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
-              <span style={{ color: "#8b9bb4" }}>Hostname</span>
-              <p style={{ color: "#fff", fontWeight: 600, marginTop: "4px", fontSize: "14px" }}>
-                {telemetry?.hostname || "--"}
-              </p>
-            </div>
-
-            <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
-              <span style={{ color: "#8b9bb4" }}>IP Address</span>
-              <p style={{ color: "#00d4ff", fontWeight: 600, marginTop: "4px", fontSize: "14px", fontFamily: "monospace" }}>
-                {telemetry?.ip_address || "--"}
-              </p>
-            </div>
-
-            <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
-              <span style={{ color: "#8b9bb4" }}>Operating System</span>
-              <p style={{ color: "#fff", fontWeight: 600, marginTop: "4px", fontSize: "14px" }}>
-                {telemetry?.os || "--"}
-              </p>
-            </div>
-
-            <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
-              <span style={{ color: "#8b9bb4" }}>Architecture</span>
-              <p style={{ color: "#fff", fontWeight: 600, marginTop: "4px", fontSize: "14px" }}>
-                {telemetry?.machine || "--"}
-              </p>
-            </div>
-
-            <div style={{ background: "#192033", padding: "12px", borderRadius: "10px", gridColumn: "1 / -1" }}>
-              <span style={{ color: "#8b9bb4" }}>Processor Model</span>
-              <p style={{ color: "#fff", fontWeight: 600, marginTop: "4px", fontSize: "13px" }}>
-                {telemetry?.processor || "Intel / AMD Processor"}
-              </p>
-            </div>
-          </div>
+      {/* Host Machine Specifications Panel */}
+      <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(0, 212, 255, 0.15)", padding: "20px", marginBottom: "25px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
+          <h3 style={{ color: "#fff", margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaDesktop color="#00d4ff" /> Host Machine Architecture & Network
+          </h3>
+          <span className="badge badge-green" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <FaCheckCircle /> {telemetry?.status || "Online"}
+          </span>
         </div>
 
-        {/* Live Gauges Progress Bars */}
-        <div
-          style={{
-            background: "#111827",
-            borderRadius: "16px",
-            border: "1px solid rgba(0, 212, 255, 0.15)",
-            padding: "24px",
-            boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            gap: "18px"
-          }}
-        >
-          {/* CPU Bar */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "13px" }}>
-              <span style={{ color: "#fff", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
-                <FaMicrochip color="#00d4ff" /> CPU Load
-              </span>
-              <span style={{ color: getProgressColor(cpuPercent), fontWeight: 700, fontFamily: "monospace" }}>
-                {cpuPercent}%
-              </span>
-            </div>
-            <div style={{ width: "100%", height: "10px", background: "#192033", borderRadius: "5px", overflow: "hidden" }}>
-              <div
-                style={{
-                  width: `${cpuPercent}%`,
-                  height: "100%",
-                  background: `linear-gradient(90deg, #00d4ff, ${getProgressColor(cpuPercent)})`,
-                  borderRadius: "5px",
-                  transition: "width 0.4s ease"
-                }}
-              />
-            </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px", fontSize: "13px" }}>
+          <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
+            <span style={{ color: "#8b9bb4" }}>Hostname</span>
+            <p style={{ color: "#fff", fontWeight: 600, margin: "4px 0 0 0" }}>{telemetry?.hostname || "--"}</p>
           </div>
-
-          {/* RAM Bar */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "13px" }}>
-              <span style={{ color: "#fff", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
-                <FaMemory color="#aa3bff" /> RAM Usage ({telemetry?.ram?.used_gb || 0} GB)
-              </span>
-              <span style={{ color: getProgressColor(ramPercent), fontWeight: 700, fontFamily: "monospace" }}>
-                {ramPercent}%
-              </span>
-            </div>
-            <div style={{ width: "100%", height: "10px", background: "#192033", borderRadius: "5px", overflow: "hidden" }}>
-              <div
-                style={{
-                  width: `${ramPercent}%`,
-                  height: "100%",
-                  background: `linear-gradient(90deg, #aa3bff, ${getProgressColor(ramPercent)})`,
-                  borderRadius: "5px",
-                  transition: "width 0.4s ease"
-                }}
-              />
-            </div>
+          <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
+            <span style={{ color: "#8b9bb4" }}>Primary IP</span>
+            <p style={{ color: "#00d4ff", fontWeight: 600, margin: "4px 0 0 0", fontFamily: "monospace" }}>{telemetry?.ip_address || "--"}</p>
           </div>
-
-          {/* Storage Bar */}
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "6px", fontSize: "13px" }}>
-              <span style={{ color: "#fff", fontWeight: 600, display: "flex", alignItems: "center", gap: "6px" }}>
-                <FaHdd color="#00ff99" /> Disk Storage ({telemetry?.storage?.used_gb || 0} GB)
-              </span>
-              <span style={{ color: getProgressColor(storagePercent), fontWeight: 700, fontFamily: "monospace" }}>
-                {storagePercent}%
-              </span>
-            </div>
-            <div style={{ width: "100%", height: "10px", background: "#192033", borderRadius: "5px", overflow: "hidden" }}>
-              <div
-                style={{
-                  width: `${storagePercent}%`,
-                  height: "100%",
-                  background: `linear-gradient(90deg, #00ff99, ${getProgressColor(storagePercent)})`,
-                  borderRadius: "5px",
-                  transition: "width 0.4s ease"
-                }}
-              />
-            </div>
+          <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
+            <span style={{ color: "#8b9bb4" }}>Operating System</span>
+            <p style={{ color: "#fff", fontWeight: 600, margin: "4px 0 0 0" }}>{telemetry?.os || "--"}</p>
+          </div>
+          <div style={{ background: "#192033", padding: "12px", borderRadius: "10px" }}>
+            <span style={{ color: "#8b9bb4" }}>Architecture / Processor</span>
+            <p style={{ color: "#fff", fontWeight: 600, margin: "4px 0 0 0", fontSize: "12px" }}>{telemetry?.processor || "--"}</p>
           </div>
         </div>
       </div>
 
-      {/* Monitored Devices List */}
-      <div
-        style={{
-          background: "#111827",
-          borderRadius: "16px",
-          border: "1px solid rgba(255,255,255,0.08)",
-          padding: "22px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.4)"
-        }}
-      >
-        <h2 style={{ fontSize: "18px", color: "#fff", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-          <FaNetworkWired color="#00d4ff" /> Registered Infrastructure Nodes ({(Array.isArray(devicesList) ? devicesList : []).length})
-        </h2>
+      {/* Task Manager Real Process Table */}
+      <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
+          <h3 style={{ color: "#fff", margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+            <FaTasks color="#00ff99" /> {t("host.task_manager")} ({processes.length})
+          </h3>
 
-        {(!Array.isArray(devicesList) || devicesList.length === 0) ? (
-          <p style={{ color: "#8b9bb4", fontSize: "13px" }}>
-            No registered devices found. Click "Sync Host Telemetry" to add this machine.
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#192033", padding: "4px 12px", borderRadius: "8px" }}>
+            <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Sort by:</span>
+            <select
+              value={procSort}
+              onChange={(e) => setProcSort(e.target.value)}
+              style={{ background: "transparent", color: "#00d4ff", border: "none", outline: "none", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}
+            >
+              <option value="cpu">CPU Usage %</option>
+              <option value="memory">RAM Usage %</option>
+              <option value="name">Process Name</option>
+              <option value="pid">PID</option>
+            </select>
+          </div>
+        </div>
+
+        {processes.length === 0 ? (
+          <p style={{ color: "#8b9bb4", fontSize: "13px" }}>No active process information exposed by OS permissions.</p>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {(Array.isArray(devicesList) ? devicesList : []).map((dev) => (
-              <div
-                key={dev.id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: "12px",
-                  background: "#192033",
-                  padding: "14px 18px",
-                  borderRadius: "12px",
-                  border: "1px solid rgba(0, 212, 255, 0.1)"
-                }}
-              >
-
-                <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-                  <FaDesktop size={20} color="#00d4ff" />
-                  <div>
-                    <h4 style={{ color: "#fff", margin: 0, fontSize: "15px" }}>{dev.hostname}</h4>
-                    <span style={{ color: "#8b9bb4", fontSize: "12px" }}>
-                      {dev.operating_system} | IP: {dev.ip_address}
-                    </span>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-                  <div style={{ textAlign: "right", fontSize: "12px", color: "#8b9bb4" }}>
-                    <div>CPU: <strong style={{ color: "#fff" }}>{dev.cpu}</strong></div>
-                    <div>RAM: <strong style={{ color: "#fff" }}>{dev.ram}</strong></div>
-                  </div>
-
-                  <span className="badge badge-green">{dev.status || "Online"}</span>
-
-                  <button
-                    onClick={() => handleDeleteDevice(dev.id)}
-                    style={{ background: "none", border: "none", color: "#ff3b5c", cursor: "pointer", padding: "6px" }}
-                  >
-                    <FaTrash size={12} />
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px", color: "#fff", textAlign: "left" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", color: "#8b9bb4" }}>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_name")}</th>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_pid")}</th>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_cpu")}</th>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_ram")}</th>
+                  <th style={{ padding: "10px 12px" }}>Memory (MB)</th>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_user")}</th>
+                  <th style={{ padding: "10px 12px" }}>{t("host.proc_status")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {processes.map((proc) => (
+                  <tr key={proc.pid} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                    <td style={{ padding: "10px 12px", fontWeight: 600 }}>{proc.name}</td>
+                    <td style={{ padding: "10px 12px", fontFamily: "monospace", color: "#8b9bb4" }}>{proc.pid}</td>
+                    <td style={{ padding: "10px 12px", color: proc.cpu_percent > 10 ? "#ff3b5c" : "#00ff99", fontWeight: 700 }}>
+                      {proc.cpu_percent}%
+                    </td>
+                    <td style={{ padding: "10px 12px", color: "#00d4ff" }}>{proc.memory_percent}%</td>
+                    <td style={{ padding: "10px 12px", color: "#8b9bb4" }}>{proc.memory_mb} MB</td>
+                    <td style={{ padding: "10px 12px", color: "#8b9bb4" }}>{proc.username}</td>
+                    <td style={{ padding: "10px 12px" }}>
+                      <span style={{ background: "rgba(0, 255, 153, 0.1)", color: "#00ff99", padding: "2px 6px", borderRadius: "4px", fontSize: "11px" }}>
+                        {proc.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
     </MainLayout>
   );
-}
+}

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import People from "./pages/People";
 import Camera from "./pages/Camera";
+import Cameras from "./pages/Cameras";
 import GlassesHUD from "./pages/GlassesHUD";
 import Timeline from "./pages/Timeline";
 import CyberVision from "./pages/CyberVision";
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/people" element={<People />} />
         <Route path="/camera" element={<Camera />} />
+        <Route path="/cameras" element={<Cameras />} />
         <Route path="/glasses-hud" element={<GlassesHUD />} />
         <Route path="/timeline" element={<Timeline />} />
         <Route path="/cyber" element={<CyberVision />} />

@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
+import { useLanguage } from "../context/LanguageContext";
 import {
   FaHome,
-
   FaUsers,
   FaCamera,
   FaDesktop,
@@ -9,66 +9,73 @@ import {
   FaHistory,
   FaShieldAlt,
   FaNetworkWired,
-  FaGlasses
+  FaGlasses,
+  FaSlidersH
 } from "react-icons/fa";
 
 import "../styles/sidebar.css";
 
-const links = [
-  {
-    title: "Command Hub",
-    icon: <FaHome />,
-    path: "/",
-  },
-  {
-    title: "Biometrics",
-    icon: <FaUsers />,
-    path: "/people",
-  },
-  {
-    title: "Optical Stream",
-    icon: <FaCamera />,
-    path: "/camera",
-  },
-  {
-    title: "Smart Glasses HUD",
-    icon: <FaGlasses />,
-    path: "/glasses-hud",
-  },
-  {
-    title: "Event Timeline",
-    icon: <FaHistory />,
-    path: "/timeline",
-  },
-  {
-    title: "CyberVision Defense",
-    icon: <FaNetworkWired />,
-    path: "/cyber",
-  },
-  {
-    title: "Host Health",
-    icon: <FaDesktop />,
-    path: "/devices",
-  },
-  {
-    title: "SOC Security Center",
-    icon: <FaShieldAlt />,
-    path: "/security",
-  },
-  {
-    title: "Voice AI Tactical",
-    icon: <FaRobot />,
-    path: "/ai",
-  },
-];
-
-
 export default function Sidebar() {
+  const { t } = useLanguage();
+
+  const links = [
+    {
+      title: t("nav.command_hub"),
+      icon: <FaHome />,
+      path: "/",
+    },
+    {
+      title: t("nav.biometrics"),
+      icon: <FaUsers />,
+      path: "/people",
+    },
+    {
+      title: t("nav.optical_stream"),
+      icon: <FaCamera />,
+      path: "/camera",
+    },
+    {
+      title: t("nav.camera_manager"),
+      icon: <FaSlidersH />,
+      path: "/cameras",
+    },
+    {
+      title: t("nav.smart_glasses"),
+      icon: <FaGlasses />,
+      path: "/glasses-hud",
+    },
+    {
+      title: t("nav.timeline"),
+      icon: <FaHistory />,
+      path: "/timeline",
+    },
+    {
+      title: t("nav.cyber_defense"),
+      icon: <FaNetworkWired />,
+      path: "/cyber",
+    },
+    {
+      title: t("nav.host_health"),
+      icon: <FaDesktop />,
+      path: "/devices",
+    },
+    {
+      title: t("nav.soc_security"),
+      icon: <FaShieldAlt />,
+      path: "/security",
+    },
+    {
+      title: t("nav.ai_assistant"),
+      icon: <FaRobot />,
+      path: "/ai",
+    },
+  ];
+
   return (
     <div className="sidebar">
       <div className="logo">
         <h2>EDITH AI</h2>
-        <span>Cyber Vision</span>
+        <span>{t("app.subtitle")}</span>
       </div>
 
       <div className="menu">
@@ -87,4 +94,4 @@ export default function Sidebar() {
       </div>
     </div>
   );
-}
+}

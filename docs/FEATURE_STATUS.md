@@ -28,7 +28,10 @@
 | **Hardware Telemetry Monitoring** | ✅ IMPLEMENTED | CPU, RAM, Disk, Battery, Uptime via `psutil` (`device.py`) |
 | **AI Voice Assistant (Wake Word)** | ✅ IMPLEMENTED | Continuous "يا إيديث" / "Hey EDITH" listener, Web Audio SFX |
 | **Adaptive Female Speech Synthesis** | ✅ IMPLEMENTED | Multi-language auto-detect (Arabic/English), pitch tuned |
-| **Smart Glasses Tactical HUD Simulation** | ✅ IMPLEMENTED | AR Target Locks, Biometrics, Risk overlay (`/glasses-hud`) |
+| **Global i18n Language System (AR RTL / EN LTR)** | ✅ IMPLEMENTED | Full application translations, dynamic dir switching, persistent |
+| **Real Camera Manager (USB/RTSP/HTTP)** | ✅ IMPLEMENTED | Local device probe, RTSP stream verification, zero-mock |
+| **Smart Glasses Tactical HUD Simulation** | ✅ IMPLEMENTED | AR Target Locks, Biometrics, Risk overlay, QR pairing (`/glasses-hud`) |
+| **Live Process Task Manager (Real-Data)** | ✅ IMPLEMENTED | Real-time `psutil` process table, sorting by CPU/RAM/PID/User |
 | **Mobile Responsive SOC Layout** | ✅ IMPLEMENTED | Bottom floating navigation dock for screens `<= 868px` |
 | **Automated Test Suite (Pytest)** | ✅ IMPLEMENTED | 9 passing tests covering Auth, Security, Risk, Cyber, Events |
 | **Agent Mode (Goal->Plan->Execute)** | 🔴 PLANNED PHASE 11 | Scheduled on roadmap |
