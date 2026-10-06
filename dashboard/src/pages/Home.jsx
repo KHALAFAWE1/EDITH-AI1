@@ -110,14 +110,25 @@ export default function Home() {
                   >
                     {pData.photo_path ? (
                       <img
-                        src={`http://127.0.0.1:8000/${pData.photo_path}`}
+                        src={
+                          pData.photo_path.startsWith("http")
+                            ? pData.photo_path
+                            : `${import.meta.env.VITE_API_URL || ""}/${pData.photo_path.replace(/^\/+/, "")}`
+                        }
                         alt={pData.full_name}
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        onError={(e) => { e.target.style.display = "none"; }}
+                        onError={(e) => {
+                          if (!e.target.src.includes("127.0.0.1:8000")) {
+                            e.target.src = `http://127.0.0.1:8000/${pData.photo_path.replace(/^\/+/, "")}`;
+                          } else {
+                            e.target.style.display = "none";
+                          }
+                        }}
                       />
                     ) : (
                       <FaIdCard size={24} color="#00ff99" />
                     )}
+
                   </div>
                   <div>
                     <h3 style={{ color: "#fff", fontSize: "18px", marginBottom: "2px" }}>{pData.full_name}</h3>

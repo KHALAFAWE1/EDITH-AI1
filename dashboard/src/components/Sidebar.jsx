@@ -1,41 +1,67 @@
 import { NavLink } from "react-router-dom";
 import {
   FaHome,
+
   FaUsers,
   FaCamera,
   FaDesktop,
   FaRobot,
+  FaHistory,
+  FaShieldAlt,
+  FaNetworkWired,
+  FaGlasses
 } from "react-icons/fa";
 
 import "../styles/sidebar.css";
 
 const links = [
   {
-    title: "Dashboard",
+    title: "Command Hub",
     icon: <FaHome />,
     path: "/",
   },
   {
-    title: "People",
+    title: "Biometrics",
     icon: <FaUsers />,
     path: "/people",
   },
   {
-    title: "Camera",
+    title: "Optical Stream",
     icon: <FaCamera />,
     path: "/camera",
   },
   {
-    title: "Devices",
+    title: "Smart Glasses HUD",
+    icon: <FaGlasses />,
+    path: "/glasses-hud",
+  },
+  {
+    title: "Event Timeline",
+    icon: <FaHistory />,
+    path: "/timeline",
+  },
+  {
+    title: "CyberVision Defense",
+    icon: <FaNetworkWired />,
+    path: "/cyber",
+  },
+  {
+    title: "Host Health",
     icon: <FaDesktop />,
     path: "/devices",
   },
   {
-    title: "AI Assistant",
+    title: "SOC Security Center",
+    icon: <FaShieldAlt />,
+    path: "/security",
+  },
+  {
+    title: "Voice AI Tactical",
     icon: <FaRobot />,
     path: "/ai",
   },
 ];
+
 
 export default function Sidebar() {
   return (

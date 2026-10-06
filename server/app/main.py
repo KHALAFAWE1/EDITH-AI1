@@ -17,18 +17,28 @@ from app.routers import vision
 from app.routers import people
 from app.routers import recognition
 from app.routers import ai
+from app.routers import auth
+from app.routers import security
+from app.routers import events
+from app.routers import cyber
+from app.routers import risk
 
 from app.database import Base, engine
 from app.models.device import Device
 from app.models.person import Person
 from app.models.face_embedding import FaceEmbedding
+from app.models.user import User
+from app.models.security_log import SecurityLog
+from app.models.event import Event
+from app.models.risk_assessment import RiskAssessment
+from app.models.network_device import NetworkDevice
 
-# إنشاء الجداول في قاعدة البيانات
+# إنشاء كافة الجداول في قاعدة البيانات تلقائياً
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="EDITH AI Secure Core",
-    version="2.0",
+    title="EDITH AI Situational Awareness Core",
+    version="2.5",
     docs_url="/docs",
     redoc_url=None
 )
@@ -56,9 +66,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-
 from fastapi.responses import FileResponse
+from fastapi import HTTPException
 
 # مسار مجلد الـ uploads لتقديم الصور الثابتة للفرونت إند
 UPLOADS_PATH = os.path.abspath(
@@ -67,6 +76,12 @@ UPLOADS_PATH = os.path.abspath(
 os.makedirs(UPLOADS_PATH, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOADS_PATH), name="uploads")
 
+# تسجيل الموجهات التكتيكية
+app.include_router(auth.router)
+app.include_router(security.router)
+app.include_router(events.router)
+app.include_router(cyber.router)
+app.include_router(risk.router)
 app.include_router(device.router)
 app.include_router(vision.router)
 app.include_router(people.router)
@@ -78,15 +93,20 @@ app.include_router(ai.router)
 def health_check():
     return {
         "status": "online",
-        "system": "EDITH AI Core",
+        "system": "EDITH AI Situational Awareness Core",
         "security": "Grid Shield Active",
-        "message": "EDITH AI System is fully operational and encrypted."
+        "message": "EDITH AI Defense Platform is fully operational and encrypted."
     }
 
 
 SERVER_DIR = os.path.dirname(os.path.abspath(__file__))
 DIST_DIR = os.path.abspath(os.path.join(SERVER_DIR, "..", "..", "dashboard", "dist"))
-API_PREFIX_TUPLE = ("api", "people", "devices", "vision", "recognition", "ai", "uploads", "docs", "openapi.json", "redoc")
+API_PREFIX_TUPLE = (
+    "api", "auth", "security", "events", "cyber", "risk",
+    "people", "devices", "vision", "recognition", "ai",
+    "uploads", "docs", "openapi.json", "redoc"
+)
+
 
 if os.path.exists(DIST_DIR):
     assets_dir = os.path.join(DIST_DIR, "assets")
