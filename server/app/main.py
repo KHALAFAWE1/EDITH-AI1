@@ -25,7 +25,7 @@ from app.routers import risk
 from app.routers import cameras
 from app.routers import glasses
 
-from app.database import Base, engine
+from app.database import Base, engine, run_auto_migrations
 from app.models.device import Device
 from app.models.person import Person
 from app.models.face_embedding import FaceEmbedding
@@ -37,8 +37,9 @@ from app.models.network_device import NetworkDevice
 from app.models.camera import Camera
 from app.models.pairing_session import PairingSession
 
-# إنشاء كافة الجداول في قاعدة البيانات تلقائياً
+# إنشاء كافة الجداول وتطبيق التحديثات الهيكلية تلقائياً
 Base.metadata.create_all(bind=engine)
+run_auto_migrations()
 
 app = FastAPI(
     title="EDITH AI Situational Awareness Core",

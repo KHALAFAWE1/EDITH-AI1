@@ -89,6 +89,23 @@
     "proc_user": "User",
     "proc_status": "Status"
   },
+  "devices_inventory": {
+    "title": "Universal Device Network Grid",
+    "subtitle": "Manage enrolled devices (iPhone, Android, Tablets, Laptops, Smart Glasses) & real capabilities",
+    "pair_device": "Pair New Device 📱",
+    "total_devices": "Enrolled Devices",
+    "online_devices": "Online Now",
+    "ping": "Send Ping",
+    "revoke": "Revoke / Delete",
+    "capabilities": "Detected Real Capabilities",
+    "no_devices": "No remote devices enrolled yet. Click 'Pair New Device' to connect your phone, tablet, or glasses.",
+    "scan_qr": "Scan with phone camera to open Universal Client and securely pair:",
+    "last_seen": "Last Seen",
+    "battery": "Battery",
+    "unavailable": "Unavailable",
+    "online": "Online",
+    "offline": "Offline"
+  },
   "security": {
     "title": "SOC Security Operations Center",
     "subtitle": "Threat intelligence, immutable audit trails, and Explainable AI breakdown",

@@ -10,6 +10,7 @@ import CyberVision from "./pages/CyberVision";
 import Devices from "./pages/Devices";
 import Security from "./pages/Security";
 import AI from "./pages/AI";
+import UniversalClient from "./pages/UniversalClient";
 
 function App() {
   return (
@@ -25,6 +26,8 @@ function App() {
         <Route path="/devices" element={<Devices />} />
         <Route path="/security" element={<Security />} />
         <Route path="/ai" element={<AI />} />
+        <Route path="/client" element={<UniversalClient />} />
+        <Route path="/companion" element={<UniversalClient />} />
       </Routes>
     </BrowserRouter>
   );

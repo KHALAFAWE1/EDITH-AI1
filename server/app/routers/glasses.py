@@ -89,12 +89,48 @@ def pair_client(req: PairApproveSchema, request: Request, db: Session = Depends(
 
     session.status = "PAIRED"
     session.device_name = req.device_name or "Mobile Smart Glasses Client"
-    session.device_type = req.device_type or "iPhone_Companion"
+    session.device_type = req.device_type or "SMART_GLASSES"
     session.client_ip = client_ip
     session.battery_level = req.battery_level
     session.camera_active = req.camera_active or False
     session.mic_active = req.mic_active or False
     session.approved_at = now
+
+    # إنشاء أو تحديث سجل الجهاز المعتمد
+    from app.models.device import Device
+    import json
+
+    device = db.query(Device).filter(Device.device_name == session.device_name).first()
+    if not device:
+        device = Device(
+            device_id=f"dev_glasses_{session.id}",
+            device_name=session.device_name,
+            device_type="SMART_GLASSES" if "glasses" in session.device_type.lower() else "PHONE",
+            platform="iOS" if "iphone" in session.device_name.lower() else "Universal",
+            hostname=session.device_name or f"edith-glasses-{session.id}",
+            ip_address=client_ip,
+            status="Online",
+            connection_status="ONLINE",
+            enrollment_status="ENROLLED",
+            battery_level=req.battery_level,
+            capabilities=json.dumps({
+                "camera": req.camera_active,
+                "microphone": req.mic_active,
+                "speaker": True,
+                "display": True,
+                "hud": True,
+                "battery": req.battery_level is not None
+            }),
+            last_seen=now
+        )
+        db.add(device)
+    else:
+        device.ip_address = client_ip
+        device.status = "Online"
+        device.connection_status = "ONLINE"
+        device.battery_level = req.battery_level
+        device.last_seen = now
+
     db.commit()
 
     # تسجيل في سجل الأمان

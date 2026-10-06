@@ -89,6 +89,23 @@
     "proc_user": "المستخدم",
     "proc_status": "الحالة"
   },
+  "devices_inventory": {
+    "title": "شبكة الأجهزة والعملاء المتصلين (Universal Device Grid)",
+    "subtitle": "إدارة الأجهزة المعتمدة (iPhone, Android, Tablets, Laptops, Smart Glasses) وقدراتها الفعلية",
+    "pair_device": "اقتران جهاز جديد 📱",
+    "total_devices": "إجمالي الأجهزة المعتمدة",
+    "online_devices": "أجهزة متصلة الآن",
+    "ping": "إرسال إشارة Ping",
+    "revoke": "إلغاء الاعتماد",
+    "capabilities": "القدرات الحقيقية المكتشفة",
+    "no_devices": "لا توجد أجهزة إضافية مسجلة حالياً. اضغط على 'اقتران جهاز جديد' لربط هاتفك أو نظارتك الذكية.",
+    "scan_qr": "امسح الرمز بكاميرا الهاتف لفتح العميل الموحد والاقتران فوراً وبأمان:",
+    "last_seen": "آخر ظهور",
+    "battery": "البطارية",
+    "unavailable": "غير متوفر",
+    "online": "متصل",
+    "offline": "غير متصل"
+  },
   "security": {
     "title": "مركز العمليات الأمنية SOC",
     "subtitle": "مراقبة التهديدات، سجلات التدقيق، والذكاء الاصطناعي القابل للتفسير (Explainable AI)",
