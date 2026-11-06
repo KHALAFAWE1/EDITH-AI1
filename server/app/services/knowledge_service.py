@@ -367,6 +367,26 @@ def search_knowledge_chunks(
     results = []
     for sim, ch, doc in scored[:top_k]:
         is_exp = bool(doc and (doc.is_expired or (doc.expires_at and doc.expires_at < now)))
+
+        has_conflict = False
+        conflict_note = ""
+        if doc:
+            try:
+                doc_conflicts = json.loads(doc.conflicts_json or "[]")
+            except Exception:
+                doc_conflicts = []
+
+            if doc_conflicts:
+                has_conflict = True
+                conflicting_sources = [c.get("existing_source", "") for c in doc_conflicts if isinstance(c, dict)]
+                conflicting_sources = [s for s in conflicting_sources if s]
+                if conflicting_sources:
+                    conflict_note = f" [CONFLICT WARNING: Conflicting data detected with {', '.join(set(conflicting_sources[:2]))}; all contradictory sources preserved]"
+                else:
+                    conflict_note = " [CONFLICT WARNING: Document contains specifications conflicting with indexed sources; preserved for operator review]"
+
+        citation_str = f"[Source: {doc.title if doc else ch.doc_uid} ({doc.file_type if doc else 'DOC'}) | Section: {ch.heading} | Chunk #{ch.chunk_index + 1}]{conflict_note}"
+
         results.append({
             "chunk_uid": ch.chunk_uid,
             "doc_uid": ch.doc_uid,
@@ -380,7 +400,8 @@ def search_knowledge_chunks(
             "content": ch.content,
             "similarity": round(sim, 4),
             "is_expired": is_exp,
-            "citation": f"[Source: {doc.title if doc else ch.doc_uid} ({doc.file_type if doc else 'DOC'}) | Section: {ch.heading} | Chunk #{ch.chunk_index + 1}]",
+            "has_conflict": has_conflict,
+            "citation": citation_str,
         })
     return results
 

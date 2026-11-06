@@ -18,6 +18,93 @@ STOP_WORDS = {
     "ما", "هو", "هي", "في", "من", "عن", "على", "إلى", "حول", "لدى", "ماذا", "هذا", "هذه", "مع"
 }
 
+SIDE_VARIANTS = {
+    "port": {"starboard", "right"},
+    "starboard": {"port", "left"},
+    "left": {"right", "starboard"},
+    "right": {"left", "port"},
+    "dorsal": {"ventral"},
+    "ventral": {"dorsal"},
+    "aft": {"bow", "forward"},
+    "bow": {"aft"},
+    "forward": {"aft"},
+    "primary": {"secondary", "tertiary"},
+    "secondary": {"primary", "tertiary"},
+    "tertiary": {"primary", "secondary"},
+}
+
+SUBSYSTEM_ALIASES = {
+    "propulsion": ["propulsion", "thruster", "thrusters", "engine", "rocket", "thrust"],
+    "thermal": ["thermal", "coolant", "cooling", "temperature", "heat"],
+    "storage": ["storage", "cryo", "cryogenic", "tank", "containment", "bay"],
+    "telecom": ["telecom", "comms", "communication", "communications", "dish", "antenna", "baud", "optical"],
+    "guidance": ["guidance", "attitude", "gyroscope", "gyro", "star-tracker", "tracker", "navigation", "sensor", "optics"],
+    "power": ["power", "solar", "photovoltaic", "battery", "reactor", "kilowatt", "kilowatts", "kw"]
+}
+
+KNOWN_SUBSYSTEMS = list(SUBSYSTEM_ALIASES.keys())
+
+
+def extract_structured_metadata(
+    text: str,
+    subject: str = "",
+    explicit_metadata: Optional[Dict[str, Any]] = None,
+    is_verified_fact: bool = False,
+    source_reference: str = ""
+) -> Dict[str, Any]:
+    """
+    Extracts or enriches backward-compatible structured attributes from text and subject:
+    subsystem, component_side, models, specifications, units, provenance.
+    """
+    norm = normalize_text(f"{subject} {text}")
+    tokens = set(re.findall(r"[\w-]+", norm))
+
+    # 1. Component Side / Sibling Variant
+    found_side = None
+    for side in SIDE_VARIANTS:
+        if side in tokens or f"{side}-side" in norm or f"{side}side" in norm:
+            found_side = side
+            break
+
+    # 2. Subsystem
+    subsystem = None
+    for sub, aliases in SUBSYSTEM_ALIASES.items():
+        if sub in tokens or any(alias in tokens for alias in aliases):
+            subsystem = sub
+            break
+
+    # 3. Model codes (e.g. LG-400, ST-900)
+    raw_models = re.findall(r"\b[A-Za-z]{1,5}-\d{2,5}[A-Za-z]?\b", f"{subject} {text}")
+    models = list(dict.fromkeys([m.upper() for m in raw_models]))
+
+    # 4. Numeric specifications and units
+    num_matches = re.findall(r"\b(\d+(?:\.\d+)?)\s*([a-zA-Z%]+)?\b", f"{subject} {text}")
+    specs = []
+    units = []
+    for val, unit in num_matches:
+        specs.append(val)
+        if unit and len(unit) <= 8 and unit.lower() not in STOP_WORDS:
+            units.append(unit.lower())
+
+    struct_meta = {
+        "subject": subject or (explicit_metadata.get("subject") if explicit_metadata else None),
+        "subsystem": subsystem or (explicit_metadata.get("subsystem") if explicit_metadata else None),
+        "component": (explicit_metadata.get("component") if explicit_metadata else None) or subject or None,
+        "component_side": found_side or (explicit_metadata.get("component_side") if explicit_metadata else None),
+        "models": models or (explicit_metadata.get("models", []) if explicit_metadata else []),
+        "specifications": specs[:10],
+        "units": list(dict.fromkeys(units))[:10],
+        "verification_status": "VERIFIED" if is_verified_fact else "UNVERIFIED",
+        "source_reference": source_reference or (explicit_metadata.get("source_reference") if explicit_metadata else "")
+    }
+
+    if explicit_metadata:
+        for k, v in explicit_metadata.items():
+            if k not in struct_meta or not struct_meta[k]:
+                struct_meta[k] = v
+
+    return struct_meta
+
 # Sensitive patterns that must not be stored in memory without explicit consent
 # or sent to external cloud providers unredacted.
 SENSITIVE_PATTERNS = [
@@ -154,7 +241,12 @@ def hybrid_text_similarity(query: str, candidate: str, query_vec: Optional[List[
     return cos_sim
 
 
-def serialize_memory(record: MemoryRecord, similarity: Optional[float] = None) -> Dict[str, Any]:
+def serialize_memory(
+    record: MemoryRecord,
+    similarity: Optional[float] = None,
+    signals: Optional[List[str]] = None,
+    base_similarity: Optional[float] = None
+) -> Dict[str, Any]:
     try:
         concepts = json.loads(record.concepts_json or "[]")
     except Exception:
@@ -187,6 +279,10 @@ def serialize_memory(record: MemoryRecord, similarity: Optional[float] = None) -
     }
     if similarity is not None:
         data["similarity"] = round(similarity, 4)
+    if signals is not None:
+        data["re_ranking_signals"] = signals
+    if base_similarity is not None:
+        data["base_similarity"] = round(base_similarity, 4)
     return data
 
 
@@ -292,6 +388,16 @@ def store_memory(
 
     is_fact_flag = bool(user_approved and (is_verified_fact or (foi == "FACT" and user_approved)))
 
+    enriched_meta = dict(metadata or {})
+    if "structured_attributes" not in enriched_meta:
+        enriched_meta["structured_attributes"] = extract_structured_metadata(
+            text=clean_content,
+            subject=subject,
+            explicit_metadata=enriched_meta,
+            is_verified_fact=is_fact_flag,
+            source_reference=source_reference,
+        )
+
     record = MemoryRecord(
         memory_uid=f"mem_{uuid.uuid4().hex[:12]}",
         memory_type=mem_type,
@@ -306,7 +412,7 @@ def store_memory(
         confidence=float(confidence),
         embedding_json=json.dumps(embedding),
         concepts_json=json.dumps(concepts or [], ensure_ascii=False),
-        metadata_json=json.dumps(metadata or {}, ensure_ascii=False),
+        metadata_json=json.dumps(enriched_meta, ensure_ascii=False),
         user_approved=bool(user_approved),
         contains_sensitive=bool(has_sensitive),
         session_id=session_id,
@@ -370,6 +476,139 @@ def record_episodic_event(
     )
 
 
+def re_rank_memory_candidates(
+    query: str,
+    candidates: List[Tuple[float, MemoryRecord]],
+    top_k: int = 10,
+) -> List[Dict[str, Any]]:
+    """
+    Stage 2 Re-ranking:
+    Takes top candidates from semantic/lexical similarity (Stage 1) and applies
+    multi-signal disambiguation:
+    - Sibling / component side matching & contradiction penalty (-0.45 / +0.20)
+    - Hardware model code match & mismatch penalty (+0.18 / -0.30)
+    - Subsystem match (+0.08)
+    - Exact numeric specification match (+0.10)
+    - Verified fact confidence boost (+0.05)
+    """
+    if not candidates:
+        return []
+
+    norm_query = normalize_text(query)
+    q_tokens = set(re.findall(r"[\w-]+", norm_query))
+
+    query_side = None
+    for side in SIDE_VARIANTS:
+        if side in q_tokens or f"{side}-side" in norm_query or f"{side}side" in norm_query:
+            query_side = side
+            break
+
+    query_models = set(re.findall(r"\b[A-Za-z]{1,5}-\d{2,5}[A-Za-z]?\b", query.upper()))
+    query_specs = set(re.findall(r"\b\d+(?:\.\d+)?\b", query))
+    query_subsystems = set()
+    for sub, aliases in SUBSYSTEM_ALIASES.items():
+        if sub in q_tokens or any(alias in q_tokens for alias in aliases):
+            query_subsystems.add(sub)
+
+    re_ranked: List[Tuple[float, float, List[str], MemoryRecord]] = []
+
+    for base_sim, record in candidates:
+        signals: List[str] = []
+        score_adj = 0.0
+
+        try:
+            cand_meta = json.loads(record.metadata_json or "{}")
+        except Exception:
+            cand_meta = {}
+
+        cand_struct = cand_meta.get("structured_attributes")
+        if not cand_struct or not isinstance(cand_struct, dict):
+            cand_struct = extract_structured_metadata(
+                text=record.content,
+                subject=record.subject,
+                explicit_metadata=cand_meta,
+                is_verified_fact=bool(record.is_verified_fact),
+                source_reference=record.source_reference,
+            )
+
+        cand_text_lower = f"{record.subject} {record.content}".lower()
+        cand_side = cand_struct.get("component_side")
+
+        # 1. Sibling / Component Side Disambiguation
+        if query_side:
+            opp_sides = SIDE_VARIANTS.get(query_side, set())
+            if cand_side and cand_side in opp_sides:
+                score_adj -= 0.45
+                signals.append(f"SIDE_MISMATCH_PENALTY(-0.45: query requires '{query_side}', candidate is '{cand_side}')")
+            elif cand_side and cand_side == query_side:
+                score_adj += 0.20
+                signals.append(f"SIDE_MATCH_BONUS(+0.20: '{query_side}')")
+            else:
+                has_opp = False
+                for opp in opp_sides:
+                    if re.search(r"\b" + re.escape(opp) + r"\b", cand_text_lower):
+                        score_adj -= 0.45
+                        signals.append(f"SIDE_MISMATCH_PENALTY(-0.45: query requires '{query_side}', candidate mentions opposing '{opp}')")
+                        has_opp = True
+                        break
+                if not has_opp and re.search(r"\b" + re.escape(query_side) + r"\b", cand_text_lower):
+                    score_adj += 0.20
+                    signals.append(f"SIDE_MATCH_BONUS(+0.20: candidate mentions '{query_side}')")
+
+        # 2. Hardware Model Code Matching
+        cand_models = set(cand_struct.get("models") or [])
+        if not cand_models:
+            cand_models = set(re.findall(r"\b[A-Za-z]{1,5}-\d{2,5}[A-Za-z]?\b", f"{record.subject} {record.content}".upper()))
+
+        if query_models:
+            matched_models = query_models & cand_models
+            if matched_models:
+                score_adj += 0.18
+                signals.append(f"MODEL_MATCH_BONUS(+0.18: {list(matched_models)})")
+            elif cand_models:
+                score_adj -= 0.30
+                signals.append(f"MODEL_MISMATCH_PENALTY(-0.30: query requested {list(query_models)}, candidate is {list(cand_models)})")
+
+        # 3. Subsystem Matching
+        cand_sub = cand_struct.get("subsystem")
+        if query_subsystems and cand_sub and cand_sub in query_subsystems:
+            score_adj += 0.16
+            signals.append(f"SUBSYSTEM_MATCH_BONUS(+0.16: {cand_sub})")
+
+        # 4. Specification Matching
+        cand_specs = set(cand_struct.get("specifications") or [])
+        if query_specs and (query_specs & cand_specs):
+            score_adj += 0.10
+            signals.append(f"SPEC_MATCH_BONUS(+0.10: {list(query_specs & cand_specs)})")
+
+        # 5. Engineering Unit Matching
+        cand_units = set(cand_struct.get("units") or [])
+        matched_units = [u for u in cand_units if u in q_tokens or f"{u}s" in q_tokens]
+        if matched_units:
+            score_adj += 0.14
+            signals.append(f"UNIT_MATCH_BONUS(+0.14: {matched_units})")
+
+        # 6. Verified Fact Boost
+        if record.is_verified_fact:
+            score_adj += 0.05
+            signals.append("VERIFIED_FACT_BONUS(+0.05)")
+
+        final_score = round(max(0.01, min(1.0, base_sim + score_adj)), 4)
+        re_ranked.append((final_score, base_sim, signals, record))
+
+    re_ranked.sort(key=lambda x: (x[0], x[1]), reverse=True)
+
+    results = []
+    for final_sim, base_sim, sigs, rec in re_ranked[:top_k]:
+        results.append(serialize_memory(
+            rec,
+            similarity=final_sim,
+            signals=sigs,
+            base_similarity=base_sim
+        ))
+    return results
+
+
 def search_memories(
     db: Session,
     query: str = "",
@@ -380,7 +619,9 @@ def search_memories(
     min_similarity: float = 0.15,
 ) -> List[Dict[str, Any]]:
     """
-    Performs semantic + lexical retrieval across TARS memories.
+    Two-Stage Hybrid Memory Retrieval:
+    Stage 1: Semantic embedding + token Jaccard similarity across candidate records.
+    Stage 2: Multi-signal structured re-ranking with side conflict penalty and model/spec bonuses.
     """
     q = db.query(MemoryRecord)
     if memory_type:
@@ -411,7 +652,10 @@ def search_memories(
             scored.append((sim, r))
 
     scored.sort(key=lambda x: x[0], reverse=True)
-    return [serialize_memory(r, similarity=sim) for sim, r in scored[:top_k]]
+    # Stage 1: Candidate retrieval pool (top 35)
+    candidates = scored[:35]
+    # Stage 2: Multi-signal re-ranking
+    return re_rank_memory_candidates(query=query, candidates=candidates, top_k=top_k)
 
 
 def update_memory(

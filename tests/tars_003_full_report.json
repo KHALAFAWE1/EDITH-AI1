@@ -1,0 +1,383 @@
+{
+  "test_name": "TARS-003 — Structured Retrieval & Re-ranking Improvement",
+  "namespace": "tars003_1793973489",
+  "timestamp": "2026-11-06 15:58:09",
+  "backup_taken": true,
+  "sections": {
+    "1. Exact Retrieval": {
+      "passed": true,
+      "details": {
+        "accuracy": 1.0,
+        "tests": [
+          {
+            "query": "What coolant and pressure does the tars003_1793973489 Alpha Thruster use?",
+            "expected": "tars003_1793973489_alpha_thruster_coolant",
+            "top_match": "tars003_1793973489_alpha_thruster_coolant",
+            "similarity": 0.6478,
+            "base_similarity": 0.4378,
+            "signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "What is the nominal temperature of the tars003_1793973489 cryo-storage bay?",
+            "expected": "tars003_1793973489_cryo_storage_temperature",
+            "top_match": "tars003_1793973489_cryo_storage_temperature",
+            "similarity": 0.8253,
+            "base_similarity": 0.6153,
+            "signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: thermal)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "What is the optical baud rate of the tars003_1793973489 deep-space communication array?",
+            "expected": "tars003_1793973489_baud_rate_comms",
+            "top_match": "tars003_1793973489_baud_rate_comms",
+            "similarity": 0.9424,
+            "base_similarity": 0.7324,
+            "signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: telecom)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          }
+        ]
+      }
+    },
+    "2. Paraphrased Retrieval": {
+      "passed": true,
+      "details": {
+        "accuracy": 1.0,
+        "tests": [
+          {
+            "query": "In the tars003_1793973489 thruster assembly, which liquid agent handles cooling and at what bar pressure level?",
+            "expected": "tars003_1793973489_alpha_thruster_coolant",
+            "top_match": "tars003_1793973489_alpha_thruster_coolant",
+            "similarity": 0.5753,
+            "base_similarity": 0.2253,
+            "signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "UNIT_MATCH_BONUS(+0.14: ['bar'])",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "How cold in Kelvin is the tars003_1793973489 cryogenic container chamber kept?",
+            "expected": "tars003_1793973489_cryo_storage_temperature",
+            "top_match": "tars003_1793973489_cryo_storage_temperature",
+            "similarity": 0.3721,
+            "base_similarity": 0.1821,
+            "signals": [
+              "UNIT_MATCH_BONUS(+0.14: ['kelvin'])",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "How fast in Gbps can the tars003_1793973489 long-range communications send data optically?",
+            "expected": "tars003_1793973489_baud_rate_comms",
+            "top_match": "tars003_1793973489_baud_rate_comms",
+            "similarity": 0.5504,
+            "base_similarity": 0.2004,
+            "signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: telecom)",
+              "UNIT_MATCH_BONUS(+0.14: ['gbps'])",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          }
+        ]
+      }
+    },
+    "3. Sibling Collision & Re-ranking Disambiguation": {
+      "passed": true,
+      "details": {
+        "accuracy": 1.0,
+        "tests": [
+          {
+            "label": "Starboard Attitude Sensor",
+            "query": "What sensor model and resolution does the tars003_1793973489 starboard-side attitude sensor have?",
+            "expected_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "retrieved_top_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "top_similarity": 0.9366,
+            "top_base_similarity": 0.5266,
+            "top_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'starboard')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "forbidden_sibling": "tars003_1793973489_attitude_sensor_port",
+            "forbidden_sibling_rank": null,
+            "forbidden_sibling_similarity": null,
+            "passed": true
+          },
+          {
+            "label": "Port Attitude Sensor",
+            "query": "What model is installed on the tars003_1793973489 port attitude sensor?",
+            "expected_subject": "tars003_1793973489_attitude_sensor_port",
+            "retrieved_top_subject": "tars003_1793973489_attitude_sensor_port",
+            "top_similarity": 0.8132,
+            "top_base_similarity": 0.4032,
+            "top_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'port')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "forbidden_sibling": "tars003_1793973489_attitude_sensor_starboard",
+            "forbidden_sibling_rank": null,
+            "forbidden_sibling_similarity": null,
+            "passed": true
+          },
+          {
+            "label": "Secondary Thruster Pod (Lateral)",
+            "query": "What is the thrust output of the tars003_1793973489 secondary thruster pod?",
+            "expected_subject": "tars003_1793973489_secondary_thruster_vector",
+            "retrieved_top_subject": "tars003_1793973489_secondary_thruster_vector",
+            "top_similarity": 0.9508,
+            "top_base_similarity": 0.5408,
+            "top_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'secondary')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "forbidden_sibling": "tars003_1793973489_primary_thruster_vector",
+            "forbidden_sibling_rank": null,
+            "forbidden_sibling_similarity": null,
+            "passed": true
+          },
+          {
+            "label": "Primary Thruster Pod (Forward)",
+            "query": "What is the forward thrust capacity of the tars003_1793973489 primary thruster pod?",
+            "expected_subject": "tars003_1793973489_primary_thruster_vector",
+            "retrieved_top_subject": "tars003_1793973489_primary_thruster_vector",
+            "top_similarity": 0.938,
+            "top_base_similarity": 0.528,
+            "top_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'forward')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "forbidden_sibling": "tars003_1793973489_secondary_thruster_vector",
+            "forbidden_sibling_rank": 3,
+            "forbidden_sibling_similarity": 0.6023,
+            "passed": true
+          },
+          {
+            "label": "Direct Hardware Model Match (ST-900 -> Starboard)",
+            "query": "Which attitude sensor uses ST-900 on tars003_1793973489?",
+            "expected_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "retrieved_top_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "top_similarity": 1.0,
+            "top_base_similarity": 0.528,
+            "top_signals": [
+              "MODEL_MATCH_BONUS(+0.18: ['ST-900'])",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+              "SPEC_MATCH_BONUS(+0.10: ['900'])",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "forbidden_sibling": "tars003_1793973489_attitude_sensor_port",
+            "forbidden_sibling_rank": null,
+            "forbidden_sibling_similarity": null,
+            "passed": true
+          }
+        ]
+      }
+    },
+    "4. Missing Component & Graceful Degradation": {
+      "passed": true,
+      "details": {
+        "accuracy": 1.0,
+        "tests": [
+          {
+            "label": "Generic query without side",
+            "query": "What are the attitude sensors installed on tars003_1793973489?",
+            "results_count": 5,
+            "subjects_found": [
+              "tars003_1793973489_attitude_sensor_starboard",
+              "tars003_1793973489_attitude_sensor_port",
+              "tars002_1793969458_attitude_sensor_starboard",
+              "tars002_1793969901_attitude_sensor_starboard"
+            ],
+            "passed": true
+          },
+          {
+            "label": "Completely unknown component",
+            "query": "What is the plasma flux of the tars003_1793973489 hyperdrive warp coil?",
+            "top_similarity": 0.5067,
+            "passed": true
+          }
+        ]
+      }
+    },
+    "5. Contradictory Sources Knowledge Preservation": {
+      "passed": true,
+      "details": {
+        "doc_a_ingest": true,
+        "doc_b_ingest": true,
+        "both_preserved": true,
+        "conflict_detected_in_citations": true,
+        "chunks_count": 5,
+        "citations": [
+          "[Source: tars003_1793973489_Solar_Array_Specs_Beta (TXT) | Section: Section 1 | Chunk #1] [CONFLICT WARNING: Document contains specifications conflicting with indexed sources; preserved for operator review]",
+          "[Source: tars003_1793973489_Solar_Array_Specs_Alpha (TXT) | Section: Section 1 | Chunk #1] [CONFLICT WARNING: Document contains specifications conflicting with indexed sources; preserved for operator review]"
+        ]
+      }
+    },
+    "6. Post-Restart Persistence & Retrieval Verification": {
+      "passed": true,
+      "details": {
+        "accuracy": 1.0,
+        "tests": [
+          {
+            "query": "What sensor model and resolution does the tars003_1793973489 starboard-side attitude sensor have?",
+            "pre_restart_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "post_restart_subject": "tars003_1793973489_attitude_sensor_starboard",
+            "pre_similarity": 0.9366,
+            "post_similarity": 0.9366,
+            "post_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'starboard')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "What model is installed on the tars003_1793973489 port attitude sensor?",
+            "pre_restart_subject": "tars003_1793973489_attitude_sensor_port",
+            "post_restart_subject": "tars003_1793973489_attitude_sensor_port",
+            "pre_similarity": 0.8132,
+            "post_similarity": 0.8132,
+            "post_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'port')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "What is the thrust output of the tars003_1793973489 secondary thruster pod?",
+            "pre_restart_subject": "tars003_1793973489_secondary_thruster_vector",
+            "post_restart_subject": "tars003_1793973489_secondary_thruster_vector",
+            "pre_similarity": 0.9508,
+            "post_similarity": 0.9508,
+            "post_signals": [
+              "SIDE_MATCH_BONUS(+0.20: 'secondary')",
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          },
+          {
+            "query": "What coolant and pressure does the tars003_1793973489 Alpha Thruster use?",
+            "pre_restart_subject": "tars003_1793973489_alpha_thruster_coolant",
+            "post_restart_subject": "tars003_1793973489_alpha_thruster_coolant",
+            "pre_similarity": 0.6478,
+            "post_similarity": 0.6478,
+            "post_signals": [
+              "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+              "VERIFIED_FACT_BONUS(+0.05)"
+            ],
+            "passed": true
+          }
+        ]
+      }
+    }
+  },
+  "metrics": {
+    "exact_retrieval_accuracy": 1.0,
+    "paraphrased_retrieval_accuracy": 1.0,
+    "sibling_collision_accuracy": 1.0,
+    "graceful_degradation_accuracy": 1.0,
+    "contradictory_sources_preservation": 1.0,
+    "post_restart_persistence_accuracy": 1.0,
+    "comparison_with_tars_002": {
+      "sibling_collision_accuracy": {
+        "tars_002": 0.5,
+        "tars_003": 1.0,
+        "improvement": "+50%"
+      },
+      "paraphrased_retrieval_accuracy": {
+        "tars_002": 1.0,
+        "tars_003": 1.0,
+        "improvement": "0% (Maintained 100% precision)"
+      },
+      "exact_retrieval_accuracy": {
+        "tars_002": 1.0,
+        "tars_003": 1.0,
+        "improvement": "0% (Maintained 100% precision)"
+      },
+      "contradictory_sources_handling": {
+        "tars_002": "Preserved both, detected at ingest",
+        "tars_003": "Preserved both, detected at ingest + tagged in citations"
+      }
+    }
+  },
+  "backup_info": {
+    "success": true,
+    "snapshot_id": "tars_backup_20261106_135809_5d0c78",
+    "label": "pre_tars003_1793973489",
+    "filepath": "C:\\Users\\Egypt For Computer\\Desktop\\EDITH-AI\\server\\backups\\tars_backup_20261106_135809_5d0c78.json",
+    "counts": {
+      "memories": 57,
+      "learning_records": 19,
+      "experiences": 23,
+      "documents": 17,
+      "proposals": 6,
+      "permissions": 8
+    },
+    "created_at": "2026-11-06T13:58:09.523159"
+  },
+  "pre_restart_results": [
+    {
+      "query": "What sensor model and resolution does the tars003_1793973489 starboard-side attitude sensor have?",
+      "subject": "tars003_1793973489_attitude_sensor_starboard",
+      "similarity": 0.9366,
+      "signals": [
+        "SIDE_MATCH_BONUS(+0.20: 'starboard')",
+        "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+        "VERIFIED_FACT_BONUS(+0.05)"
+      ]
+    },
+    {
+      "query": "What model is installed on the tars003_1793973489 port attitude sensor?",
+      "subject": "tars003_1793973489_attitude_sensor_port",
+      "similarity": 0.8132,
+      "signals": [
+        "SIDE_MATCH_BONUS(+0.20: 'port')",
+        "SUBSYSTEM_MATCH_BONUS(+0.16: guidance)",
+        "VERIFIED_FACT_BONUS(+0.05)"
+      ]
+    },
+    {
+      "query": "What is the thrust output of the tars003_1793973489 secondary thruster pod?",
+      "subject": "tars003_1793973489_secondary_thruster_vector",
+      "similarity": 0.9508,
+      "signals": [
+        "SIDE_MATCH_BONUS(+0.20: 'secondary')",
+        "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+        "VERIFIED_FACT_BONUS(+0.05)"
+      ]
+    },
+    {
+      "query": "What coolant and pressure does the tars003_1793973489 Alpha Thruster use?",
+      "subject": "tars003_1793973489_alpha_thruster_coolant",
+      "similarity": 0.6478,
+      "signals": [
+        "SUBSYSTEM_MATCH_BONUS(+0.16: propulsion)",
+        "VERIFIED_FACT_BONUS(+0.05)"
+      ]
+    }
+  ],
+  "restart_queries": [
+    "What sensor model and resolution does the tars003_1793973489 starboard-side attitude sensor have?",
+    "What model is installed on the tars003_1793973489 port attitude sensor?",
+    "What is the thrust output of the tars003_1793973489 secondary thruster pod?",
+    "What coolant and pressure does the tars003_1793973489 Alpha Thruster use?"
+  ],
+  "overall_status": "PASSED"
+}
