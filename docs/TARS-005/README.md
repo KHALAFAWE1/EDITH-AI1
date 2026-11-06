@@ -24,7 +24,7 @@
 | **Phase 2.3** | [`PHASE-02.3-ARTIFACT-INTEGRITY.md`](./PHASE-02.3-ARTIFACT-INTEGRITY.md) | Isolated Download & SHA-256 Checksum Verification of ONNX INT8 and Tokenizer Assets | **Completed (Zero Inference)** |
 | **Phase 2.4-A** | [`PHASE-02.4-A-TOKENIZERS-INSTALLATION.md`](./PHASE-02.4-A-TOKENIZERS-INSTALLATION.md) | Isolated Installation of `tokenizers==0.23.3` with `--no-deps` on Python 3.14 | **Completed** |
 | **Phase 2.4-B** | [`PHASE-02.4-B-TOKENIZER-ROUNDTRIP.md`](./PHASE-02.4-B-TOKENIZER-ROUNDTRIP.md) | Special Token IDs (`<s>`=0, `<pad>`=1, `</s>`=2, `<unk>`=3) & Roundtrip Verification | **Completed (Zero Inference)** |
-| **Phase 2.4-C** | [`PHASE-02.4-C-UNICODE-EDGE-CASES.md`](./PHASE-02.4-C-UNICODE-EDGE-CASES.md) | Emoji Codepoint Root Cause, Metaspace Whitespace, Arabic Diacritics & Unicode NFKC | **Completed (Zero Inference)** |
+| **Phase 2.4-C** | [`PHASE-02.4-C-UNICODE-EDGE-CASES.md`](./PHASE-02.4-C-UNICODE-EDGE-CASES.md) | Tokenizer Edge-Case Audit & Behavior Specification (Emoji, Whitespace, ZWJ/ZWNJ, Arabic Diacritics) | **Completed (Zero Inference)** |
 
 ---
 
