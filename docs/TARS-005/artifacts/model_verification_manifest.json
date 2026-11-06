@@ -1,0 +1,33 @@
+{
+  "repository": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "immutable_revision": "e8f8c211226b894fcb81acc59f3b34ba3efd5f42",
+  "acquisition_timestamp": "2026-11-06T16:43:58Z",
+  "target_directory": "server/models/cache_tars005",
+  "artifacts": {
+    "model_quint8_avx2.onnx": {
+      "repo_path": "onnx/model_quint8_avx2.onnx",
+      "size_bytes": 118453870,
+      "sha256": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+      "expected_sha256": "98a01d88b7de996cdea58c32ca71208c09968d143798814b2ea09d3439dc334f",
+      "status": "VERIFIED_MATCH",
+      "download_seconds": 106.74
+    },
+    "tokenizer.json": {
+      "repo_path": "tokenizer.json",
+      "size_bytes": 9081518,
+      "sha256": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "expected_sha256": "2c3387be76557bd40970cec13153b3bbf80407865484b209e655e5e4729076b8",
+      "status": "VERIFIED_MATCH",
+      "download_seconds": 7.25
+    },
+    "config.json": {
+      "repo_path": "config.json",
+      "size_bytes": 645,
+      "sha256": "6300193cb75e01cf80c96decef7187dfb33094d97cc1490b7ead6ff134476e4e",
+      "expected_sha256": "6300193cb75e01cf80c96decef7187dfb33094d97cc1490b7ead6ff134476e4e",
+      "status": "VERIFIED_MATCH",
+      "download_seconds": 0.35
+    }
+  },
+  "all_verified": true
+}
