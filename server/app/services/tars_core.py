@@ -139,7 +139,13 @@ def build_adaptive_context_block(db: Session, query: str) -> Dict[str, Any]:
     Retrieves relevant Long-Term/Semantic Memories, Knowledge Document Chunks (with citations),
     and Past Similar Experiences to ground TARS's response in verified facts.
     """
-    memories = search_memories(db, query=query, top_k=4, min_similarity=0.18)
+    all_memories = search_memories(db, query=query, top_k=6, min_similarity=0.18)
+    # Filter out raw conversational echo messages from knowledge grounding
+    memories = [
+        m for m in all_memories
+        if m.get("subject") != "recent_operator_message"
+        and m.get("memory_type") in ("LONG_TERM", "SEMANTIC", "EPISODIC")
+    ][:4]
     knowledge_chunks = search_knowledge_chunks(db, query=query, top_k=3, min_similarity=0.18)
     similar_experiences = find_similar_experiences(db, query=query, top_k=2, min_similarity=0.22)
 
@@ -482,8 +488,13 @@ def _answer_with_local_knowledge_and_fallback(
     memories = adaptive_ctx.get("memories_used", [])
     chunks = adaptive_ctx.get("knowledge_chunks_used", [])
 
-    # Check if we have strong memory or document hits (similarity >= 0.25)
-    strong_memories = [m for m in memories if (m.get("similarity") or 0.0) >= 0.25]
+    # Check if we have strong verified memory or document hits (excluding raw prompt echo)
+    strong_memories = [
+        m for m in memories
+        if (m.get("similarity") or 0.0) >= 0.25
+        and m.get("subject") != "recent_operator_message"
+        and m.get("memory_type") in ("LONG_TERM", "SEMANTIC")
+    ]
     strong_chunks = [c for c in chunks if (c.get("similarity") or 0.0) >= 0.25]
 
     if strong_memories or strong_chunks:

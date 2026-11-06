@@ -1,0 +1,431 @@
+{
+  "test_name": "TARS-002 — Memory Retrieval Quality & Provenance Test",
+  "namespace": "tars002_1793969901",
+  "timestamp": "2026-11-06 14:58:21",
+  "backup_taken": true,
+  "sections": {
+    "SECTION_4_CONFLICT_DETECTION": {
+      "passed": true,
+      "details": {
+        "doc1_res": true,
+        "doc2_res": true,
+        "conflicts_count": 3,
+        "conflicts": [
+          {
+            "conflict_type": "NUMERIC_DISCREPANCY",
+            "existing_doc_uid": "doc_3e5924c05bae",
+            "existing_chunk_uid": "chk_ee6ab2f31bae",
+            "similarity": 0.7732,
+            "new_numbers": [
+              "2",
+              "250"
+            ],
+            "existing_numbers": [
+              "1",
+              "850"
+            ],
+            "existing_excerpt": "tars002_1793969901 Solar Array Specification Sheet Version 1\n\nThe tars002_1793969901 photovoltaic solar array generates a maximum output of 850 Kilowatts under direct solar flux.",
+            "new_source": "bulletin_tars002_1793969901_revB"
+          },
+          {
+            "conflict_type": "NUMERIC_DISCREPANCY",
+            "existing_doc_uid": "doc_9e7e90288076",
+            "existing_chunk_uid": "chk_4bd44710aa0a",
+            "similarity": 0.711,
+            "new_numbers": [
+              "2",
+              "250"
+            ],
+            "existing_numbers": [
+              "1",
+              "850"
+            ],
+            "existing_excerpt": "tars002_1793969703 Solar Array Specification Sheet Version 1\n\nThe tars002_1793969703 photovoltaic solar array generates a maximum output of 850 Kilowatts under direct solar flux.",
+            "new_source": "bulletin_tars002_1793969901_revB"
+          },
+          {
+            "conflict_type": "NUMERIC_DISCREPANCY",
+            "existing_doc_uid": "doc_b0986aab3a9c",
+            "existing_chunk_uid": "chk_f63d5ae4ff10",
+            "similarity": 0.7004,
+            "new_numbers": [
+              "2",
+              "250"
+            ],
+            "existing_numbers": [
+              "1",
+              "850"
+            ],
+            "existing_excerpt": "tars002_1793969458 Solar Array Specification Sheet Version 1\n\nThe tars002_1793969458 photovoltaic solar array generates a maximum output of 850 Kilowatts under direct solar flux.",
+            "new_source": "bulletin_tars002_1793969901_revB"
+          }
+        ]
+      }
+    }
+  },
+  "metrics": {},
+  "backup_info": {
+    "success": true,
+    "snapshot_id": "tars_backup_20261106_125822_a6db83",
+    "label": "pre_tars002_1793969901",
+    "filepath": "C:\\Users\\Egypt For Computer\\Desktop\\EDITH-AI\\server\\backups\\tars_backup_20261106_125822_a6db83.json",
+    "counts": {
+      "memories": 36,
+      "learning_records": 16,
+      "experiences": 15,
+      "documents": 11,
+      "proposals": 5,
+      "permissions": 8
+    },
+    "created_at": "2026-11-06T12:58:22.113572"
+  },
+  "pre_restart_battery": {
+    "exact_retrieval": [
+      {
+        "query": "What coolant and pressure is used in tars002_1793969901 Alpha Thruster?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.412
+      },
+      {
+        "query": "What is the nominal temperature of the tars002_1793969901 primary cryo-storage bay?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_3da7f003e98d",
+        "similarity": 0.6991
+      },
+      {
+        "query": "What is the optical baud rate of the tars002_1793969901 deep-space communication array?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_0ae90d12521f",
+        "similarity": 0.7191
+      }
+    ],
+    "paraphrased_retrieval": [
+      {
+        "query": "In the tars002_1793969901 thruster assembly, which liquid agent handles cooling and at what bar pressure level?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.2445
+      },
+      {
+        "query": "How cold in Kelvin is the tars002_1793969901 cryogenic container chamber kept?",
+        "top1_match": false,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.1761
+      },
+      {
+        "query": "How fast in Gbps can the tars002_1793969901 long-range communications send data optically?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_0ae90d12521f",
+        "similarity": 0.2208
+      }
+    ],
+    "similarity_collision": [
+      {
+        "test": "port_attitude_query",
+        "passed": true,
+        "top1_uid": "mem_95be15036495",
+        "expected_uid": "mem_95be15036495",
+        "forbidden_uid": "mem_9f2c575bc31a",
+        "content": "The tars002_1793969901 port-side attitude sensor uses laser gyroscope model LG-400 with 0.01 degree resolution."
+      },
+      {
+        "test": "starboard_attitude_query",
+        "passed": false,
+        "top1_uid": "mem_95be15036495",
+        "expected_uid": "mem_9f2c575bc31a",
+        "forbidden_uid": "mem_95be15036495",
+        "content": "The tars002_1793969901 port-side attitude sensor uses laser gyroscope model LG-400 with 0.01 degree resolution."
+      }
+    ],
+    "contradictory_sources": {
+      "found_version_1": true,
+      "found_version_2": true,
+      "both_sources_preserved": true,
+      "citations_preserved": [
+        "[Source: tars002_1793969901_solar_array_v1 (TXT) | Section: Section 1 | Chunk #1]",
+        "[Source: tars002_1793969901_solar_array_v2 (TXT) | Section: Section 1 | Chunk #1]"
+      ]
+    },
+    "unknown_information": [
+      {
+        "query": "What is the quantum encryption frequency of the tars002_1793969901 hyperdrive warp coil?",
+        "top_memory_similarity": 0.2487,
+        "chat_reply_excerpt": "TARS Online (Honesty parameter: 90%). Local hardware telemetry (CPU: 3.7% | RAM: 7.0/7.9 GB (89.0%) | Disk: 67.6% | Power: 100% (Charging)) and ArcFace 512D biometrics are operatio",
+        "properly_guarded": true
+      },
+      {
+        "query": "Who was the chief botanist on the tars002_1793969901 greenhouse expedition in 1985?",
+        "top_memory_similarity": 0.2332,
+        "chat_reply_excerpt": "TARS Online (Honesty parameter: 90%). Local hardware telemetry (CPU: 0.0% | RAM: 7.0/7.9 GB (89.0%) | Disk: 67.6% | Power: 100% (Charging)) and ArcFace 512D biometrics are operatio",
+        "properly_guarded": true
+      }
+    ],
+    "provenance_checks": [
+      {
+        "query_type": "exact",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_propulsion",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.412
+      },
+      {
+        "query_type": "exact",
+        "uid": "mem_3da7f003e98d",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_storage",
+        "expected_src_ref": "doc_tars002_1793969901_storage",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.6991
+      },
+      {
+        "query_type": "exact",
+        "uid": "mem_0ae90d12521f",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_telecom",
+        "expected_src_ref": "doc_tars002_1793969901_telecom",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.7191
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_propulsion",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.2445
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_storage",
+        "has_correct_ref": false,
+        "is_verified_fact": true,
+        "similarity": 0.1761
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_0ae90d12521f",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_telecom",
+        "expected_src_ref": "doc_tars002_1793969901_telecom",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.2208
+      }
+    ],
+    "computed_metrics": {
+      "top_1_retrieval_accuracy": 0.8333,
+      "top_3_retrieval_accuracy": 1.0,
+      "exact_top1_accuracy": 1.0,
+      "paraphrased_top1_accuracy": 0.6667,
+      "correct_source_attribution_rate": 0.8333,
+      "false_retrieval_rate": 0.5,
+      "collision_accuracy": 0.5,
+      "unknown_question_rejection_rate": 1.0,
+      "conflict_detection_rate": 1.0
+    }
+  },
+  "post_restart_battery": {
+    "exact_retrieval": [
+      {
+        "query": "What coolant and pressure is used in tars002_1793969901 Alpha Thruster?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.412
+      },
+      {
+        "query": "What is the nominal temperature of the tars002_1793969901 primary cryo-storage bay?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_3da7f003e98d",
+        "similarity": 0.6991
+      },
+      {
+        "query": "What is the optical baud rate of the tars002_1793969901 deep-space communication array?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_0ae90d12521f",
+        "similarity": 0.7191
+      }
+    ],
+    "paraphrased_retrieval": [
+      {
+        "query": "In the tars002_1793969901 thruster assembly, which liquid agent handles cooling and at what bar pressure level?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.2445
+      },
+      {
+        "query": "How cold in Kelvin is the tars002_1793969901 cryogenic container chamber kept?",
+        "top1_match": false,
+        "top3_match": true,
+        "top1_uid": "mem_4c87589cae96",
+        "similarity": 0.1761
+      },
+      {
+        "query": "How fast in Gbps can the tars002_1793969901 long-range communications send data optically?",
+        "top1_match": true,
+        "top3_match": true,
+        "top1_uid": "mem_0ae90d12521f",
+        "similarity": 0.2208
+      }
+    ],
+    "similarity_collision": [
+      {
+        "test": "port_attitude_query",
+        "passed": true,
+        "top1_uid": "mem_95be15036495",
+        "expected_uid": "mem_95be15036495",
+        "forbidden_uid": "mem_9f2c575bc31a",
+        "content": "The tars002_1793969901 port-side attitude sensor uses laser gyroscope model LG-400 with 0.01 degree resolution."
+      },
+      {
+        "test": "starboard_attitude_query",
+        "passed": false,
+        "top1_uid": "mem_95be15036495",
+        "expected_uid": "mem_9f2c575bc31a",
+        "forbidden_uid": "mem_95be15036495",
+        "content": "The tars002_1793969901 port-side attitude sensor uses laser gyroscope model LG-400 with 0.01 degree resolution."
+      }
+    ],
+    "contradictory_sources": {
+      "found_version_1": true,
+      "found_version_2": true,
+      "both_sources_preserved": true,
+      "citations_preserved": [
+        "[Source: tars002_1793969901_solar_array_v1 (TXT) | Section: Section 1 | Chunk #1]",
+        "[Source: tars002_1793969901_solar_array_v2 (TXT) | Section: Section 1 | Chunk #1]"
+      ]
+    },
+    "unknown_information": [
+      {
+        "query": "What is the quantum encryption frequency of the tars002_1793969901 hyperdrive warp coil?",
+        "top_memory_similarity": 0.2487,
+        "chat_reply_excerpt": "TARS Online (Honesty parameter: 90%). Local hardware telemetry (CPU: 15.4% | RAM: 7.1/7.9 GB (89.1%) | Disk: 67.6% | Power: 100% (Charging)) and ArcFace 512D biometrics are operati",
+        "properly_guarded": true
+      },
+      {
+        "query": "Who was the chief botanist on the tars002_1793969901 greenhouse expedition in 1985?",
+        "top_memory_similarity": 0.2332,
+        "chat_reply_excerpt": "TARS Online (Honesty parameter: 90%). Local hardware telemetry (CPU: 4.2% | RAM: 7.1/7.9 GB (89.2%) | Disk: 67.6% | Power: 100% (Charging)) and ArcFace 512D biometrics are operatio",
+        "properly_guarded": true
+      }
+    ],
+    "provenance_checks": [
+      {
+        "query_type": "exact",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_propulsion",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.412
+      },
+      {
+        "query_type": "exact",
+        "uid": "mem_3da7f003e98d",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_storage",
+        "expected_src_ref": "doc_tars002_1793969901_storage",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.6991
+      },
+      {
+        "query_type": "exact",
+        "uid": "mem_0ae90d12521f",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_telecom",
+        "expected_src_ref": "doc_tars002_1793969901_telecom",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.7191
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_propulsion",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.2445
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_4c87589cae96",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_propulsion",
+        "expected_src_ref": "doc_tars002_1793969901_storage",
+        "has_correct_ref": false,
+        "is_verified_fact": true,
+        "similarity": 0.1761
+      },
+      {
+        "query_type": "paraphrased",
+        "uid": "mem_0ae90d12521f",
+        "source_type": "document",
+        "source_ref": "doc_tars002_1793969901_telecom",
+        "expected_src_ref": "doc_tars002_1793969901_telecom",
+        "has_correct_ref": true,
+        "is_verified_fact": true,
+        "similarity": 0.2208
+      }
+    ],
+    "computed_metrics": {
+      "top_1_retrieval_accuracy": 0.8333,
+      "top_3_retrieval_accuracy": 1.0,
+      "exact_top1_accuracy": 1.0,
+      "paraphrased_top1_accuracy": 0.6667,
+      "correct_source_attribution_rate": 0.8333,
+      "false_retrieval_rate": 0.5,
+      "collision_accuracy": 0.5,
+      "unknown_question_rejection_rate": 1.0,
+      "conflict_detection_rate": 1.0
+    }
+  },
+  "consistency_verification": {
+    "is_100pct_consistent": true,
+    "metric_diffs": {
+      "top_1_retrieval_accuracy": 0.0,
+      "top_3_retrieval_accuracy": 0.0,
+      "exact_top1_accuracy": 0.0,
+      "paraphrased_top1_accuracy": 0.0,
+      "correct_source_attribution_rate": 0.0,
+      "false_retrieval_rate": 0.0,
+      "collision_accuracy": 0.0,
+      "unknown_question_rejection_rate": 0.0,
+      "conflict_detection_rate": 0.0
+    }
+  },
+  "final_summary_metrics": {
+    "top_1_retrieval_accuracy": 0.8333,
+    "top_3_retrieval_accuracy": 1.0,
+    "exact_top1_accuracy": 1.0,
+    "paraphrased_top1_accuracy": 0.6667,
+    "correct_source_attribution_rate": 0.8333,
+    "false_retrieval_rate": 0.5,
+    "collision_accuracy": 0.5,
+    "unknown_question_rejection_rate": 1.0,
+    "conflict_detection_rate": 1.0
+  }
+}
