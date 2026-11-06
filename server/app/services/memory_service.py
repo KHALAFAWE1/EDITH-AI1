@@ -290,6 +290,8 @@ def store_memory(
     elif mem_type == "SHORT_TERM":
         expires_at = datetime.utcnow() + timedelta(hours=24)
 
+    is_fact_flag = bool(user_approved and (is_verified_fact or (foi == "FACT" and user_approved)))
+
     record = MemoryRecord(
         memory_uid=f"mem_{uuid.uuid4().hex[:12]}",
         memory_type=mem_type,
@@ -297,7 +299,7 @@ def store_memory(
         subject=subject,
         content=clean_content,
         content_hash=c_hash,
-        is_verified_fact=(foi == "FACT" or is_verified_fact),
+        is_verified_fact=is_fact_flag,
         fact_or_inference=foi,
         source_type=source_type,
         source_reference=source_reference,

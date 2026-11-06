@@ -1,0 +1,107 @@
+{
+  "test_name": "TARS-001 — Persistent Learning Verification",
+  "timestamp": "2026-11-06 14:44:32",
+  "steps": {
+    "STEP_1": {
+      "title": "Inspect database tables and live execution files",
+      "passed": true,
+      "details": {
+        "db_path": "C:\\Users\\Egypt For Computer\\Desktop\\EDITH-AI\\edith_ai.db",
+        "tars_tables_found": [
+          "tars_memories",
+          "tars_learning_records",
+          "tars_experiences",
+          "tars_evaluation_runs",
+          "tars_improvement_proposals",
+          "tars_knowledge_documents",
+          "tars_knowledge_chunks",
+          "tars_training_datasets",
+          "tars_model_versions",
+          "tars_permission_scopes",
+          "tars_model_routing_logs"
+        ]
+      }
+    },
+    "STEP_2_4": {
+      "title": "Verify 8-Step pipeline stages knowledge at Step 6 and BLOCKS approval before testing",
+      "passed": true,
+      "details": {
+        "learning_uid": "lrn_8e597be46c47",
+        "candidate_memory_uid": "mem_7ddbdd573ca5",
+        "api_approval_status": "PENDING_TEST",
+        "api_pipeline_step": 6,
+        "db_learning_record": {
+          "approval_status": "PENDING_TEST",
+          "pipeline_step": 6,
+          "verification_passed": false
+        },
+        "db_candidate_memory": {
+          "user_approved": false,
+          "is_verified_fact": false,
+          "fact_or_inference": "FACT"
+        }
+      }
+    },
+    "STEP_4_APPROVAL": {
+      "title": "Verify passing the test advances pipeline to Step 8 and APPROVES the knowledge in DB",
+      "passed": true,
+      "details": {
+        "verification_score": 1.0,
+        "verification_passed": true,
+        "db_learning_post": {
+          "status": "APPROVED",
+          "score": 1.0,
+          "passed": true,
+          "pipeline_step": 8
+        },
+        "db_memory_post": {
+          "user_approved": true,
+          "is_verified_fact": true,
+          "fact_or_inference": "FACT"
+        }
+      }
+    },
+    "STEP_5": {
+      "title": "Verify knowledge is stored persistently in database tables before restart",
+      "passed": true,
+      "details": {
+        "rows_found_in_db": 1
+      }
+    },
+    "STEP_7_8": {
+      "title": "Retrieve knowledge post-restart using differently phrased query and verify citations",
+      "passed": true,
+      "details": {
+        "differently_phrased_query": "What oscillator frequency and coil materials does the TEST_ISOLATION_1793969072 gravimetric propulsion use?",
+        "matched_memory_uid": "mem_7ddbdd573ca5",
+        "matched_subject": "Antigravity Propulsion Subsystem (TEST_ISOLATION_1793969072)",
+        "matched_content": "The Antigravity Propulsion Subsystem (TEST_ISOLATION_1793969072) utilizes a tri-phase gravimetric oscillator operating at 1.42 GHz with superconducting yttrium barium copper oxide coils.",
+        "is_verified_fact": true,
+        "source_type": "document",
+        "source_reference": "acceptance_test_doc_TEST_ISOLATION_1793969072",
+        "similarity_score": 0.335
+      }
+    },
+    "STEP_9": {
+      "title": "Test false/conflicting/noisy knowledge and verify it is NEVER approved automatically",
+      "passed": true,
+      "details": {
+        "noisy_rejected": true,
+        "false_rejected": true,
+        "db_status": "REJECTED",
+        "rejection_reason": "Verification test score (0.0%) fell below required threshold (70.0%). Knowledge not promoted to verified memory."
+      }
+    },
+    "STEP_10": {
+      "title": "Test that rejecting an improvement proposal strictly blocks application (HTTP 403)",
+      "passed": true,
+      "details": {
+        "proposal_id": "prop_f877e17981ca",
+        "review_status": "REJECTED",
+        "apply_http_status": 403,
+        "apply_response_detail": "SECURITY GATE BLOCKED: Proposal 'prop_f877e17981ca' (category='modify_project_code') has status 'REJECTED'. Mandatory human approval is required before execution.",
+        "db_proposal_status": "REJECTED"
+      }
+    }
+  }
+}
