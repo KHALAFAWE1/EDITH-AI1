@@ -29,7 +29,7 @@ export default function Home() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {/* Header */}
         <div style={{ marginBottom: "25px" }}>
-          <h1 className="title">EDITH AI Command Center</h1>
+          <h1 className="title">TARS AI Command Center</h1>
           <p className="subtitle">Real-time Biometric Surveillance, Face Recognition & System Telemetry</p>
         </div>
 
@@ -47,7 +47,7 @@ export default function Home() {
             title="Biometric Registry"
             value={peopleCount}
             subtitle={`${peopleCount} Verified Subjects`}
-            accentColor="#00d4ff"
+            accentColor="#f59e0b"
           />
           <StatusCard
             icon={<FaCamera />}
@@ -78,7 +78,7 @@ export default function Home() {
           <div className="camera-box">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "15px" }}>
               <h2>📷 Live Optical Stream</h2>
-              <Link to="/camera" style={{ color: "#00d4ff", fontSize: "13px", textDecoration: "none", fontWeight: 600 }}>
+              <Link to="/camera" style={{ color: "#f59e0b", fontSize: "13px", textDecoration: "none", fontWeight: 600 }}>
                 Full Screen View &rarr;
               </Link>
             </div>
@@ -100,7 +100,7 @@ export default function Home() {
                       width: "60px",
                       height: "60px",
                       borderRadius: "12px",
-                      background: "#192033",
+                      background: "#1a1e29",
                       border: "2px solid #00ff99",
                       display: "flex",
                       alignItems: "center",
@@ -136,28 +136,28 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#8b9bb4", marginTop: "6px" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#9ca3af", marginTop: "6px" }}>
                   {pData.department && (
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <FaBuilding color="#00d4ff" />
+                      <FaBuilding color="#f59e0b" />
                       <span style={{ color: "#fff" }}>{pData.department}</span>
                     </div>
                   )}
                   {pData.position && (
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <FaBriefcase color="#00d4ff" />
+                      <FaBriefcase color="#f59e0b" />
                       <span>{pData.position}</span>
                     </div>
                   )}
                   {pData.email && (
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <FaEnvelope color="#00d4ff" />
+                      <FaEnvelope color="#f59e0b" />
                       <span>{pData.email}</span>
                     </div>
                   )}
                   {pData.phone && (
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      <FaPhone color="#00d4ff" />
+                      <FaPhone color="#f59e0b" />
                       <span>{pData.phone}</span>
                     </div>
                   )}
@@ -166,7 +166,7 @@ export default function Home() {
             ) : person?.faces_count > 0 || person?.bbox ? (
               <div style={{ textAlign: "center", padding: "30px 0" }}>
                 <span className="badge badge-red" style={{ marginBottom: "10px" }}>UNKNOWN TARGET</span>
-                <p style={{ color: "#8b9bb4", fontSize: "13px" }}>Face detected in frame but not registered in database.</p>
+                <p style={{ color: "#9ca3af", fontSize: "13px" }}>Face detected in frame but not registered in database.</p>
               </div>
             ) : (
               <div style={{ textAlign: "center", padding: "40px 0", color: "#606f8b" }}>
@@ -178,4 +178,4 @@ export default function Home() {
       </motion.div>
     </MainLayout>
   );
-}
+}

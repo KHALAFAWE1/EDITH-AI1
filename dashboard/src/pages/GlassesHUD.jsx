@@ -40,13 +40,13 @@ export default function GlassesHUD() {
           const batteryLevel = battery ? Math.round(battery.level * 100) : null;
           await api.post("/glasses/pair-client", {
             token: token,
-            device_name: navigator.userAgent.includes("iPhone") ? "iPhone EDITH Glasses Companion" : "Mobile Smart Glasses Client",
+            device_name: navigator.userAgent.includes("iPhone") ? "iPhone TARS Glasses Companion" : "Mobile Smart Glasses Client",
             device_type: "iPhone_Companion",
             battery_level: batteryLevel,
             camera_active: true,
             mic_active: true
           });
-          alert("✅ Paired Successfully as EDITH Smart Glasses Companion!");
+          alert("✅ Paired Successfully as TARS Smart Glasses Companion!");
         } catch (e) {
           console.warn("Auto pair error:", e);
         }
@@ -127,7 +127,7 @@ export default function GlassesHUD() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", flexWrap: "wrap", gap: "10px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaGlasses style={{ color: "#00d4ff" }} /> {t("glasses.title")}
+            <FaGlasses style={{ color: "#f59e0b" }} /> {t("glasses.title")}
           </h1>
           <p className="subtitle">{t("glasses.subtitle")}</p>
         </div>
@@ -145,8 +145,8 @@ export default function GlassesHUD() {
               onClick={handleGenerateQR}
               disabled={loadingQR}
               style={{
-                background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                color: "#050816",
+                background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                color: "#090a0f",
                 border: "none",
                 borderRadius: "10px",
                 padding: "10px 18px",
@@ -166,12 +166,12 @@ export default function GlassesHUD() {
 
       {/* QR Pairing Modal */}
       {pairingData && (
-        <div style={{ background: "#111827", border: "1px solid rgba(0, 212, 255, 0.4)", borderRadius: "16px", padding: "20px", marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
+        <div style={{ background: "#12151e", border: "1px solid rgba(245, 158, 11, 0.4)", borderRadius: "16px", padding: "20px", marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "20px" }}>
           <div>
-            <h3 style={{ color: "#00d4ff", margin: "0 0 6px 0", display: "flex", alignItems: "center", gap: "8px" }}>
+            <h3 style={{ color: "#f59e0b", margin: "0 0 6px 0", display: "flex", alignItems: "center", gap: "8px" }}>
               <FaMobileAlt /> {t("glasses.qr_title")}
             </h3>
-            <p style={{ color: "#8b9bb4", fontSize: "13px", margin: 0, maxWidth: "500px" }}>
+            <p style={{ color: "#9ca3af", fontSize: "13px", margin: 0, maxWidth: "500px" }}>
               {t("glasses.qr_desc")}
             </p>
             <div style={{ marginTop: "10px", color: "#00ff99", fontSize: "12px", fontFamily: "monospace" }}>
@@ -196,16 +196,16 @@ export default function GlassesHUD() {
           position: "relative",
           width: "100%",
           minHeight: "560px",
-          background: "#050816",
+          background: "#090a0f",
           borderRadius: "20px",
           overflow: "hidden",
-          border: "2px solid rgba(0, 212, 255, 0.4)",
-          boxShadow: "0 20px 60px rgba(0, 212, 255, 0.2)"
+          border: "2px solid rgba(245, 158, 11, 0.4)",
+          boxShadow: "0 20px 60px rgba(245, 158, 11, 0.2)"
         }}
       >
         {/* Background Camera Feed */}
         {cameraPermissionError ? (
-          <div style={{ width: "100%", height: "100%", minHeight: "560px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#8b9bb4" }}>
+          <div style={{ width: "100%", height: "100%", minHeight: "560px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#9ca3af" }}>
             <FaCrosshairs size={48} color="#ff3b5c" style={{ marginBottom: "12px" }} />
             <h3 style={{ color: "#fff" }}>Camera Stream Offline</h3>
             <p style={{ fontSize: "13px" }}>Please grant browser camera permission or pair iPhone companion camera.</p>
@@ -228,7 +228,7 @@ export default function GlassesHUD() {
             left: 0,
             width: "100%",
             height: "100%",
-            background: "radial-gradient(circle at center, transparent 40%, rgba(5, 8, 22, 0.7) 100%)",
+            background: "radial-gradient(circle at center, transparent 40%, rgba(9, 10, 15, 0.7) 100%)",
             pointerEvents: "none"
           }}
         />
@@ -248,14 +248,14 @@ export default function GlassesHUD() {
             gap: "10px"
           }}
         >
-          <div style={{ background: "rgba(11, 18, 32, 0.85)", backdropFilter: "blur(8px)", border: "1px solid rgba(0, 212, 255, 0.5)", padding: "8px 16px", borderRadius: "10px" }}>
-            <span style={{ fontSize: "11px", color: "#8b9bb4", letterSpacing: "1px" }}>{t("glasses.optical_status")}</span>
-            <div style={{ color: "#00d4ff", fontWeight: 700, fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
+          <div style={{ background: "rgba(12, 14, 20, 0.85)", backdropFilter: "blur(8px)", border: "1px solid rgba(245, 158, 11, 0.5)", padding: "8px 16px", borderRadius: "10px" }}>
+            <span style={{ fontSize: "11px", color: "#9ca3af", letterSpacing: "1px" }}>{t("glasses.optical_status")}</span>
+            <div style={{ color: "#f59e0b", fontWeight: 700, fontSize: "13px", display: "flex", alignItems: "center", gap: "6px" }}>
               <FaBroadcastTower className="spin" size={12} /> {glassesStatus.connected ? glassesStatus.device?.name : "ACTIVE LOCAL OPTICAL SENSOR"}
             </div>
           </div>
 
-          <div style={{ background: "rgba(11, 18, 32, 0.85)", backdropFilter: "blur(8px)", border: `1px solid ${glassesStatus.connected ? "#00ff99" : "#ffaa00"}`, padding: "8px 16px", borderRadius: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{ background: "rgba(12, 14, 20, 0.85)", backdropFilter: "blur(8px)", border: `1px solid ${glassesStatus.connected ? "#00ff99" : "#ffaa00"}`, padding: "8px 16px", borderRadius: "10px", display: "flex", alignItems: "center", gap: "10px" }}>
             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: glassesStatus.connected ? "#00ff99" : "#ffaa00", display: "inline-block" }}></span>
             <span style={{ color: "#fff", fontSize: "12px", fontWeight: 600 }}>
               {glassesStatus.connected ? t("glasses.status_connected") : t("glasses.status_disconnected")}
@@ -272,7 +272,7 @@ export default function GlassesHUD() {
             transform: "translate(-50%, -50%)",
             width: "200px",
             height: "200px",
-            border: "2px dashed rgba(0, 212, 255, 0.6)",
+            border: "2px dashed rgba(245, 158, 11, 0.6)",
             borderRadius: "50%",
             pointerEvents: "none",
             display: "flex",
@@ -293,9 +293,9 @@ export default function GlassesHUD() {
             position: "absolute",
             bottom: "20px",
             left: "20px",
-            background: "rgba(11, 18, 32, 0.9)",
+            background: "rgba(12, 14, 20, 0.9)",
             backdropFilter: "blur(10px)",
-            border: `1px solid ${riskData.risk_score > 50 ? "#ff3b5c" : "#00d4ff"}`,
+            border: `1px solid ${riskData.risk_score > 50 ? "#ff3b5c" : "#f59e0b"}`,
             borderRadius: "14px",
             padding: "14px 18px",
             maxWidth: "340px",
@@ -303,15 +303,15 @@ export default function GlassesHUD() {
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
-            <span style={{ fontSize: "11px", color: "#8b9bb4", fontWeight: 700 }}>{t("glasses.threat_assessment")}</span>
+            <span style={{ fontSize: "11px", color: "#9ca3af", fontWeight: 700 }}>{t("glasses.threat_assessment")}</span>
             <span style={{ background: riskData.risk_score > 50 ? "rgba(255,59,92,0.2)" : "rgba(0,255,153,0.2)", color: riskData.risk_score > 50 ? "#ff3b5c" : "#00ff99", padding: "2px 8px", borderRadius: "4px", fontSize: "10px", fontWeight: 700 }}>
               {riskData.severity}
             </span>
           </div>
           <div style={{ fontSize: "22px", color: "#fff", fontWeight: 800, fontFamily: "monospace" }}>
-            {riskData.risk_score} <span style={{ fontSize: "12px", color: "#8b9bb4" }}>/ 100</span>
+            {riskData.risk_score} <span style={{ fontSize: "12px", color: "#9ca3af" }}>/ 100</span>
           </div>
-          <p style={{ color: "#00d4ff", fontSize: "11px", margin: "4px 0 0 0" }}>
+          <p style={{ color: "#f59e0b", fontSize: "11px", margin: "4px 0 0 0" }}>
             {riskData.explainable_ai?.what || "All systems operating within baseline parameters."}
           </p>
         </div>
@@ -322,7 +322,7 @@ export default function GlassesHUD() {
             position: "absolute",
             bottom: "20px",
             right: "20px",
-            background: "rgba(11, 18, 32, 0.9)",
+            background: "rgba(12, 14, 20, 0.9)",
             backdropFilter: "blur(10px)",
             border: "1px solid rgba(0, 255, 153, 0.4)",
             borderRadius: "14px",
@@ -337,7 +337,7 @@ export default function GlassesHUD() {
           <div style={{ color: "#fff", fontSize: "12px", fontWeight: 600, marginTop: "4px" }}>
             ArcFace 512D Embedding
           </div>
-          <div style={{ color: "#8b9bb4", fontSize: "11px", marginTop: "2px" }}>
+          <div style={{ color: "#9ca3af", fontSize: "11px", marginTop: "2px" }}>
             CPU: {telemetry.cpu_percent}% | RAM: {telemetry.ram_used_gb} GB
           </div>
         </div>

@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "إيديث للذكاء الاصطناعي",
+    "title": "تارس للذكاء الاصطناعي (TARS AI)",
     "subtitle": "منصة الوعي الموقفي التكتيكي والأمن السيبراني",
     "status_secure": "نظام الحماية نشط",
     "online": "متصل",
@@ -20,11 +20,39 @@
     "cyber_defense": "دفاع CyberVision",
     "host_health": "صحة الجهاز والموارد",
     "soc_security": "مركز العمليات الأمنية SOC",
-    "ai_assistant": "الذكاء الاصطناعي (AI Assistant)",
+    "ai_assistant": "الذكاء الاصطناعي (TARS AI)",
     "settings": "الإعدادات"
   },
+  "people": {
+    "title": "قاعدة البيانات البيومترية",
+    "subtitle": "إدارة الأشخاص المسجلين والأدوار وبصمات التعرف على الوجه",
+    "add_person": "تسجيل شخص جديد",
+    "edit_person": "تعديل بيانات الشخص",
+    "delete_person": "حذف",
+    "save": "حفظ البيانات",
+    "cancel": "إلغاء"
+  },
+  "settings": {
+    "title": "إعدادات TARS AI",
+    "subtitle": "إعدادات اللغة، الصوت، الكاميرا، ومصفوفة شخصية TARS",
+    "personality_section": "مصفوفة شخصية TARS",
+    "language_section": "إعدادات اللغة",
+    "theme_section": "إعدادات المظهر",
+    "voice_section": "إعدادات الصوت والنطق",
+    "camera_section": "إعدادات الكاميرا",
+    "api_key_section": "مفتاح Google Gemini API",
+    "saved_success": "تم حفظ الإعدادات بنجاح"
+  },
+  "personality": {
+    "humor": "الدعابة (Humor)",
+    "honesty": "الصراحة (Honesty)",
+    "directness": "المباشرة (Directness)",
+    "professionalism": "الاحترافية (Professionalism)",
+    "save_matrix": "حفظ مصفوفة الشخصية",
+    "reset_default": "استعادة الافتراضي"
+  },
   "glasses": {
-    "title": "واجهة النظارة الذكية التكتيكية HUD",
+    "title": "واجهة النظارة الذكية التكتيكية — TARS HUD",
     "subtitle": "محاكاة الواقع المعزز: أقفال الأهداف، البيانات الحيوية، ومستوى التهديد المحيطي",
     "qr_title": "اقتران جهاز جديد (iPhone / Smart Glasses)",
     "qr_desc": "امسح رمز QR التالي بكاميرا الهاتف لفتح واجهة العميل التكتيكي وربطه بالسيرفر فوراً وبأمان:",
@@ -113,20 +141,20 @@
     "integrity_score": "درجة أمان النظام",
     "total_audits": "إجمالي سجلات التدقيق",
     "explainable_title": "تفسير قرار الذكاء الاصطناعي (Explainable AI)",
-    "what": "ماذا لاحظت إيديث",
+    "what": "ماذا لاحظ تارس",
     "why": "الأسباب والتفسير",
     "action": "الإجراء الموصى به",
     "audit_stream": "سجل التدقيق الأمني المباشر"
   },
   "ai": {
-    "title": "المساعد التكتيكي الذكي EDITH AI",
+    "title": "المساعد التكتيكي الذكي TARS AI",
     "subtitle": "الاستجابة الصوتية الفورية، كشف المشاعر، تحليل البيئة، وتنفيذ الأوامر",
-    "wake_word_active": "Wake Word: «يا إيديث» مفعّل 🎙️",
+    "wake_word_active": "Wake Word: «يا تارس» مفعّل 🎙️",
     "wake_word_disabled": "Wake Word: معطل",
     "sfx_active": "SFX أصوات تكتيكية",
     "sfx_muted": "كتم المؤثرات",
     "voice_input_label": "أمرك الصوتي:",
-    "speaking": "إيديث تتحدث الآن...",
-    "listening": "إيديث تستمع إليك..."
+    "speaking": "تارس يتحدث الآن...",
+    "listening": "تارس يستمع إليك..."
   }
 }

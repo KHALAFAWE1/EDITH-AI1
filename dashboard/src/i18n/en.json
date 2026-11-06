@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "EDITH AI Platform",
+    "title": "TARS AI Platform",
     "subtitle": "Tactical Situational Awareness & Defensive Cybersecurity Platform",
     "status_secure": "Shield Active",
     "online": "Online",
@@ -20,11 +20,39 @@
     "cyber_defense": "CyberVision Defense",
     "host_health": "Host Health & Task Manager",
     "soc_security": "SOC Security Center",
-    "ai_assistant": "AI Assistant (EDITH AI)",
+    "ai_assistant": "AI Assistant (TARS AI)",
     "settings": "Settings"
   },
+  "people": {
+    "title": "Biometric Identity Database",
+    "subtitle": "Manage registered personnel, roles, and facial recognition embeddings",
+    "add_person": "Register New Subject",
+    "edit_person": "Edit Subject",
+    "delete_person": "Delete",
+    "save": "Save Subject",
+    "cancel": "Cancel"
+  },
+  "settings": {
+    "title": "TARS AI Settings",
+    "subtitle": "Language, voice, camera, and TARS personality configuration",
+    "personality_section": "TARS Personality Matrix",
+    "language_section": "Language Settings",
+    "theme_section": "Theme Settings",
+    "voice_section": "Voice & Audio Settings",
+    "camera_section": "Camera Settings",
+    "api_key_section": "Google Gemini API Key",
+    "saved_success": "Settings saved successfully"
+  },
+  "personality": {
+    "humor": "Humor",
+    "honesty": "Honesty",
+    "directness": "Directness",
+    "professionalism": "Professionalism",
+    "save_matrix": "Save Personality Matrix",
+    "reset_default": "Reset Default"
+  },
   "glasses": {
-    "title": "EDITH Smart Glasses Tactical HUD",
+    "title": "TARS Smart Glasses Tactical HUD",
     "subtitle": "AR Heads-Up Display: Target Locks, Biometrics, and Sector Threat Assessment",
     "qr_title": "Pair New Device (iPhone / Smart Glasses)",
     "qr_desc": "Scan this QR code with your phone camera to open the companion client and securely pair:",
@@ -113,20 +141,20 @@
     "integrity_score": "Security Integrity Score",
     "total_audits": "Total Audit Events",
     "explainable_title": "Explainable AI Decision Breakdown",
-    "what": "What EDITH Observed",
+    "what": "What TARS Observed",
     "why": "Reasoning & Factors",
     "action": "Recommended Action",
     "audit_stream": "Live Security Audit Stream"
   },
   "ai": {
-    "title": "EDITH Tactical AI Assistant",
+    "title": "TARS Tactical AI Assistant",
     "subtitle": "Real-time conversational intelligence, emotion detection, and OS execution",
-    "wake_word_active": "Wake Word: «Hey EDITH» Active 🎙️",
+    "wake_word_active": "Wake Word: «Hey TARS» Active 🎙️",
     "wake_word_disabled": "Wake Word: Disabled",
     "sfx_active": "Cyber SFX Active",
     "sfx_muted": "Mute SFX",
     "voice_input_label": "Voice Command:",
-    "speaking": "EDITH is speaking...",
-    "listening": "EDITH is listening..."
+    "speaking": "TARS is speaking...",
+    "listening": "TARS is listening..."
   }
 }

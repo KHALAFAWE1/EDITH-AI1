@@ -77,12 +77,17 @@ def get_current_user(
         if not default_user:
             default_user = User(
                 username="admin",
-                email="admin@edith.ai",
+                email="admin@tars.ai",
                 hashed_password=hash_password("edith2026"),
                 role="admin",
-                full_name="EDITH Supreme Operator"
+                full_name="TARS Mission Commander"
             )
             db.add(default_user)
+            db.commit()
+            db.refresh(default_user)
+        elif default_user.full_name == "EDITH Supreme Operator":
+            default_user.full_name = "TARS Mission Commander"
+            default_user.email = "admin@tars.ai"
             db.commit()
             db.refresh(default_user)
         return default_user

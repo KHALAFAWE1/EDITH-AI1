@@ -74,7 +74,7 @@ export default function Sidebar() {
   return (
     <div className="sidebar">
       <div className="logo">
-        <h2>EDITH AI</h2>
+        <h2>TARS AI</h2>
         <span>{t("app.subtitle")}</span>
       </div>
 
@@ -95,4 +95,3 @@ export default function Sidebar() {
     </div>
   );
 }
-

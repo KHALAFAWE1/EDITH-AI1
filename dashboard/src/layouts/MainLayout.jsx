@@ -9,7 +9,7 @@ function MainLayout({ children }) {
         display: "flex",
         width: "100vw",
         height: "100vh",
-        background: "#050816",
+        background: "#090a0f",
         overflow: "hidden",
         position: "relative"
       }}
@@ -48,4 +48,4 @@ function MainLayout({ children }) {
   );
 }
 
-export default MainLayout;
+export default MainLayout;

@@ -48,7 +48,7 @@ export default function Security() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px", flexWrap: "wrap", gap: "10px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaShieldAlt style={{ color: "#00d4ff" }} /> SOC Security Operations Center
+            <FaShieldAlt style={{ color: "#f59e0b" }} /> SOC Security Operations Center
           </h1>
           <p className="subtitle">Real-time threat monitoring, audit trails, and Explainable AI risk assessment</p>
         </div>
@@ -56,8 +56,8 @@ export default function Security() {
         <button
           onClick={fetchSecurityData}
           style={{
-            background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-            color: "#050816",
+            background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+            color: "#090a0f",
             border: "none",
             borderRadius: "10px",
             padding: "10px 18px",
@@ -75,29 +75,29 @@ export default function Security() {
 
       {/* Top Metrics Bar */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginBottom: "25px" }}>
-        <div style={{ background: "#111827", border: "1px solid rgba(0, 255, 153, 0.3)", padding: "18px", borderRadius: "14px" }}>
-          <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Defense Grid Status</span>
+        <div style={{ background: "#12151e", border: "1px solid rgba(0, 255, 153, 0.3)", padding: "18px", borderRadius: "14px" }}>
+          <span style={{ fontSize: "12px", color: "#9ca3af" }}>Defense Grid Status</span>
           <div style={{ color: "#00ff99", fontWeight: 700, fontSize: "18px", marginTop: "4px", display: "flex", alignItems: "center", gap: "6px" }}>
             <FaCheckCircle /> {summary.status}
           </div>
         </div>
 
-        <div style={{ background: "#111827", border: `1px solid ${summary.threat_level === "NORMAL" ? "rgba(0, 212, 255, 0.3)" : "#ff3b5c"}`, padding: "18px", borderRadius: "14px" }}>
-          <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Perimeter Threat Level</span>
-          <div style={{ color: summary.threat_level === "NORMAL" ? "#00d4ff" : "#ff3b5c", fontWeight: 700, fontSize: "18px", marginTop: "4px" }}>
+        <div style={{ background: "#12151e", border: `1px solid ${summary.threat_level === "NORMAL" ? "rgba(245, 158, 11, 0.3)" : "#ff3b5c"}`, padding: "18px", borderRadius: "14px" }}>
+          <span style={{ fontSize: "12px", color: "#9ca3af" }}>Perimeter Threat Level</span>
+          <div style={{ color: summary.threat_level === "NORMAL" ? "#f59e0b" : "#ff3b5c", fontWeight: 700, fontSize: "18px", marginTop: "4px" }}>
             {summary.threat_level}
           </div>
         </div>
 
-        <div style={{ background: "#111827", border: "1px solid rgba(170, 59, 255, 0.3)", padding: "18px", borderRadius: "14px" }}>
-          <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Security Integrity Score</span>
+        <div style={{ background: "#12151e", border: "1px solid rgba(170, 59, 255, 0.3)", padding: "18px", borderRadius: "14px" }}>
+          <span style={{ fontSize: "12px", color: "#9ca3af" }}>Security Integrity Score</span>
           <div style={{ color: "#aa3bff", fontWeight: 700, fontSize: "18px", marginTop: "4px" }}>
             {summary.security_score} / 100
           </div>
         </div>
 
-        <div style={{ background: "#111827", border: "1px solid rgba(255, 255, 255, 0.1)", padding: "18px", borderRadius: "14px" }}>
-          <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Total Audit Events</span>
+        <div style={{ background: "#12151e", border: "1px solid rgba(255, 255, 255, 0.1)", padding: "18px", borderRadius: "14px" }}>
+          <span style={{ fontSize: "12px", color: "#9ca3af" }}>Total Audit Events</span>
           <div style={{ color: "#fff", fontWeight: 700, fontSize: "18px", marginTop: "4px" }}>
             {summary.total_audit_events}
           </div>
@@ -106,22 +106,22 @@ export default function Security() {
 
       {/* Explainable AI Decision Card */}
       {riskAssessment && (
-        <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(0, 212, 255, 0.3)", padding: "22px", marginBottom: "25px" }}>
-          <h3 style={{ color: "#00d4ff", margin: "0 0 14px 0", display: "flex", alignItems: "center", gap: "8px", fontSize: "16px" }}>
+        <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(245, 158, 11, 0.3)", padding: "22px", marginBottom: "25px" }}>
+          <h3 style={{ color: "#f59e0b", margin: "0 0 14px 0", display: "flex", alignItems: "center", gap: "8px", fontSize: "16px" }}>
             <FaEye /> Explainable AI Decision Breakdown
           </h3>
 
-          <div style={{ background: "#192033", borderRadius: "12px", padding: "16px", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ background: "#1a1e29", borderRadius: "12px", padding: "16px", border: "1px solid rgba(255,255,255,0.06)" }}>
             <div style={{ marginBottom: "12px" }}>
-              <span style={{ fontSize: "11px", color: "#8b9bb4", textTransform: "uppercase", letterSpacing: "1px" }}>WHAT EDITH OBSERVED</span>
+              <span style={{ fontSize: "11px", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1px" }}>WHAT TARS OBSERVED</span>
               <p style={{ color: "#fff", fontWeight: 600, fontSize: "14px", margin: "4px 0 0 0" }}>
                 {riskAssessment.explainable_ai?.what}
               </p>
             </div>
 
             <div style={{ marginBottom: "12px" }}>
-              <span style={{ fontSize: "11px", color: "#8b9bb4", textTransform: "uppercase", letterSpacing: "1px" }}>WHY (REASONING)</span>
-              <ul style={{ color: "#00d4ff", margin: "4px 0 0 0", paddingLeft: "20px", fontSize: "13px" }}>
+              <span style={{ fontSize: "11px", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1px" }}>WHY (REASONING)</span>
+              <ul style={{ color: "#f59e0b", margin: "4px 0 0 0", paddingLeft: "20px", fontSize: "13px" }}>
                 {riskAssessment.explainable_ai?.why?.map((r, i) => (
                   <li key={i} style={{ marginBottom: "2px" }}>{r}</li>
                 ))}
@@ -129,7 +129,7 @@ export default function Security() {
             </div>
 
             <div>
-              <span style={{ fontSize: "11px", color: "#8b9bb4", textTransform: "uppercase", letterSpacing: "1px" }}>RECOMMENDED ACTION</span>
+              <span style={{ fontSize: "11px", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "1px" }}>RECOMMENDED ACTION</span>
               <p style={{ color: "#00ff99", fontWeight: 600, fontSize: "13px", margin: "4px 0 0 0" }}>
                 ⚡ {riskAssessment.explainable_ai?.recommended_action}
               </p>
@@ -139,20 +139,20 @@ export default function Security() {
       )}
 
       {/* Audit Log Stream */}
-      <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "22px" }}>
+      <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "22px" }}>
         <h3 style={{ color: "#fff", margin: "0 0 16px 0", display: "flex", alignItems: "center", gap: "8px", fontSize: "16px" }}>
-          <FaUserShield color="#00d4ff" /> Security Audit Log Stream ({logs.length})
+          <FaUserShield color="#f59e0b" /> Security Audit Log Stream ({logs.length})
         </h3>
 
         {logs.length === 0 ? (
-          <p style={{ color: "#8b9bb4", fontSize: "13px" }}>No audit events recorded yet.</p>
+          <p style={{ color: "#9ca3af", fontSize: "13px" }}>No audit events recorded yet.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {logs.map((log) => (
               <div
                 key={log.id}
                 style={{
-                  background: "#192033",
+                  background: "#1a1e29",
                   borderRadius: "10px",
                   padding: "12px 16px",
                   display: "flex",
@@ -165,10 +165,10 @@ export default function Security() {
               >
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span style={{ color: "#00d4ff", fontWeight: 700, fontSize: "12px" }}>[{log.event_type}]</span>
+                    <span style={{ color: "#f59e0b", fontWeight: 700, fontSize: "12px" }}>[{log.event_type}]</span>
                     <span style={{ color: "#fff", fontSize: "13px" }}>{log.description}</span>
                   </div>
-                  <span style={{ color: "#8b9bb4", fontSize: "11px" }}>
+                  <span style={{ color: "#9ca3af", fontSize: "11px" }}>
                     Actor: {log.actor || "SYSTEM"} | Target: {log.target || "PERIMETER"}
                   </span>
                 </div>

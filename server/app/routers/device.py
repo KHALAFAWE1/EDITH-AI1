@@ -261,12 +261,12 @@ def register_or_update_host(db: Session = Depends(get_db)):
     if not device:
         device = Device(
             device_id="dev_primary_host",
-            device_name=f"Primary EDITH Host ({hostname})",
+            device_name=f"Primary TARS Host ({hostname})",
             device_type="DESKTOP" if "Windows" in os_name else "LAPTOP",
             platform=platform.system(),
             operating_system=os_name,
             browser="FastAPI Server Core",
-            client_version="2.5.0",
+            client_version="3.0.0",
             hostname=hostname,
             username=platform.uname().node,
             ip_address=ip_address,
@@ -420,7 +420,7 @@ def claim_pairing_code(
         "device_type": new_device.device_type,
         "platform": new_device.platform,
         "status": "ENROLLED",
-        "message": "Device successfully enrolled in EDITH Defense Grid."
+        "message": "Device successfully enrolled in TARS Defense Grid."
     }
 
 

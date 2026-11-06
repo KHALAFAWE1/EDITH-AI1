@@ -76,7 +76,7 @@ export default function AI() {
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "مرحباً بك يا فندم! أنا E.D.I.T.H. - المساعد التكتيكي الذكي. تم تزويدي بقدرات التحليل البيومتري، والتعرف على الوجوه، والرؤية الحاسوبية، ومراقبة موارد النظام، والذكاء الاصطناعي الفائق. كيف يمكنني خدمتك اليوم؟"
+      content: "مرحباً بك يا فندم! أنا TARS - المساعد التكتيكي الذكي. تم تزويدي بقدرات التحليل البيومتري، والتعرف على الوجوه، والرؤية الحاسوبية، ومراقبة موارد النظام، والذكاء الاصطناعي الفائق. كيف يمكنني خدمتك اليوم؟"
     }
   ]);
   const [inputPrompt, setInputPrompt] = useState("");
@@ -284,7 +284,7 @@ export default function AI() {
   }, [autoSpeak, speakFemaleVoice, soundEffectsEnabled]);
 
 
-  // Continuous Wake Word Listener ("يا إيديث" / "Hey EDITH")
+  // Continuous Wake Word Listener ("يا إيديث" / "Hey TARS")
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition || !isWakeWordActive || activeTab !== "voice_vision") return;
@@ -302,8 +302,8 @@ export default function AI() {
         const lastResult = event.results[event.results.length - 1];
         const transcript = lastResult[0].transcript.trim().toLowerCase();
 
-        // فحص هل نطق المستخدم كلمة التنبيه (يا إيديث / إيديث / Hey EDITH)
-        const wakeWordMatches = ["يا إيديث", "إيديث", "يا ايديث", "ايديث", "hey edith", "edith"];
+        // فحص هل نطق المستخدم كلمة التنبيه (يا إيديث / إيديث / Hey TARS)
+        const wakeWordMatches = ["يا تارس", "تارس", "يا طارس", "طارس", "hey tars", "tars"];
         const matched = wakeWordMatches.some((w) => transcript.includes(w));
 
         if (matched) {
@@ -458,7 +458,7 @@ export default function AI() {
         ...prev,
         {
           role: "assistant",
-          content: res.data.reply || "EDITH Core generated no response.",
+          content: res.data.reply || "TARS Core generated no response.",
           engine: res.data.engine
         }
       ]);
@@ -523,7 +523,7 @@ export default function AI() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaRobot style={{ color: "#00d4ff" }} /> EDITH Tactical Intelligence Hub
+            <FaRobot style={{ color: "#f59e0b" }} /> TARS Tactical Intelligence Hub
           </h1>
           <p className="subtitle">
             Voice-Activated Multi-Modal Assistant & Biometric Optical AI Engine
@@ -535,8 +535,8 @@ export default function AI() {
           <button
             onClick={() => setIsKeyModalOpen(true)}
             style={{
-              background: isGeminiActive ? "rgba(0, 255, 153, 0.15)" : "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-              color: isGeminiActive ? "#00ff99" : "#050816",
+              background: isGeminiActive ? "rgba(0, 255, 153, 0.15)" : "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+              color: isGeminiActive ? "#00ff99" : "#090a0f",
               border: isGeminiActive ? "1px solid rgba(0, 255, 153, 0.4)" : "none",
               borderRadius: "10px",
               padding: "10px 16px",
@@ -546,19 +546,19 @@ export default function AI() {
               alignItems: "center",
               gap: "8px",
               cursor: "pointer",
-              boxShadow: isGeminiActive ? "none" : "0 4px 15px rgba(0, 212, 255, 0.3)"
+              boxShadow: isGeminiActive ? "none" : "0 4px 15px rgba(245, 158, 11, 0.3)"
             }}
           >
             <FaKey size={13} /> {isGeminiActive ? "Gemini 3.5 Active ⚡" : "Set Gemini API Key 🔑"}
           </button>
 
           {/* Mode Switcher (3 Tabs) */}
-          <div style={{ display: "flex", gap: "6px", background: "#111827", padding: "4px", borderRadius: "12px", border: "1px solid rgba(0, 212, 255, 0.2)" }}>
+          <div style={{ display: "flex", gap: "6px", background: "#12151e", padding: "4px", borderRadius: "12px", border: "1px solid rgba(245, 158, 11, 0.2)" }}>
             <button
               onClick={() => setActiveTab("voice_vision")}
               style={{
-                background: activeTab === "voice_vision" ? "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)" : "transparent",
-                color: activeTab === "voice_vision" ? "#050816" : "#8b9bb4",
+                background: activeTab === "voice_vision" ? "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)" : "transparent",
+                color: activeTab === "voice_vision" ? "#090a0f" : "#9ca3af",
                 border: "none",
                 borderRadius: "8px",
                 padding: "8px 14px",
@@ -575,8 +575,8 @@ export default function AI() {
             <button
               onClick={() => setActiveTab("chat")}
               style={{
-                background: activeTab === "chat" ? "#00d4ff" : "transparent",
-                color: activeTab === "chat" ? "#050816" : "#8b9bb4",
+                background: activeTab === "chat" ? "#f59e0b" : "transparent",
+                color: activeTab === "chat" ? "#090a0f" : "#9ca3af",
                 border: "none",
                 borderRadius: "8px",
                 padding: "8px 14px",
@@ -593,8 +593,8 @@ export default function AI() {
             <button
               onClick={() => setActiveTab("vision")}
               style={{
-                background: activeTab === "vision" ? "#00d4ff" : "transparent",
-                color: activeTab === "vision" ? "#050816" : "#8b9bb4",
+                background: activeTab === "vision" ? "#f59e0b" : "transparent",
+                color: activeTab === "vision" ? "#090a0f" : "#9ca3af",
                 border: "none",
                 borderRadius: "8px",
                 padding: "8px 14px",
@@ -618,9 +618,9 @@ export default function AI() {
           {/* Live Camera + Voice Trigger HUD */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
-              border: "1px solid rgba(0, 212, 255, 0.2)",
+              border: "1px solid rgba(245, 158, 11, 0.2)",
               padding: "clamp(12px, 2vw, 20px)",
               display: "flex",
               flexDirection: "column",
@@ -631,14 +631,14 @@ export default function AI() {
             {/* Top Bar: Camera Selector, Telemetry Quick Status & SFX Toggle */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <FaVideo color="#00d4ff" />
+                <FaVideo color="#f59e0b" />
                 <select
                   value={selectedDeviceId}
                   onChange={(e) => setSelectedDeviceId(e.target.value)}
                   style={{
-                    background: "#192033",
+                    background: "#1a1e29",
                     color: "#fff",
-                    border: "1px solid rgba(0, 212, 255, 0.3)",
+                    border: "1px solid rgba(245, 158, 11, 0.3)",
                     borderRadius: "8px",
                     padding: "6px 10px",
                     fontSize: "12px",
@@ -659,9 +659,9 @@ export default function AI() {
                 <button
                   onClick={() => setIsWakeWordActive(!isWakeWordActive)}
                   style={{
-                    background: isWakeWordActive ? "rgba(0, 212, 255, 0.15)" : "#192033",
-                    border: isWakeWordActive ? "1px solid #00d4ff" : "1px solid rgba(255, 255, 255, 0.1)",
-                    color: isWakeWordActive ? "#00d4ff" : "#8b9bb4",
+                    background: isWakeWordActive ? "rgba(245, 158, 11, 0.15)" : "#1a1e29",
+                    border: isWakeWordActive ? "1px solid #f59e0b" : "1px solid rgba(255, 255, 255, 0.1)",
+                    color: isWakeWordActive ? "#f59e0b" : "#9ca3af",
                     borderRadius: "8px",
                     padding: "5px 10px",
                     fontSize: "11px",
@@ -671,7 +671,7 @@ export default function AI() {
                     alignItems: "center",
                     gap: "6px"
                   }}
-                  title="الاستماع التلقائي في الخلفية لكلمة «يا إيديث»"
+                  title="الاستماع التلقائي في الخلفية لكلمة «يا تارس»"
                 >
                   <FaBroadcastTower /> {isWakeWordActive ? "Wake Word: مفعّل 🎙️" : "Wake Word: معطل"}
                 </button>
@@ -679,9 +679,9 @@ export default function AI() {
                 <button
                   onClick={() => setSoundEffectsEnabled(!soundEffectsEnabled)}
                   style={{
-                    background: soundEffectsEnabled ? "rgba(0, 255, 153, 0.15)" : "#192033",
+                    background: soundEffectsEnabled ? "rgba(0, 255, 153, 0.15)" : "#1a1e29",
                     border: soundEffectsEnabled ? "1px solid #00ff99" : "1px solid rgba(255, 255, 255, 0.1)",
-                    color: soundEffectsEnabled ? "#00ff99" : "#8b9bb4",
+                    color: soundEffectsEnabled ? "#00ff99" : "#9ca3af",
                     borderRadius: "8px",
                     padding: "5px 10px",
                     fontSize: "11px",
@@ -701,10 +701,10 @@ export default function AI() {
             {/* Live System Telemetry HUD Mini-Bar */}
             <div className="telemetry-grid">
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <FaBolt color="#00d4ff" size={13} />
+                <FaBolt color="#f59e0b" size={13} />
                 <div>
-                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>CPU Load</div>
-                  <div style={{ fontSize: "12px", color: telemetry.cpu_percent > 70 ? "#ff3b5c" : "#00d4ff", fontWeight: 700 }}>
+                  <div style={{ fontSize: "10px", color: "#9ca3af", textTransform: "uppercase" }}>CPU Load</div>
+                  <div style={{ fontSize: "12px", color: telemetry.cpu_percent > 70 ? "#ff3b5c" : "#f59e0b", fontWeight: 700 }}>
                     {telemetry.cpu_percent}%
                   </div>
                 </div>
@@ -714,7 +714,7 @@ export default function AI() {
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaMemory color="#00ff99" size={13} />
                 <div>
-                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>RAM Usage</div>
+                  <div style={{ fontSize: "10px", color: "#9ca3af", textTransform: "uppercase" }}>RAM Usage</div>
                   <div style={{ fontSize: "12px", color: "#00ff99", fontWeight: 700 }}>
                     {telemetry.ram_used_gb} / {telemetry.ram_total_gb} GB
                   </div>
@@ -724,7 +724,7 @@ export default function AI() {
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaBatteryFull color="#ffd700" size={13} />
                 <div>
-                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>Power & Battery</div>
+                  <div style={{ fontSize: "10px", color: "#9ca3af", textTransform: "uppercase" }}>Power & Battery</div>
                   <div style={{ fontSize: "12px", color: "#ffd700", fontWeight: 700 }}>
                     {telemetry.battery_percent}% {telemetry.is_charging ? "⚡" : ""}
                   </div>
@@ -734,7 +734,7 @@ export default function AI() {
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <FaHdd color="#b388ff" size={13} />
                 <div>
-                  <div style={{ fontSize: "10px", color: "#8b9bb4", textTransform: "uppercase" }}>Storage Disk</div>
+                  <div style={{ fontSize: "10px", color: "#9ca3af", textTransform: "uppercase" }}>Storage Disk</div>
                   <div style={{ fontSize: "12px", color: "#b388ff", fontWeight: 700 }}>
                     {telemetry.disk_percent}%
                   </div>
@@ -754,7 +754,7 @@ export default function AI() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                border: wakeWordPulsing ? "2px solid #ffd700" : "1px solid rgba(0, 212, 255, 0.2)",
+                border: wakeWordPulsing ? "2px solid #ffd700" : "1px solid rgba(245, 158, 11, 0.2)",
                 boxShadow: wakeWordPulsing ? "0 0 30px rgba(255, 215, 0, 0.6)" : "none",
                 transition: "all 0.3s"
               }}
@@ -773,8 +773,8 @@ export default function AI() {
                   position: "absolute",
                   inset: 0,
                   pointerEvents: "none",
-                  border: "2px solid rgba(0, 212, 255, 0.15)",
-                  background: "radial-gradient(circle, transparent 60%, rgba(0, 212, 255, 0.05) 100%)"
+                  border: "2px solid rgba(245, 158, 11, 0.15)",
+                  background: "radial-gradient(circle, transparent 60%, rgba(245, 158, 11, 0.05) 100%)"
                 }}
               />
 
@@ -785,7 +785,7 @@ export default function AI() {
                     position: "absolute",
                     top: "15px",
                     background: "rgba(255, 215, 0, 0.9)",
-                    color: "#050816",
+                    color: "#090a0f",
                     padding: "8px 18px",
                     borderRadius: "20px",
                     fontWeight: 900,
@@ -796,7 +796,7 @@ export default function AI() {
                     boxShadow: "0 0 20px #ffd700"
                   }}
                 >
-                  <FaBolt /> E.D.I.T.H. WAKE TRIGGER ACTIVATED!
+                  <FaBolt /> TARS WAKE TRIGGER ACTIVATED!
                 </div>
               )}
 
@@ -805,12 +805,12 @@ export default function AI() {
                 <div
                   style={{
                     position: "absolute",
-                    background: "rgba(5, 8, 22, 0.85)",
+                    background: "rgba(9, 10, 15, 0.85)",
                     backdropFilter: "blur(6px)",
                     padding: "12px 24px",
                     borderRadius: "12px",
-                    border: "1px solid #00d4ff",
-                    color: "#00d4ff",
+                    border: "1px solid #f59e0b",
+                    color: "#f59e0b",
                     display: "flex",
                     alignItems: "center",
                     gap: "10px",
@@ -818,13 +818,13 @@ export default function AI() {
                     fontWeight: 700
                   }}
                 >
-                  <FaSpinner className="spin" /> E.D.I.T.H. Analyzing Scene, Telemetry & Biometrics...
+                  <FaSpinner className="spin" /> TARS Analyzing Scene, Telemetry & Biometrics...
                 </div>
               )}
             </div>
 
             {/* Voice Command Orb & Quick Trigger Bar */}
-            <div style={{ background: "#192033", borderRadius: "14px", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div style={{ background: "#1a1e29", borderRadius: "14px", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
                 {/* Voice Orb Button */}
                 <button
@@ -834,9 +834,9 @@ export default function AI() {
                     width: "60px",
                     height: "60px",
                     borderRadius: "50%",
-                    background: isListening ? "radial-gradient(circle, #ff3b5c 0%, #aa0022 100%)" : "radial-gradient(circle, #00d4ff 0%, #0055ff 100%)",
-                    border: isListening ? "3px solid #ff3b5c" : "3px solid #00d4ff",
-                    boxShadow: isListening ? "0 0 25px #ff3b5c" : "0 0 20px rgba(0, 212, 255, 0.5)",
+                    background: isListening ? "radial-gradient(circle, #ff3b5c 0%, #aa0022 100%)" : "radial-gradient(circle, #f59e0b 0%, #b45309 100%)",
+                    border: isListening ? "3px solid #ff3b5c" : "3px solid #f59e0b",
+                    boxShadow: isListening ? "0 0 25px #ff3b5c" : "0 0 20px rgba(245, 158, 11, 0.5)",
                     color: "#fff",
                     display: "flex",
                     alignItems: "center",
@@ -853,15 +853,15 @@ export default function AI() {
 
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "12px", color: isListening ? "#ff3b5c" : "#00d4ff", fontWeight: 700 }}>
-                      {isListening ? "🔴 جاري الاستماع لصوتك الآن (تحدث)..." : (isWakeWordActive ? "🎙️ قل «يا إيديث» في أي وقت أو اضغط على المايك" : "المساعد الصوتي البصري جاهز")}
+                    <span style={{ fontSize: "12px", color: isListening ? "#ff3b5c" : "#f59e0b", fontWeight: 700 }}>
+                      {isListening ? "🔴 جاري الاستماع لصوتك الآن (تحدث)..." : (isWakeWordActive ? "🎙️ قل «يا تارس» في أي وقت أو اضغط على المايك" : "المساعد الصوتي البصري جاهز")}
                     </span>
                     <button
                       onClick={() => setAutoSpeak(!autoSpeak)}
                       style={{
                         background: "none",
                         border: "none",
-                        color: autoSpeak ? "#00ff99" : "#8b9bb4",
+                        color: autoSpeak ? "#00ff99" : "#9ca3af",
                         cursor: "pointer",
                         fontSize: "12px",
                         display: "flex",
@@ -874,7 +874,7 @@ export default function AI() {
                     </button>
                   </div>
                   <p style={{ color: "#fff", fontSize: "13px", margin: "4px 0 0 0", minHeight: "18px" }}>
-                    {speechTranscript || "قل «يا إيديث ما هي حالة النظام؟» أو «يا إيديث إيه اللي قدامي؟»"}
+                    {speechTranscript || "قل «يا تارس ما هي حالة النظام؟» أو «يا تارس إيه اللي قدامي؟»"}
                   </p>
                 </div>
               </div>
@@ -882,7 +882,7 @@ export default function AI() {
               {/* Quick Voice Shortcut Buttons */}
               <div style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "4px", scrollbarWidth: "thin" }}>
                 {[
-                  "يا إيديث، ما هي حالة موارد الجهاز والنظام؟",
+                  "يا تارس، ما هي حالة موارد الجهاز والنظام؟",
                   "إيه اللي قدامي ده وما هي المشاعر الظاهرة؟",
                   "افتح اليوتيوب",
                   "افتح الآلة الحاسبة",
@@ -899,9 +899,9 @@ export default function AI() {
                     disabled={voiceProcessing}
                     style={{
                       background: "rgba(255, 255, 255, 0.05)",
-                      border: "1px solid rgba(0, 212, 255, 0.25)",
+                      border: "1px solid rgba(245, 158, 11, 0.25)",
                       borderRadius: "8px",
-                      color: "#00d4ff",
+                      color: "#f59e0b",
                       padding: "7px 12px",
                       fontSize: "12px",
                       fontWeight: 600,
@@ -914,8 +914,8 @@ export default function AI() {
                       e.currentTarget.style.color = "#00ff99";
                     }}
                     onMouseOut={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(0, 212, 255, 0.25)";
-                      e.currentTarget.style.color = "#00d4ff";
+                      e.currentTarget.style.borderColor = "rgba(245, 158, 11, 0.25)";
+                      e.currentTarget.style.color = "#f59e0b";
                     }}
                   >
                     ⚡ {txt}
@@ -929,7 +929,7 @@ export default function AI() {
           {/* Voice Response & Biometric Profile Output */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
               border: "1px solid rgba(0, 255, 153, 0.25)",
               padding: "24px",
@@ -942,7 +942,7 @@ export default function AI() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h2 style={{ fontSize: "17px", color: "#fff", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-                <FaVolumeUp color="#00ff99" /> رد إيديث الصوتي التفاعلي
+                <FaVolumeUp color="#00ff99" /> رد تارس الصوتي التفاعلي
               </h2>
               {voiceResult?.spoken_text && (
                 <button
@@ -970,8 +970,8 @@ export default function AI() {
             {voiceResult?.client_action && (
               <div
                 style={{
-                  background: "rgba(0, 212, 255, 0.15)",
-                  border: "1px solid #00d4ff",
+                  background: "rgba(245, 158, 11, 0.15)",
+                  border: "1px solid #f59e0b",
                   borderRadius: "10px",
                   padding: "12px 16px",
                   display: "flex",
@@ -979,7 +979,7 @@ export default function AI() {
                   alignItems: "center"
                 }}
               >
-                <div style={{ color: "#00d4ff", fontSize: "13px", fontWeight: 700 }}>
+                <div style={{ color: "#f59e0b", fontSize: "13px", fontWeight: 700 }}>
                   🚀 تم تنفيذ الإجراء التفاعلي: {voiceResult.client_action.type === "call" ? "إجراء اتصال" : "فتح الرابط"}
                 </div>
                 {voiceResult.client_action.url && (
@@ -988,8 +988,8 @@ export default function AI() {
                     target="_blank"
                     rel="noreferrer"
                     style={{
-                      background: "#00d4ff",
-                      color: "#050816",
+                      background: "#f59e0b",
+                      color: "#090a0f",
                       padding: "6px 12px",
                       borderRadius: "6px",
                       fontSize: "12px",
@@ -1021,9 +1021,9 @@ export default function AI() {
 
             {/* Audio Waveform / Talking Indicator */}
             {isSpeaking && (
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#00d4ff", fontSize: "13px", padding: "10px", background: "rgba(0, 212, 255, 0.08)", borderRadius: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", color: "#f59e0b", fontSize: "13px", padding: "10px", background: "rgba(245, 158, 11, 0.08)", borderRadius: "8px" }}>
                 <FaVolumeUp className="pulse" />
-                <span>إيديث تتحدث الآن في مكبرات الصوت...</span>
+                <span>تارس يتحدث الآن في مكبرات الصوت...</span>
               </div>
             )}
 
@@ -1031,7 +1031,7 @@ export default function AI() {
             <div
               style={{
                 flex: 1,
-                background: "#192033",
+                background: "#1a1e29",
                 borderRadius: "14px",
                 border: "1px solid rgba(255, 255, 255, 0.08)",
                 padding: "20px",
@@ -1041,13 +1041,13 @@ export default function AI() {
                 minHeight: "180px"
               }}
             >
-              <div style={{ fontSize: "12px", color: "#8b9bb4", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              <div style={{ fontSize: "12px", color: "#9ca3af", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 التحليل الصوتي التكتيكي
               </div>
 
               {!voiceResult && !voiceProcessing && (
-                <div style={{ textAlign: "center", padding: "40px 0", color: "#8b9bb4" }}>
-                  <FaMicrophone size={38} color="#00d4ff" style={{ marginBottom: "12px" }} />
+                <div style={{ textAlign: "center", padding: "40px 0", color: "#9ca3af" }}>
+                  <FaMicrophone size={38} color="#f59e0b" style={{ marginBottom: "12px" }} />
                   <p style={{ margin: 0, fontSize: "13px" }}>
                     تحدث بصوتك واسأل عن أي شيء، أو اطلب: «افتح اليوتيوب»، «افتح الآلة الحاسبة»، «اتصل على فلان»، «اقفل كذا»!
                   </p>
@@ -1055,7 +1055,7 @@ export default function AI() {
               )}
 
               {voiceProcessing && (
-                <div style={{ textAlign: "center", padding: "40px 0", color: "#00d4ff" }}>
+                <div style={{ textAlign: "center", padding: "40px 0", color: "#f59e0b" }}>
                   <FaSpinner className="spin" size={36} style={{ marginBottom: "12px" }} />
                   <p style={{ margin: 0, fontSize: "13px" }}>جاري معالجة الأمر الصوتي وتنفيذ الإجراء...</p>
                 </div>
@@ -1070,7 +1070,7 @@ export default function AI() {
 
             {/* Prompt Recall */}
             {voiceResult?.prompt && (
-              <div style={{ fontSize: "12px", color: "#8b9bb4", background: "rgba(0,0,0,0.2)", padding: "8px 12px", borderRadius: "6px" }}>
+              <div style={{ fontSize: "12px", color: "#9ca3af", background: "rgba(0,0,0,0.2)", padding: "8px 12px", borderRadius: "6px" }}>
                 <strong>أمرك الصوتي:</strong> "{voiceResult.prompt}"
               </div>
             )}
@@ -1084,9 +1084,9 @@ export default function AI() {
           {/* Main Chat Stream */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
-              border: "1px solid rgba(0, 212, 255, 0.15)",
+              border: "1px solid rgba(245, 158, 11, 0.15)",
               display: "flex",
               flexDirection: "column",
               overflow: "hidden",
@@ -1112,12 +1112,12 @@ export default function AI() {
                         width: "38px",
                         height: "38px",
                         borderRadius: "10px",
-                        background: "rgba(0, 212, 255, 0.15)",
-                        border: "1px solid #00d4ff",
+                        background: "rgba(245, 158, 11, 0.15)",
+                        border: "1px solid #f59e0b",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: "#00d4ff",
+                        color: "#f59e0b",
                         flexShrink: 0
                       }}
                     >
@@ -1127,7 +1127,7 @@ export default function AI() {
 
                   <div
                     style={{
-                      background: msg.role === "user" ? "linear-gradient(135deg, #0077ff 0%, #00d4ff 100%)" : "#192033",
+                      background: msg.role === "user" ? "linear-gradient(135deg, #d97706 0%, #f59e0b 100%)" : "#1a1e29",
                       color: msg.role === "user" ? "#ffffff" : "#f3f4f6",
                       padding: "14px 18px",
                       borderRadius: msg.role === "user" ? "14px 14px 2px 14px" : "14px 14px 14px 2px",
@@ -1139,7 +1139,7 @@ export default function AI() {
                   >
                     {msg.content}
                     {msg.engine && (
-                      <div style={{ marginTop: "8px", fontSize: "11px", color: "#00d4ff", fontFamily: "monospace" }}>
+                      <div style={{ marginTop: "8px", fontSize: "11px", color: "#f59e0b", fontFamily: "monospace" }}>
                         ⚡ {msg.engine}
                       </div>
                     )}
@@ -1151,7 +1151,7 @@ export default function AI() {
                         width: "38px",
                         height: "38px",
                         borderRadius: "10px",
-                        background: "#0077ff",
+                        background: "#d97706",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1166,25 +1166,25 @@ export default function AI() {
               ))}
 
               {chatLoading && (
-                <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "#00d4ff", fontSize: "13px" }}>
-                  <FaSpinner className="spin" /> E.D.I.T.H. is computing tactical response...
+                <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "#f59e0b", fontSize: "13px" }}>
+                  <FaSpinner className="spin" /> TARS is computing tactical response...
                 </div>
               )}
               <div ref={chatEndRef} />
             </div>
 
             {/* Input Bar */}
-            <div style={{ padding: "16px", background: "#0d1222", borderTop: "1px solid rgba(255, 255, 255, 0.06)", display: "flex", gap: "12px" }}>
+            <div style={{ padding: "16px", background: "#0c0e14", borderTop: "1px solid rgba(255, 255, 255, 0.06)", display: "flex", gap: "12px" }}>
               <input
                 type="text"
-                placeholder="تحدث مع إيديث (اطلب تنفيذ أوامر: افتح برنامج، احذف ملف، اسأل عن أي شيء)..."
+                placeholder="تحدث مع تارس (اطلب تنفيذ أوامر: افتح برنامج، احذف ملف، اسأل عن أي شيء)..."
                 value={inputPrompt}
                 onChange={(e) => setInputPrompt(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
                 style={{
                   flex: 1,
-                  background: "#192033",
-                  border: "1px solid rgba(0, 212, 255, 0.2)",
+                  background: "#1a1e29",
+                  border: "1px solid rgba(245, 158, 11, 0.2)",
                   borderRadius: "10px",
                   padding: "12px 16px",
                   color: "#fff",
@@ -1196,8 +1196,8 @@ export default function AI() {
                 onClick={() => handleSendMessage()}
                 disabled={chatLoading || !inputPrompt.trim()}
                 style={{
-                  background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                  color: "#050816",
+                  background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                  color: "#090a0f",
                   border: "none",
                   borderRadius: "10px",
                   padding: "0 22px",
@@ -1215,18 +1215,18 @@ export default function AI() {
 
           {/* Quick Prompts & AI Telemetry Sidebar */}
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(0, 212, 255, 0.15)", padding: "18px" }}>
+            <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(245, 158, 11, 0.15)", padding: "18px" }}>
               <h3 style={{ fontSize: "14px", color: "#fff", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
-                <FaBolt color="#00d4ff" /> Active Intelligence Engine
+                <FaBolt color="#f59e0b" /> Active Intelligence Engine
               </h3>
-              <div style={{ fontSize: "13px", color: "#8b9bb4", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <div style={{ fontSize: "13px", color: "#9ca3af", display: "flex", flexDirection: "column", gap: "8px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span>Engine:</span>
                   <strong style={{ color: "#00ff99" }}>Google Gemini 3.5 Flash</strong>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span>System Control:</span>
-                  <strong style={{ color: "#00d4ff" }}>Enabled (Live OS Execution)</strong>
+                  <strong style={{ color: "#f59e0b" }}>Enabled (Live OS Execution)</strong>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <span>Status:</span>
@@ -1235,22 +1235,22 @@ export default function AI() {
               </div>
             </div>
 
-            <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "18px", flex: 1 }}>
-              <h3 style={{ fontSize: "14px", color: "#8b9bb4", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)", padding: "18px", flex: 1 }}>
+              <h3 style={{ fontSize: "14px", color: "#9ca3af", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 Tactical Shortcuts
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {[
-                  "افتحي لي الآلة الحاسبة يا إيديث",
-                  "أغلقي برنامج الآلة الحاسبة",
-                  "ما هي وظائف نظام EDITH-AI بالكامل؟",
+                  "افتح لي الآلة الحاسبة يا تارس",
+                  "أغلق برنامج الآلة الحاسبة",
+                  "ما هي وظائف نظام TARS AI بالكامل؟",
                   "كيف نقوم بحماية قواعد بيانات بصمات الوجوه من الاختراق؟"
                 ].map((promptText, idx) => (
                   <button
                     key={idx}
                     onClick={() => handleSendMessage(promptText)}
                     style={{
-                      background: "#192033",
+                      background: "#1a1e29",
                       border: "1px solid rgba(255,255,255,0.06)",
                       color: "#f3f4f6",
                       padding: "10px 12px",
@@ -1260,10 +1260,10 @@ export default function AI() {
                       cursor: "pointer",
                       transition: "all 0.2s"
                     }}
-                    onMouseOver={(e) => (e.currentTarget.style.borderColor = "#00d4ff")}
+                    onMouseOver={(e) => (e.currentTarget.style.borderColor = "#f59e0b")}
                     onMouseOut={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)")}
                   >
-                    <FaLightbulb color="#00d4ff" style={{ marginRight: "6px" }} />
+                    <FaLightbulb color="#f59e0b" style={{ marginRight: "6px" }} />
                     {promptText}
                   </button>
                 ))}
@@ -1279,9 +1279,9 @@ export default function AI() {
           {/* Visual Input Panel */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
-              border: "1px solid rgba(0, 212, 255, 0.15)",
+              border: "1px solid rgba(245, 158, 11, 0.15)",
               padding: "24px",
               display: "flex",
               flexDirection: "column",
@@ -1290,7 +1290,7 @@ export default function AI() {
           >
 
             <h2 style={{ fontSize: "18px", color: "#fff", margin: 0, display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaEye color="#00d4ff" /> Visual Scene Input
+              <FaEye color="#f59e0b" /> Visual Scene Input
             </h2>
 
             {/* Upload Area */}
@@ -1298,9 +1298,9 @@ export default function AI() {
               style={{
                 flex: 1,
                 minHeight: "260px",
-                background: "#192033",
+                background: "#1a1e29",
                 borderRadius: "12px",
-                border: "2px dashed rgba(0, 212, 255, 0.3)",
+                border: "2px dashed rgba(245, 158, 11, 0.3)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -1317,9 +1317,9 @@ export default function AI() {
                 />
               ) : (
                 <label htmlFor="vision-file-input" style={{ cursor: "pointer", textAlign: "center", padding: "20px" }}>
-                  <FaCamera size={44} color="#00d4ff" style={{ marginBottom: "12px" }} />
+                  <FaCamera size={44} color="#f59e0b" style={{ marginBottom: "12px" }} />
                   <h4 style={{ color: "#fff", marginBottom: "4px" }}>Click to Select Scene Image</h4>
-                  <p style={{ color: "#8b9bb4", fontSize: "12px" }}>Upload any photo or diagram for instant Gemini Vision analysis</p>
+                  <p style={{ color: "#9ca3af", fontSize: "12px" }}>Upload any photo or diagram for instant Gemini Vision analysis</p>
                 </label>
               )}
               <input
@@ -1333,7 +1333,7 @@ export default function AI() {
 
             {/* Prompt input */}
             <div>
-              <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "6px" }}>
+              <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "6px" }}>
                 Analysis Instruction / Prompt
               </label>
               <div style={{ display: "flex", gap: "10px" }}>
@@ -1344,7 +1344,7 @@ export default function AI() {
                   placeholder="e.g. Describe everything in detail, solve this math problem, transcribe text..."
                   style={{
                     flex: 1,
-                    background: "#192033",
+                    background: "#1a1e29",
                     border: "1px solid rgba(255,255,255,0.1)",
                     borderRadius: "8px",
                     padding: "10px 14px",
@@ -1357,8 +1357,8 @@ export default function AI() {
                   onClick={handleAnalyzeVision}
                   disabled={visionLoading || !selectedVisionImage}
                   style={{
-                    background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                    color: "#050816",
+                    background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                    color: "#090a0f",
                     fontWeight: 700,
                     border: "none",
                     borderRadius: "8px",
@@ -1380,7 +1380,7 @@ export default function AI() {
           {/* Analysis Report Output */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
               border: "1px solid rgba(0, 255, 153, 0.2)",
               padding: "24px",
@@ -1395,17 +1395,17 @@ export default function AI() {
             </h2>
 
             {!visionResult && !visionLoading && (
-              <div style={{ textAlign: "center", padding: "60px 0", color: "#8b9bb4" }}>
-                <FaInfoCircle size={36} color="#00d4ff" style={{ marginBottom: "12px" }} />
+              <div style={{ textAlign: "center", padding: "60px 0", color: "#9ca3af" }}>
+                <FaInfoCircle size={36} color="#f59e0b" style={{ marginBottom: "12px" }} />
                 <p>Select a scene image and click "Analyze Scene" to generate neural descriptions.</p>
               </div>
             )}
 
             {visionLoading && (
-              <div style={{ textAlign: "center", padding: "60px 0", color: "#00d4ff" }}>
+              <div style={{ textAlign: "center", padding: "60px 0", color: "#f59e0b" }}>
                 <FaSpinner className="spin" size={36} style={{ marginBottom: "14px" }} />
                 <h4>Analyzing Image with Google Gemini 3.5 Flash...</h4>
-                <p style={{ fontSize: "12px", color: "#8b9bb4", marginTop: "6px" }}>Performing deep multi-modal scene understanding</p>
+                <p style={{ fontSize: "12px", color: "#9ca3af", marginTop: "6px" }}>Performing deep multi-modal scene understanding</p>
               </div>
             )}
 
@@ -1415,14 +1415,14 @@ export default function AI() {
                   <span className={`badge ${visionResult.success ? "badge-green" : "badge-red"}`}>
                     {visionResult.success ? "ANALYSIS COMPLETE" : "PROCESS FAILED"}
                   </span>
-                  <span style={{ color: "#8b9bb4", fontSize: "12px", fontFamily: "monospace" }}>
+                  <span style={{ color: "#9ca3af", fontSize: "12px", fontFamily: "monospace" }}>
                     Engine: {visionResult.engine || "Gemini 3.5"}
                   </span>
                 </div>
 
                 <div
                   style={{
-                    background: "#192033",
+                    background: "#1a1e29",
                     padding: "16px",
                     borderRadius: "12px",
                     border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -1435,7 +1435,7 @@ export default function AI() {
                   {visionResult.description || visionResult.message}
                 </div>
 
-                <div style={{ background: "rgba(0, 212, 255, 0.05)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid #00d4ff", fontSize: "12px", color: "#8b9bb4" }}>
+                <div style={{ background: "rgba(245, 158, 11, 0.05)", padding: "12px", borderRadius: "8px", borderLeft: "3px solid #f59e0b", fontSize: "12px", color: "#9ca3af" }}>
                   <strong>Prompt Used:</strong> "{visionPrompt}"
                 </div>
               </div>
@@ -1464,9 +1464,9 @@ export default function AI() {
         >
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "20px",
-              border: "1px solid rgba(0, 212, 255, 0.3)",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
               width: "100%",
               maxWidth: "520px",
               padding: "28px",
@@ -1480,15 +1480,15 @@ export default function AI() {
               </h2>
               <button
                 onClick={() => setIsKeyModalOpen(false)}
-                style={{ background: "none", border: "none", color: "#8b9bb4", fontSize: "18px", cursor: "pointer" }}
+                style={{ background: "none", border: "none", color: "#9ca3af", fontSize: "18px", cursor: "pointer" }}
               >
                 <FaTimes />
               </button>
             </div>
 
-            <p style={{ color: "#8b9bb4", fontSize: "13px", lineHeight: "1.6", marginBottom: "16px" }}>
+            <p style={{ color: "#9ca3af", fontSize: "13px", lineHeight: "1.6", marginBottom: "16px" }}>
               احصل على مفتاح مجاني 100% من موقع{" "}
-              <a href="https://aistudio.google.com/" target="_blank" rel="noreferrer" style={{ color: "#00d4ff", textDecoration: "underline" }}>
+              <a href="https://aistudio.google.com/" target="_blank" rel="noreferrer" style={{ color: "#f59e0b", textDecoration: "underline" }}>
                 Google AI Studio
               </a>{" "}
               والصقه هنا لتفعيل أذكى محرك ذكاء اصطناعي فائق السرعة وبدون أي استهلاك لمعالج أو رامات جهازك!
@@ -1512,7 +1512,7 @@ export default function AI() {
 
             <form onSubmit={handleSaveKey} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div>
-                <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "6px" }}>
+                <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "6px" }}>
                   Gemini API Key (AIzaSy...)
                 </label>
                 <input
@@ -1524,8 +1524,8 @@ export default function AI() {
                   style={{
                     width: "100%",
                     padding: "12px",
-                    background: "#192033",
-                    border: "1px solid rgba(0, 212, 255, 0.3)",
+                    background: "#1a1e29",
+                    border: "1px solid rgba(245, 158, 11, 0.3)",
                     borderRadius: "8px",
                     color: "#fff",
                     outline: "none",
@@ -1538,7 +1538,7 @@ export default function AI() {
                 <button
                   type="button"
                   onClick={() => setIsKeyModalOpen(false)}
-                  style={{ background: "#192033", color: "#8b9bb4", border: "none", padding: "10px 18px", borderRadius: "8px", cursor: "pointer" }}
+                  style={{ background: "#1a1e29", color: "#9ca3af", border: "none", padding: "10px 18px", borderRadius: "8px", cursor: "pointer" }}
                 >
                   Cancel
                 </button>
@@ -1547,7 +1547,7 @@ export default function AI() {
                   disabled={savingKey || !apiKeyInput.trim()}
                   style={{
                     background: "linear-gradient(135deg, #00ff99 0%, #00aa66 100%)",
-                    color: "#050816",
+                    color: "#090a0f",
                     fontWeight: 700,
                     border: "none",
                     padding: "10px 22px",
@@ -1570,4 +1570,4 @@ export default function AI() {
   );
 }
 
-
+

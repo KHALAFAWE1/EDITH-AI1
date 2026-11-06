@@ -5,7 +5,7 @@ export default function PersonCard({ person, onDelete }) {
     switch ((type || "").toLowerCase()) {
       case "teacher":
       case "professor":
-        return <FaChalkboardTeacher style={{ color: "#00d4ff" }} />;
+        return <FaChalkboardTeacher style={{ color: "#f59e0b" }} />;
       case "security":
       case "admin":
         return <FaUserShield style={{ color: "#ff3b5c" }} />;
@@ -33,9 +33,9 @@ export default function PersonCard({ person, onDelete }) {
   return (
     <div
       style={{
-        background: "#111827",
+        background: "#12151e",
         borderRadius: "16px",
-        border: "1px solid rgba(0, 212, 255, 0.15)",
+        border: "1px solid rgba(245, 158, 11, 0.18)",
         padding: "20px",
         display: "flex",
         flexDirection: "column",
@@ -54,8 +54,8 @@ export default function PersonCard({ person, onDelete }) {
                 width: "56px",
                 height: "56px",
                 borderRadius: "12px",
-                background: "#192033",
-                border: "2px solid rgba(0, 212, 255, 0.3)",
+                background: "#1a1e29",
+                border: "2px solid rgba(245, 158, 11, 0.35)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -119,28 +119,28 @@ export default function PersonCard({ person, onDelete }) {
         </div>
 
         {/* Info Grid */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#8b9bb4", marginTop: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "13px", color: "#9ca3af", marginTop: "12px" }}>
           {person.department && (
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaBuilding color="#00d4ff" size={13} />
+              <FaBuilding color="#f59e0b" size={13} />
               <span style={{ color: "#fff" }}>{person.department}</span>
             </div>
           )}
           {person.position && (
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaBriefcase color="#00d4ff" size={13} />
+              <FaBriefcase color="#f59e0b" size={13} />
               <span>{person.position}</span>
             </div>
           )}
           {person.email && (
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaEnvelope color="#00d4ff" size={13} />
+              <FaEnvelope color="#f59e0b" size={13} />
               <span>{person.email}</span>
             </div>
           )}
           {person.phone && (
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaPhone color="#00d4ff" size={13} />
+              <FaPhone color="#f59e0b" size={13} />
               <span>{person.phone}</span>
             </div>
           )}
@@ -157,10 +157,10 @@ export default function PersonCard({ person, onDelete }) {
           justifyContent: "space-between",
           alignItems: "center",
           fontSize: "12px",
-          color: "#8b9bb4"
+          color: "#9ca3af"
         }}
       >
-        <span style={{ display: "flex", alignItems: "center", gap: "5px", color: "#00d4ff", fontFamily: "monospace" }}>
+        <span style={{ display: "flex", alignItems: "center", gap: "5px", color: "#f59e0b", fontFamily: "monospace" }}>
           <FaFingerprint size={14} /> {person.embeddings_count || 1} Embedded Ref(s)
         </span>
         <span>ID #{person.id}</span>

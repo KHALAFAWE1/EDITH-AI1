@@ -136,7 +136,7 @@ export default function Cameras() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px", flexWrap: "wrap", gap: "10px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaCamera style={{ color: "#00d4ff" }} /> {t("cameras.title")}
+            <FaCamera style={{ color: "#f59e0b" }} /> {t("cameras.title")}
           </h1>
           <p className="subtitle">{t("cameras.subtitle")}</p>
         </div>
@@ -145,9 +145,9 @@ export default function Cameras() {
           <button
             onClick={fetchCameras}
             style={{
-              background: "#192033",
-              color: "#00d4ff",
-              border: "1px solid rgba(0, 212, 255, 0.3)",
+              background: "#1a1e29",
+              color: "#f59e0b",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
               borderRadius: "10px",
               padding: "10px 16px",
               fontWeight: 700,
@@ -164,8 +164,8 @@ export default function Cameras() {
           <button
             onClick={() => setShowAddModal(true)}
             style={{
-              background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-              color: "#050816",
+              background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+              color: "#090a0f",
               border: "none",
               borderRadius: "10px",
               padding: "10px 18px",
@@ -185,7 +185,7 @@ export default function Cameras() {
       {/* Main Viewport & List Grid */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "20px" }}>
         {/* Live Active Stream Box */}
-        <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(0, 212, 255, 0.2)", padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
+        <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(245, 158, 11, 0.2)", padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <h3 style={{ color: "#fff", margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
               <FaVideo color="#00ff99" /> {selectedCam?.name || "Active Optical Stream"}
@@ -193,23 +193,23 @@ export default function Cameras() {
             <span className="badge badge-green">{selectedCam?.status || "Online"}</span>
           </div>
 
-          <div style={{ position: "relative", width: "100%", height: "360px", background: "#050816", borderRadius: "12px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div style={{ position: "relative", width: "100%", height: "360px", background: "#090a0f", borderRadius: "12px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
             <video ref={videoRef} autoPlay playsInline muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            <div style={{ position: "absolute", bottom: "12px", left: "12px", background: "rgba(5, 8, 22, 0.8)", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", color: "#00d4ff", fontFamily: "monospace" }}>
+            <div style={{ position: "absolute", bottom: "12px", left: "12px", background: "rgba(9, 10, 15, 0.8)", padding: "4px 10px", borderRadius: "6px", fontSize: "11px", color: "#f59e0b", fontFamily: "monospace" }}>
               {selectedCam?.resolution || "1280x720"} @ {selectedCam?.fps || 30} FPS
             </div>
           </div>
         </div>
 
         {/* Camera Devices List */}
-        <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <h3 style={{ color: "#fff", margin: 0, fontSize: "16px" }}>
             {t("cameras.detected_cameras")} ({cameras.length})
           </h3>
 
           {cameras.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "40px 20px", color: "#8b9bb4" }}>
-              <FaCamera size={36} color="#00d4ff" style={{ marginBottom: "10px" }} />
+            <div style={{ textAlign: "center", padding: "40px 20px", color: "#9ca3af" }}>
+              <FaCamera size={36} color="#f59e0b" style={{ marginBottom: "10px" }} />
               <p>{t("cameras.no_cameras")}</p>
             </div>
           ) : (
@@ -218,8 +218,8 @@ export default function Cameras() {
                 key={cam.id}
                 onClick={() => setSelectedCam(cam)}
                 style={{
-                  background: selectedCam?.id === cam.id ? "rgba(0, 212, 255, 0.15)" : "#192033",
-                  border: selectedCam?.id === cam.id ? "1px solid #00d4ff" : "1px solid rgba(255,255,255,0.06)",
+                  background: selectedCam?.id === cam.id ? "rgba(245, 158, 11, 0.15)" : "#1a1e29",
+                  border: selectedCam?.id === cam.id ? "1px solid #f59e0b" : "1px solid rgba(255,255,255,0.06)",
                   borderRadius: "12px",
                   padding: "14px 16px",
                   cursor: "pointer",
@@ -230,8 +230,8 @@ export default function Cameras() {
               >
                 <div>
                   <h4 style={{ color: "#fff", margin: "0 0 4px 0", fontSize: "14px" }}>{cam.name}</h4>
-                  <div style={{ fontSize: "12px", color: "#8b9bb4" }}>
-                    Type: <strong style={{ color: "#00d4ff" }}>{cam.type}</strong> | {cam.resolution}
+                  <div style={{ fontSize: "12px", color: "#9ca3af" }}>
+                    Type: <strong style={{ color: "#f59e0b" }}>{cam.type}</strong> | {cam.resolution}
                   </div>
                 </div>
 
@@ -258,28 +258,28 @@ export default function Cameras() {
       {/* Add Network Camera Modal */}
       {showAddModal && (
         <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", background: "rgba(0,0,0,0.8)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: "20px" }}>
-          <div style={{ background: "#111827", border: "1px solid rgba(0,212,255,0.3)", borderRadius: "16px", padding: "24px", maxWidth: "500px", width: "100%" }}>
+          <div style={{ background: "#12151e", border: "1px solid rgba(245,158,11,0.3)", borderRadius: "16px", padding: "24px", maxWidth: "500px", width: "100%" }}>
             <h3 style={{ color: "#fff", marginTop: 0, marginBottom: "16px" }}>{t("cameras.add_camera")}</h3>
             
             <form onSubmit={handleAddCamera} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
               <div>
-                <label style={{ fontSize: "12px", color: "#8b9bb4", display: "block", marginBottom: "4px" }}>Camera Label Name</label>
+                <label style={{ fontSize: "12px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Camera Label Name</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Sector B Hallway Camera"
                   value={camForm.name}
                   onChange={(e) => setCamForm({ ...camForm, name: e.target.value })}
-                  style={{ width: "100%", padding: "10px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                  style={{ width: "100%", padding: "10px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                 />
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", color: "#8b9bb4", display: "block", marginBottom: "4px" }}>Stream Type</label>
+                <label style={{ fontSize: "12px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Stream Type</label>
                 <select
                   value={camForm.camera_type}
                   onChange={(e) => setCamForm({ ...camForm, camera_type: e.target.value })}
-                  style={{ width: "100%", padding: "10px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                  style={{ width: "100%", padding: "10px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                 >
                   <option value="RTSP_STREAM">RTSP Video Stream (e.g. rtsp://192.168.1.50:554/live)</option>
                   <option value="HTTP_MJPEG">HTTP / MJPEG Video Endpoint</option>
@@ -288,14 +288,14 @@ export default function Cameras() {
               </div>
 
               <div>
-                <label style={{ fontSize: "12px", color: "#8b9bb4", display: "block", marginBottom: "4px" }}>Stream URL</label>
+                <label style={{ fontSize: "12px", color: "#9ca3af", display: "block", marginBottom: "4px" }}>Stream URL</label>
                 <input
                   type="text"
                   required
                   placeholder="rtsp://admin:password@192.168.1.100:554/stream1"
                   value={camForm.source_url}
                   onChange={(e) => setCamForm({ ...camForm, source_url: e.target.value })}
-                  style={{ width: "100%", padding: "10px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                  style={{ width: "100%", padding: "10px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                 />
               </div>
 
@@ -304,7 +304,7 @@ export default function Cameras() {
                   type="button"
                   onClick={handleTestConnection}
                   disabled={testingConnection}
-                  style={{ background: "#192033", color: "#00d4ff", border: "1px solid #00d4ff", padding: "8px 14px", borderRadius: "8px", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}
+                  style={{ background: "#1a1e29", color: "#f59e0b", border: "1px solid #f59e0b", padding: "8px 14px", borderRadius: "8px", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}
                 >
                   {testingConnection ? "Verifying Stream..." : t("cameras.test_connection")}
                 </button>
@@ -317,10 +317,10 @@ export default function Cameras() {
               )}
 
               <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "10px" }}>
-                <button type="button" onClick={() => setShowAddModal(false)} style={{ background: "#192033", color: "#8b9bb4", border: "none", padding: "10px 16px", borderRadius: "8px", cursor: "pointer" }}>
+                <button type="button" onClick={() => setShowAddModal(false)} style={{ background: "#1a1e29", color: "#9ca3af", border: "none", padding: "10px 16px", borderRadius: "8px", cursor: "pointer" }}>
                   Cancel
                 </button>
-                <button type="submit" style={{ background: "linear-gradient(135deg, #00d4ff, #0077ff)", color: "#050816", border: "none", padding: "10px 20px", borderRadius: "8px", fontWeight: 700, cursor: "pointer" }}>
+                <button type="submit" style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#090a0f", border: "none", padding: "10px 20px", borderRadius: "8px", fontWeight: 700, cursor: "pointer" }}>
                   Save Camera
                 </button>
               </div>

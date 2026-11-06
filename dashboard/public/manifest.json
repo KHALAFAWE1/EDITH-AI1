@@ -1,6 +1,6 @@
-﻿{
-  "short_name": "EDITH AI",
-  "name": "EDITH AI - Tactical Multi-Modal Assistant",
+{
+  "short_name": "TARS AI",
+  "name": "TARS AI - Tactical Multi-Modal Assistant",
   "description": "Tactical AI Assistant with Voice Vision, Face Recognition & System Control",
   "icons": [
     {
@@ -11,8 +11,8 @@
     }
   ],
   "start_url": "/",
-  "background_color": "#050816",
-  "theme_color": "#00d4ff",
+  "background_color": "#090a0f",
+  "theme_color": "#f59e0b",
   "display": "standalone",
   "orientation": "portrait-primary"
 }

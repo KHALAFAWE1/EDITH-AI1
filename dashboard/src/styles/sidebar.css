@@ -1,5 +1,5 @@
 /* ========================================================= */
-/* 🛡️ EDITH-AI TACTICAL SIDEBAR & NAVIGATION TABS            */
+/* 🛡️ TARS AI TACTICAL SIDEBAR & NAVIGATION TABS             */
 /* ========================================================= */
 
 .sidebar {
@@ -10,10 +10,10 @@
     flex-direction: column;
     justify-content: flex-start;
     padding: 24px 14px 16px 16px;
-    background: rgba(7, 12, 25, 0.96);
+    background: rgba(12, 14, 20, 0.96);
     backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(0, 255, 255, 0.15);
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.08);
+    border-right: 1px solid rgba(245, 158, 11, 0.18);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.45);
     transition: all 0.3s ease;
     flex-shrink: 0;
     z-index: 100;
@@ -23,7 +23,7 @@
 
 [dir="rtl"] .sidebar {
     border-right: none;
-    border-left: 1px solid rgba(0, 255, 255, 0.15);
+    border-left: 1px solid rgba(245, 158, 11, 0.18);
     padding: 24px 16px 16px 14px;
 }
 
@@ -44,11 +44,11 @@
     margin: 0;
     font-weight: 800;
     letter-spacing: 1px;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
 }
 
 .logo span {
-    color: #00d4ff;
+    color: #f59e0b;
     font-size: 11px;
     display: block;
     letter-spacing: 0.5px;
@@ -70,29 +70,29 @@
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    scrollbar-color: rgba(0, 212, 255, 0.35) rgba(5, 8, 22, 0.6);
+    scrollbar-color: rgba(245, 158, 11, 0.35) rgba(9, 10, 15, 0.6);
 }
 
-/* Custom Cyberpunk Sleek Scrollbar for Tabs List */
+/* Custom Sleek Scrollbar for Tabs List */
 .menu::-webkit-scrollbar {
     width: 5px;
 }
 
 .menu::-webkit-scrollbar-track {
-    background: rgba(5, 8, 22, 0.6);
+    background: rgba(9, 10, 15, 0.6);
     border-radius: 4px;
 }
 
 .menu::-webkit-scrollbar-thumb {
-    background: rgba(0, 212, 255, 0.3);
+    background: rgba(245, 158, 11, 0.3);
     border-radius: 4px;
-    border: 1px solid rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.15);
     transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .menu::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 212, 255, 0.7);
-    box-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+    background: rgba(245, 158, 11, 0.7);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
 }
 
 /* ========================================================= */
@@ -103,7 +103,7 @@
     align-items: center;
     gap: 12px;
     text-decoration: none;
-    color: #d8e3ff;
+    color: #e5e7eb;
     padding: 11px 14px;
     border-radius: 12px;
     transition: all 0.25s ease;
@@ -128,10 +128,10 @@
 
 .menu-item:hover {
     transform: translateX(4px);
-    background: #10203f;
-    color: #00d4ff;
-    border-color: rgba(0, 212, 255, 0.25);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    background: #1a1e29;
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.3);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
 }
 
 [dir="rtl"] .menu-item:hover {
@@ -139,10 +139,10 @@
 }
 
 .menu-item.active {
-    background: linear-gradient(90deg, #00bfff, #005eff);
-    color: #ffffff;
-    border-color: rgba(0, 212, 255, 0.5);
-    box-shadow: 0 0 20px rgba(0, 174, 255, 0.4);
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+    color: #090a0f;
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
 }
 
 /* ========================================================= */
@@ -161,10 +161,10 @@
         align-items: center;
         justify-content: flex-start;
         padding: 6px 8px;
-        background: rgba(13, 18, 34, 0.98);
+        background: rgba(12, 14, 20, 0.98);
         border-right: none;
         border-left: none;
-        border-top: 1px solid rgba(0, 212, 255, 0.3);
+        border-top: 1px solid rgba(245, 158, 11, 0.3);
         box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.7);
         backdrop-filter: blur(25px);
         z-index: 9999;
@@ -173,7 +173,7 @@
 
     [dir="rtl"] .sidebar {
         border-left: none;
-        border-top: 1px solid rgba(0, 212, 255, 0.3);
+        border-top: 1px solid rgba(245, 158, 11, 0.3);
         padding: 6px 8px;
     }
 
@@ -228,4 +228,4 @@
     .menu-item svg {
         font-size: 16px;
     }
-}
+}

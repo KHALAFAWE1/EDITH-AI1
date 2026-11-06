@@ -1,15 +1,15 @@
 :root {
-  --bg-primary: #050816;
-  --bg-secondary: #0d1222;
-  --bg-card: #111827;
-  --bg-card-hover: #192033;
-  --border-color: rgba(0, 212, 255, 0.15);
-  --border-active: #00d4ff;
-  --accent-cyan: #00d4ff;
+  --bg-primary: #090a0f;
+  --bg-secondary: #12151e;
+  --bg-card: #12151e;
+  --bg-card-hover: #1a1e29;
+  --border-color: rgba(245, 158, 11, 0.18);
+  --border-active: #f59e0b;
+  --accent-cyan: #f59e0b;
   --accent-green: #00ff99;
   --accent-red: #ff3b5c;
   --text-main: #f3f4f6;
-  --text-muted: #8b9bb4;
+  --text-muted: #9ca3af;
   --font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Consolas', 'Courier New', monospace;
 
@@ -54,12 +54,12 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 212, 255, 0.2);
+  background: rgba(245, 158, 11, 0.25);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 212, 255, 0.5);
+  background: rgba(245, 158, 11, 0.55);
 }
 
 /* Cyber Dashboard Utilities */
@@ -109,7 +109,7 @@ html, body {
   justify-content: center;
   align-items: center;
   color: var(--accent-cyan);
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   overflow: hidden;
 }
 
@@ -137,9 +137,9 @@ html, body {
 }
 
 .badge-cyan {
-  background: rgba(0, 212, 255, 0.15);
+  background: rgba(245, 158, 11, 0.15);
   color: var(--accent-cyan);
-  border: 1px solid rgba(0, 212, 255, 0.4);
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
 
 .badge-green {
@@ -182,10 +182,10 @@ html, body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
-  background: #0d1222;
+  background: #0c0e14;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(0, 212, 255, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.18);
 }
 
 @media (max-width: 992px) {

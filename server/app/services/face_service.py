@@ -2,13 +2,13 @@ import cv2
 import insightface
 from typing import List, Optional, Dict, Any
 
-# تهيئة محرك InsightFace مع تحميل النماذج الضرورية فقط لتسريع الأداء 17 ضعفاً
+# تهيئة محرك InsightFace (ArcFace 512D) مع تحميل نماذج الكشف والتعرف
 face_app = insightface.app.FaceAnalysis(
     name="buffalo_l",
     allowed_modules=["detection", "recognition"]
 )
 
-# استخدام المعالج (CPU) وتحديد حجم فحص خفيف وسريع جداً
+# استخدام المعالج (CPU) وتحديد حجم فحص متسق للتسجيل والمطابقة
 face_app.prepare(
     ctx_id=-1,
     det_size=(320, 320)
@@ -16,7 +16,7 @@ face_app.prepare(
 
 
 def get_face_embedding(image_path: str) -> Optional[Dict[str, Any]]:
-    """استخراج بصمة وبيانات أول وجه يظهر في الصورة (متوافق مع الاستخدامات السابقة)"""
+    """استخراج بصمة وبيانات الوجه الرئيسي (الأكبر مساحة) في الصورة"""
     faces = get_all_faces(image_path)
     if not faces:
         return None
@@ -24,7 +24,7 @@ def get_face_embedding(image_path: str) -> Optional[Dict[str, Any]]:
 
 
 def get_all_faces(image_path: str) -> List[Dict[str, Any]]:
-    """استخراج جميع الوجوه الظاهرة في الصورة مع إحداثياتها وخصائصها"""
+    """استخراج جميع الوجوه الظاهرة في الصورة مع إحداثياتها وخصائصها مرتبة حسب المساحة"""
     image = cv2.imread(image_path)
 
     if image is None:
@@ -38,12 +38,11 @@ def get_all_faces(image_path: str) -> List[Dict[str, Any]]:
     detected_faces = []
     for face in faces:
         x1, y1, x2, y2 = face.bbox.astype(int)
-        
+
         # حماية ضد الإحداثيات السالبة
         x1, y1 = max(0, x1), max(0, y1)
         x2, y2 = max(0, x2), max(0, y2)
 
-        # استخراج الخصائص بأمان حتى عند عدم تحميل نموذج genderage
         raw_gender = getattr(face, "gender", None)
         gender = ("Male" if raw_gender == 1 else "Female") if raw_gender is not None else "Unknown"
 
@@ -51,7 +50,7 @@ def get_all_faces(image_path: str) -> List[Dict[str, Any]]:
         age = int(raw_age) if raw_age is not None else None
 
         raw_score = getattr(face, "det_score", None)
-        det_score = float(raw_score) if raw_score is not None else 0.99
+        det_score = float(raw_score) if raw_score is not None else 0.0
 
         detected_faces.append({
             "embedding": face.embedding.tolist(),
@@ -65,5 +64,11 @@ def get_all_faces(image_path: str) -> List[Dict[str, Any]]:
             "gender": gender,
             "det_score": round(det_score, 3)
         })
+
+    # ترتيب الوجوه المكتشفة حسب المساحة (الأكبر أولاً) لضمان اتساق التسجيل والمطابقة
+    detected_faces.sort(
+        key=lambda f: f["bbox"]["width"] * f["bbox"]["height"],
+        reverse=True
+    )
 
     return detected_faces

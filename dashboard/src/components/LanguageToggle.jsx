@@ -10,8 +10,8 @@ export default function LanguageToggle() {
       style={{
         display: "inline-flex",
         alignItems: "center",
-        background: "#192033",
-        border: "1px solid rgba(0, 212, 255, 0.3)",
+        background: "#1a1e29",
+        border: "1px solid rgba(245, 158, 11, 0.3)",
         borderRadius: "20px",
         padding: "3px 4px",
         gap: "4px"
@@ -20,8 +20,8 @@ export default function LanguageToggle() {
       <button
         onClick={() => setLanguage("ar")}
         style={{
-          background: language === "ar" ? "linear-gradient(135deg, #00d4ff, #0077ff)" : "transparent",
-          color: language === "ar" ? "#050816" : "#8b9bb4",
+          background: language === "ar" ? "linear-gradient(135deg, #f59e0b, #d97706)" : "transparent",
+          color: language === "ar" ? "#090a0f" : "#9ca3af",
           border: "none",
           borderRadius: "16px",
           padding: "4px 10px",
@@ -37,8 +37,8 @@ export default function LanguageToggle() {
       <button
         onClick={() => setLanguage("en")}
         style={{
-          background: language === "en" ? "linear-gradient(135deg, #00d4ff, #0077ff)" : "transparent",
-          color: language === "en" ? "#050816" : "#8b9bb4",
+          background: language === "en" ? "linear-gradient(135deg, #f59e0b, #d97706)" : "transparent",
+          color: language === "en" ? "#090a0f" : "#9ca3af",
           border: "none",
           borderRadius: "16px",
           padding: "4px 10px",

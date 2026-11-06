@@ -274,12 +274,12 @@ export default function UniversalClient() {
     }
   }, [batteryState]);
 
-  // Handle Commands dispatched from EDITH Dashboard
+  // Handle Commands dispatched from TARS Dashboard
   const handleServerCommand = (cmdMsg) => {
     const cmd = cmdMsg.command;
     if (cmd === "PING") {
       if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-      triggerHUDAlert("⚡ PING RECEIVED FROM EDITH CORE", "#00ff99");
+      triggerHUDAlert("⚡ PING RECEIVED FROM TARS CORE", "#00ff99");
     } else if (cmd === "HUD_ALERT") {
       triggerHUDAlert(cmdMsg.params?.text || "TACTICAL ALERT DISPATCHED", "#ff3b5c");
     } else if (cmd === "VIBRATE") {
@@ -287,7 +287,7 @@ export default function UniversalClient() {
     }
   };
 
-  const triggerHUDAlert = (text, color = "#00d4ff") => {
+  const triggerHUDAlert = (text, color = "#f59e0b") => {
     setAlertBanner({ text, color });
     setTimeout(() => setAlertBanner(null), 4000);
   };
@@ -380,7 +380,7 @@ export default function UniversalClient() {
       style={{
         minHeight: "100vh",
         width: "100vw",
-        background: "#050816",
+        background: "#090a0f",
         color: "#fff",
         fontFamily: "'Segoe UI', Roboto, sans-serif",
         display: "flex",
@@ -392,8 +392,8 @@ export default function UniversalClient() {
       <header
         style={{
           padding: "12px 18px",
-          background: "#0d1222",
-          borderBottom: "1px solid rgba(0, 212, 255, 0.2)",
+          background: "#0c0e14",
+          borderBottom: "1px solid rgba(245, 158, 11, 0.2)",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -402,12 +402,12 @@ export default function UniversalClient() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <FaBroadcastTower color="#00d4ff" size={18} />
+          <FaBroadcastTower color="#f59e0b" size={18} />
           <div>
             <h2 style={{ fontSize: "15px", margin: 0, fontWeight: 800, letterSpacing: "0.5px" }}>
-              EDITH UNIVERSAL CLIENT
+              TARS UNIVERSAL CLIENT
             </h2>
-            <span style={{ fontSize: "11px", color: "#8b9bb4" }}>
+            <span style={{ fontSize: "11px", color: "#9ca3af" }}>
               {deviceInfo ? deviceInfo.device_name : "Autonomous Optical Client"}
             </span>
           </div>
@@ -478,17 +478,17 @@ export default function UniversalClient() {
           /* Enrollment / Pairing Screen */
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "20px",
-              border: "1px solid rgba(0, 212, 255, 0.3)",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
               padding: "clamp(20px, 4vw, 32px)",
               textAlign: "center"
             }}
           >
-            <FaQrcode size={48} color="#00d4ff" style={{ marginBottom: "16px" }} />
-            <h2 style={{ fontSize: "20px", margin: "0 0 8px 0" }}>Pair Device with EDITH Defense Grid</h2>
-            <p style={{ color: "#8b9bb4", fontSize: "13px", maxWidth: "460px", margin: "0 auto 20px auto" }}>
-              Scan the ephemeral pairing QR code displayed on the EDITH Command Center or enter the 5-minute pairing token below:
+            <FaQrcode size={48} color="#f59e0b" style={{ marginBottom: "16px" }} />
+            <h2 style={{ fontSize: "20px", margin: "0 0 8px 0" }}>Pair Device with TARS Defense Grid</h2>
+            <p style={{ color: "#9ca3af", fontSize: "13px", maxWidth: "460px", margin: "0 auto 20px auto" }}>
+              Scan the ephemeral pairing QR code displayed on the TARS Command Center or enter the 5-minute pairing token below:
             </p>
 
             <form
@@ -506,8 +506,8 @@ export default function UniversalClient() {
                 style={{
                   width: "100%",
                   padding: "12px 16px",
-                  background: "#192033",
-                  border: "1px solid rgba(0, 212, 255, 0.4)",
+                  background: "#1a1e29",
+                  border: "1px solid rgba(245, 158, 11, 0.4)",
                   borderRadius: "10px",
                   color: "#fff",
                   outline: "none",
@@ -522,8 +522,8 @@ export default function UniversalClient() {
                 type="submit"
                 disabled={loading || !pairingToken.trim()}
                 style={{
-                  background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                  color: "#050816",
+                  background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                  color: "#090a0f",
                   border: "none",
                   borderRadius: "10px",
                   padding: "12px",
@@ -548,8 +548,8 @@ export default function UniversalClient() {
                 background: "#000",
                 borderRadius: "20px",
                 overflow: "hidden",
-                border: "2px solid rgba(0, 212, 255, 0.4)",
-                boxShadow: "0 10px 40px rgba(0, 212, 255, 0.15)"
+                border: "2px solid rgba(245, 158, 11, 0.4)",
+                boxShadow: "0 10px 40px rgba(245, 158, 11, 0.15)"
               }}
             >
               {cameraActive ? (
@@ -569,10 +569,10 @@ export default function UniversalClient() {
                     flexDirection: "column",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#8b9bb4"
+                    color: "#9ca3af"
                   }}
                 >
-                  <FaCamera size={44} color="#00d4ff" style={{ marginBottom: "12px" }} />
+                  <FaCamera size={44} color="#f59e0b" style={{ marginBottom: "12px" }} />
                   <h3 style={{ color: "#fff", margin: "0 0 6px 0" }}>Optical Stream Standby</h3>
                   <p style={{ fontSize: "13px", margin: 0 }}>Click "Start Camera Feed" below to enable live optical sensor.</p>
                 </div>
@@ -587,7 +587,7 @@ export default function UniversalClient() {
                   transform: "translate(-50%, -50%)",
                   width: "160px",
                   height: "160px",
-                  border: "2px dashed rgba(0, 212, 255, 0.5)",
+                  border: "2px dashed rgba(245, 158, 11, 0.5)",
                   borderRadius: "50%",
                   pointerEvents: "none",
                   display: "flex",
@@ -608,7 +608,7 @@ export default function UniversalClient() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  background: "rgba(5, 8, 22, 0.85)",
+                  background: "rgba(9, 10, 15, 0.85)",
                   backdropFilter: "blur(6px)",
                   padding: "8px 14px",
                   borderRadius: "10px",
@@ -616,7 +616,7 @@ export default function UniversalClient() {
                   pointerEvents: "none"
                 }}
               >
-                <span style={{ color: "#00d4ff", fontFamily: "monospace" }}>ID: {deviceInfo?.device_id}</span>
+                <span style={{ color: "#f59e0b", fontFamily: "monospace" }}>ID: {deviceInfo?.device_id}</span>
                 <span style={{ color: "#00ff99" }}>SECTOR THREAT: {threatScore}/100</span>
               </div>
             </div>
@@ -628,8 +628,8 @@ export default function UniversalClient() {
                   <button
                     onClick={startCamera}
                     style={{
-                      background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                      color: "#050816",
+                      background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                      color: "#090a0f",
                       border: "none",
                       padding: "10px 18px",
                       borderRadius: "10px",
@@ -664,9 +664,9 @@ export default function UniversalClient() {
                     <button
                       onClick={toggleFacingMode}
                       style={{
-                        background: "#192033",
-                        color: "#00d4ff",
-                        border: "1px solid rgba(0, 212, 255, 0.3)",
+                        background: "#1a1e29",
+                        color: "#f59e0b",
+                        border: "1px solid rgba(245, 158, 11, 0.3)",
                         padding: "10px 16px",
                         borderRadius: "10px",
                         fontWeight: 700,
@@ -686,8 +686,8 @@ export default function UniversalClient() {
               <button
                 onClick={handleDisconnect}
                 style={{
-                  background: "#192033",
-                  color: "#8b9bb4",
+                  background: "#1a1e29",
+                  color: "#9ca3af",
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   padding: "10px 16px",
                   borderRadius: "10px",

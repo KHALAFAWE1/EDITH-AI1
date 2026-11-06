@@ -13,7 +13,7 @@ export default function Navbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "0 clamp(14px, 3vw, 25px)",
-        background: "#0d1222",
+        background: "#0c0e14",
         borderBottom: "1px solid rgba(255,255,255,.08)",
         flexWrap: "wrap",
         gap: "10px"

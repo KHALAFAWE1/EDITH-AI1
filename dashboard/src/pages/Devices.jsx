@@ -125,11 +125,11 @@ export default function Devices() {
 
   const getDeviceIcon = (type) => {
     const tLower = (type || "").toLowerCase();
-    if (tLower.includes("phone") || tLower.includes("iphone") || tLower.includes("android")) return <FaMobileAlt color="#00d4ff" size={20} />;
+    if (tLower.includes("phone") || tLower.includes("iphone") || tLower.includes("android")) return <FaMobileAlt color="#f59e0b" size={20} />;
     if (tLower.includes("tablet") || tLower.includes("ipad")) return <FaTabletAlt color="#00ff99" size={20} />;
     if (tLower.includes("glasses")) return <FaGlasses color="#ffd700" size={20} />;
     if (tLower.includes("laptop") || tLower.includes("mac")) return <FaLaptop color="#aa3bff" size={20} />;
-    return <FaDesktop color="#00d4ff" size={20} />;
+    return <FaDesktop color="#f59e0b" size={20} />;
   };
 
   const cpuPercent = telemetry?.cpu?.percent || 0;
@@ -139,7 +139,7 @@ export default function Devices() {
   const getProgressColor = (percent) => {
     if (percent > 85) return "#ff3b5c";
     if (percent > 65) return "#ffaa00";
-    return "#00d4ff";
+    return "#f59e0b";
   };
 
   return (
@@ -148,7 +148,7 @@ export default function Devices() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px", flexWrap: "wrap", gap: "10px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaDesktop style={{ color: "#00d4ff" }} /> {t("host.title")}
+            <FaDesktop style={{ color: "#f59e0b" }} /> {t("host.title")}
           </h1>
           <p className="subtitle">{t("host.subtitle")}</p>
         </div>
@@ -158,8 +158,8 @@ export default function Devices() {
             onClick={() => handleGeneratePairingQR("PHONE")}
             disabled={generatingQR}
             style={{
-              background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-              color: "#050816",
+              background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+              color: "#090a0f",
               border: "none",
               borderRadius: "10px",
               padding: "10px 18px",
@@ -178,9 +178,9 @@ export default function Devices() {
             onClick={handleSyncHost}
             disabled={syncing}
             style={{
-              background: "#192033",
-              color: "#00d4ff",
-              border: "1px solid rgba(0, 212, 255, 0.3)",
+              background: "#1a1e29",
+              color: "#f59e0b",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
               borderRadius: "10px",
               padding: "10px 16px",
               fontWeight: 700,
@@ -231,20 +231,20 @@ export default function Devices() {
       {/* ========================================================= */}
       {/* 📱 Universal Enrolled Devices Grid                         */}
       {/* ========================================================= */}
-      <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(0, 212, 255, 0.2)", padding: "22px", marginBottom: "25px" }}>
+      <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(245, 158, 11, 0.2)", padding: "22px", marginBottom: "25px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
           <div>
             <h3 style={{ color: "#fff", margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <FaWifi color="#00d4ff" /> {t("devices_inventory.title")} ({enrolledDevices.length})
+              <FaWifi color="#f59e0b" /> {t("devices_inventory.title")} ({enrolledDevices.length})
             </h3>
-            <p style={{ color: "#8b9bb4", fontSize: "12px", margin: "4px 0 0 0" }}>
+            <p style={{ color: "#9ca3af", fontSize: "12px", margin: "4px 0 0 0" }}>
               {t("devices_inventory.subtitle")}
             </p>
           </div>
         </div>
 
         {enrolledDevices.length === 0 ? (
-          <p style={{ color: "#8b9bb4", fontSize: "13px" }}>{t("devices_inventory.no_devices")}</p>
+          <p style={{ color: "#9ca3af", fontSize: "13px" }}>{t("devices_inventory.no_devices")}</p>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
             {enrolledDevices.map((dev) => {
@@ -255,7 +255,7 @@ export default function Devices() {
                 <div
                   key={dev.id}
                   style={{
-                    background: "#192033",
+                    background: "#1a1e29",
                     borderRadius: "14px",
                     border: `1px solid ${isOnline ? "rgba(0, 255, 153, 0.3)" : "rgba(255,255,255,0.06)"}`,
                     padding: "16px",
@@ -269,14 +269,14 @@ export default function Devices() {
                     {/* Header: Icon, Name, Online Badge */}
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "10px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                        <div style={{ width: "42px", height: "42px", borderRadius: "10px", background: "#111827", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <div style={{ width: "42px", height: "42px", borderRadius: "10px", background: "#12151e", display: "flex", alignItems: "center", justifyContent: "center" }}>
                           {getDeviceIcon(dev.device_type)}
                         </div>
                         <div>
                           <h4 style={{ color: "#fff", margin: 0, fontSize: "14px", fontWeight: 700 }}>
                             {dev.device_name}
                           </h4>
-                          <span style={{ color: "#8b9bb4", fontSize: "11px" }}>
+                          <span style={{ color: "#9ca3af", fontSize: "11px" }}>
                             {dev.platform} | {dev.operating_system}
                           </span>
                         </div>
@@ -298,8 +298,8 @@ export default function Devices() {
                     </div>
 
                     {/* Metadata Strip */}
-                    <div style={{ fontSize: "12px", color: "#8b9bb4", display: "flex", flexDirection: "column", gap: "4px", margin: "10px 0" }}>
-                      <div>IP: <strong style={{ color: "#00d4ff", fontFamily: "monospace" }}>{dev.ip_address}</strong></div>
+                    <div style={{ fontSize: "12px", color: "#9ca3af", display: "flex", flexDirection: "column", gap: "4px", margin: "10px 0" }}>
+                      <div>IP: <strong style={{ color: "#f59e0b", fontFamily: "monospace" }}>{dev.ip_address}</strong></div>
                       <div>Browser / App: <span>{dev.browser} (v{dev.client_version})</span></div>
                       {dev.battery_level !== null && dev.battery_level !== undefined ? (
                         <div>Battery: <strong style={{ color: "#00ff99" }}>{dev.battery_level}% {dev.battery_charging ? "⚡ (Charging)" : ""}</strong></div>
@@ -310,8 +310,8 @@ export default function Devices() {
 
                     {/* Detected Real Capabilities Badges */}
                     <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "10px" }}>
-                      {caps.camera && <span style={{ background: "rgba(0, 212, 255, 0.15)", color: "#00d4ff", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>📷 Camera</span>}
-                      {caps.microphone && <span style={{ background: "rgba(0, 212, 255, 0.15)", color: "#00d4ff", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>🎙️ Mic</span>}
+                      {caps.camera && <span style={{ background: "rgba(245, 158, 11, 0.15)", color: "#f59e0b", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>📷 Camera</span>}
+                      {caps.microphone && <span style={{ background: "rgba(245, 158, 11, 0.15)", color: "#f59e0b", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>🎙️ Mic</span>}
                       {caps.hud && <span style={{ background: "rgba(255, 215, 0, 0.15)", color: "#ffd700", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>🕶️ HUD</span>}
                       {caps.touch && <span style={{ background: "rgba(170, 59, 255, 0.15)", color: "#aa3bff", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>👆 Touch</span>}
                       {caps.vibration && <span style={{ background: "rgba(0, 255, 153, 0.15)", color: "#00ff99", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 600 }}>📳 Haptic</span>}
@@ -324,9 +324,9 @@ export default function Devices() {
                       onClick={() => handlePingDevice(dev.device_id)}
                       disabled={!isOnline}
                       style={{
-                        background: "rgba(0, 212, 255, 0.15)",
-                        border: "1px solid rgba(0, 212, 255, 0.4)",
-                        color: "#00d4ff",
+                        background: "rgba(245, 158, 11, 0.15)",
+                        border: "1px solid rgba(245, 158, 11, 0.4)",
+                        color: "#f59e0b",
                         borderRadius: "6px",
                         padding: "4px 10px",
                         fontSize: "11px",
@@ -364,18 +364,18 @@ export default function Devices() {
       </div>
 
       {/* Task Manager Real Process Table */}
-      <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "20px" }}>
+      <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "20px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "10px" }}>
           <h3 style={{ color: "#fff", margin: 0, fontSize: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
             <FaTasks color="#00ff99" /> {t("host.task_manager")} ({processes.length})
           </h3>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#192033", padding: "4px 12px", borderRadius: "8px" }}>
-            <span style={{ fontSize: "12px", color: "#8b9bb4" }}>Sort by:</span>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "#1a1e29", padding: "4px 12px", borderRadius: "8px" }}>
+            <span style={{ fontSize: "12px", color: "#9ca3af" }}>Sort by:</span>
             <select
               value={procSort}
               onChange={(e) => setProcSort(e.target.value)}
-              style={{ background: "transparent", color: "#00d4ff", border: "none", outline: "none", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}
+              style={{ background: "transparent", color: "#f59e0b", border: "none", outline: "none", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}
             >
               <option value="cpu">CPU Usage %</option>
               <option value="memory">RAM Usage %</option>
@@ -386,12 +386,12 @@ export default function Devices() {
         </div>
 
         {processes.length === 0 ? (
-          <p style={{ color: "#8b9bb4", fontSize: "13px" }}>No active process information exposed by OS permissions.</p>
+          <p style={{ color: "#9ca3af", fontSize: "13px" }}>No active process information exposed by OS permissions.</p>
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px", color: "#fff", textAlign: "left" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", color: "#8b9bb4" }}>
+                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", color: "#9ca3af" }}>
                   <th style={{ padding: "10px 12px" }}>{t("host.proc_name")}</th>
                   <th style={{ padding: "10px 12px" }}>{t("host.proc_pid")}</th>
                   <th style={{ padding: "10px 12px" }}>{t("host.proc_cpu")}</th>
@@ -405,13 +405,13 @@ export default function Devices() {
                 {processes.map((proc) => (
                   <tr key={proc.pid} style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                     <td style={{ padding: "10px 12px", fontWeight: 600 }}>{proc.name}</td>
-                    <td style={{ padding: "10px 12px", fontFamily: "monospace", color: "#8b9bb4" }}>{proc.pid}</td>
+                    <td style={{ padding: "10px 12px", fontFamily: "monospace", color: "#9ca3af" }}>{proc.pid}</td>
                     <td style={{ padding: "10px 12px", color: proc.cpu_percent > 10 ? "#ff3b5c" : "#00ff99", fontWeight: 700 }}>
                       {proc.cpu_percent}%
                     </td>
-                    <td style={{ padding: "10px 12px", color: "#00d4ff" }}>{proc.memory_percent}%</td>
-                    <td style={{ padding: "10px 12px", color: "#8b9bb4" }}>{proc.memory_mb} MB</td>
-                    <td style={{ padding: "10px 12px", color: "#8b9bb4" }}>{proc.username}</td>
+                    <td style={{ padding: "10px 12px", color: "#f59e0b" }}>{proc.memory_percent}%</td>
+                    <td style={{ padding: "10px 12px", color: "#9ca3af" }}>{proc.memory_mb} MB</td>
+                    <td style={{ padding: "10px 12px", color: "#9ca3af" }}>{proc.username}</td>
                     <td style={{ padding: "10px 12px" }}>
                       <span style={{ background: "rgba(0, 255, 153, 0.1)", color: "#00ff99", padding: "2px 6px", borderRadius: "4px", fontSize: "11px" }}>
                         {proc.status}
@@ -430,11 +430,11 @@ export default function Devices() {
       {/* ========================================================= */}
       {showPairModal && pairingData && (
         <div style={{ position: "fixed", top: 0, left: 0, width: "100vw", height: "100vh", background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: "20px" }}>
-          <div style={{ background: "#111827", border: "1px solid rgba(0,212,255,0.4)", borderRadius: "20px", padding: "26px", maxWidth: "520px", width: "100%", textAlign: "center", position: "relative" }}>
-            <h3 style={{ color: "#00d4ff", margin: "0 0 8px 0", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+          <div style={{ background: "#12151e", border: "1px solid rgba(245,158,11,0.4)", borderRadius: "20px", padding: "26px", maxWidth: "520px", width: "100%", textAlign: "center", position: "relative" }}>
+            <h3 style={{ color: "#f59e0b", margin: "0 0 8px 0", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
               <FaQrcode /> {t("devices_inventory.pair_device")}
             </h3>
-            <p style={{ color: "#8b9bb4", fontSize: "13px", marginBottom: "20px" }}>
+            <p style={{ color: "#9ca3af", fontSize: "13px", marginBottom: "20px" }}>
               {t("devices_inventory.scan_qr")}
             </p>
 
@@ -444,20 +444,20 @@ export default function Devices() {
                 alt="Universal Pairing QR Code"
                 style={{ width: "180px", height: "180px", display: "block" }}
               />
-              <span style={{ color: "#050816", fontSize: "10px", fontWeight: 800, marginTop: "6px", display: "block" }}>
+              <span style={{ color: "#090a0f", fontSize: "10px", fontWeight: 800, marginTop: "6px", display: "block" }}>
                 IPHONE / ANDROID / GLASSES
               </span>
             </div>
 
-            <div style={{ background: "#192033", padding: "10px 14px", borderRadius: "8px", fontSize: "12px", color: "#00ff99", fontFamily: "monospace", marginBottom: "18px" }}>
+            <div style={{ background: "#1a1e29", padding: "10px 14px", borderRadius: "8px", fontSize: "12px", color: "#00ff99", fontFamily: "monospace", marginBottom: "18px" }}>
               TTL: {pairingData.expires_in_seconds}s | Token: {pairingData.pairing_token.substring(0, 16)}...
             </div>
 
             <button
               onClick={() => setShowPairModal(false)}
               style={{
-                background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                color: "#050816",
+                background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                color: "#090a0f",
                 border: "none",
                 borderRadius: "10px",
                 padding: "10px 24px",

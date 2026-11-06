@@ -92,7 +92,7 @@ def log_event(req: CreateEventSchema, db: Session = Depends(get_db)):
     return {
         "success": True,
         "event_id": new_event.id,
-        "message": "Event recorded into EDITH episodic memory."
+        "message": "Event recorded into TARS episodic memory."
     }
 
 

@@ -159,7 +159,7 @@ export default function People() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "22px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaUsers style={{ color: "#00d4ff" }} /> Biometric Identity Database
+            <FaUsers style={{ color: "#f59e0b" }} /> Biometric Identity Database
           </h1>
           <p className="subtitle">Manage registered personnel, roles, and facial recognition embeddings</p>
         </div>
@@ -170,8 +170,8 @@ export default function People() {
             setIsModalOpen(true);
           }}
           style={{
-            background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-            color: "#050816",
+            background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+            color: "#090a0f",
             border: "none",
             borderRadius: "10px",
             padding: "12px 20px",
@@ -181,7 +181,7 @@ export default function People() {
             alignItems: "center",
             gap: "8px",
             cursor: "pointer",
-            boxShadow: "0 4px 15px rgba(0, 212, 255, 0.4)"
+            boxShadow: "0 4px 15px rgba(245, 158, 11, 0.4)"
           }}
         >
           <FaUserPlus size={16} /> Register New Subject
@@ -217,14 +217,14 @@ export default function People() {
           display: "flex",
           gap: "15px",
           marginBottom: "25px",
-          background: "#111827",
+          background: "#12151e",
           padding: "14px 18px",
           borderRadius: "12px",
-          border: "1px solid rgba(0, 212, 255, 0.15)"
+          border: "1px solid rgba(245, 158, 11, 0.15)"
         }}
       >
-        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "10px", background: "#192033", padding: "0 14px", borderRadius: "8px" }}>
-          <FaSearch color="#8b9bb4" />
+        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: "10px", background: "#1a1e29", padding: "0 14px", borderRadius: "8px" }}>
+          <FaSearch color="#9ca3af" />
           <input
             type="text"
             placeholder="Search by name, department, position..."
@@ -246,7 +246,7 @@ export default function People() {
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
           style={{
-            background: "#192033",
+            background: "#1a1e29",
             color: "#fff",
             border: "1px solid rgba(255,255,255,0.1)",
             borderRadius: "8px",
@@ -265,22 +265,22 @@ export default function People() {
 
       {/* Grid of Personnel Cards */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: "60px 0", color: "#00d4ff" }}>
+        <div style={{ textAlign: "center", padding: "60px 0", color: "#f59e0b" }}>
           <FaSpinner className="spin" size={32} />
-          <p style={{ marginTop: "15px", color: "#8b9bb4" }}>Loading biometric registry...</p>
+          <p style={{ marginTop: "15px", color: "#9ca3af" }}>Loading biometric registry...</p>
         </div>
       ) : filteredPeople.length === 0 ? (
         <div
           style={{
             textAlign: "center",
             padding: "60px 20px",
-            background: "#111827",
+            background: "#12151e",
             borderRadius: "16px",
             border: "1px dashed rgba(255,255,255,0.1)",
-            color: "#8b9bb4"
+            color: "#9ca3af"
           }}
         >
-          <FaIdCard size={42} style={{ marginBottom: "12px", color: "#00d4ff" }} />
+          <FaIdCard size={42} style={{ marginBottom: "12px", color: "#f59e0b" }} />
           <h3>No Subjects Found</h3>
           <p style={{ fontSize: "14px", marginTop: "4px" }}>
             {searchTerm ? "No matching records found for your search criteria." : "No personnel registered yet. Click 'Register New Subject' to begin."}
@@ -320,9 +320,9 @@ export default function People() {
         >
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "20px",
-              border: "1px solid rgba(0, 212, 255, 0.3)",
+              border: "1px solid rgba(245, 158, 11, 0.3)",
               width: "100%",
               maxWidth: "650px",
               maxHeight: "90vh",
@@ -334,11 +334,11 @@ export default function People() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
               <h2 style={{ color: "#fff", fontSize: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
-                <FaUserPlus color="#00d4ff" /> Register New Subject
+                <FaUserPlus color="#f59e0b" /> Register New Subject
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                style={{ background: "none", border: "none", color: "#8b9bb4", fontSize: "18px", cursor: "pointer" }}
+                style={{ background: "none", border: "none", color: "#9ca3af", fontSize: "18px", cursor: "pointer" }}
               >
                 <FaTimes />
               </button>
@@ -352,9 +352,9 @@ export default function People() {
                   flexDirection: "column",
                   alignItems: "center",
                   padding: "16px",
-                  background: "#192033",
+                  background: "#1a1e29",
                   borderRadius: "12px",
-                  border: "2px dashed rgba(0, 212, 255, 0.3)",
+                  border: "2px dashed rgba(245, 158, 11, 0.3)",
                   position: "relative"
                 }}
               >
@@ -371,8 +371,8 @@ export default function People() {
                         position: "absolute",
                         bottom: "-6px",
                         right: "-6px",
-                        background: "#00d4ff",
-                        color: "#050816",
+                        background: "#f59e0b",
+                        color: "#090a0f",
                         borderRadius: "50%",
                         padding: "6px",
                         cursor: "pointer"
@@ -383,9 +383,9 @@ export default function People() {
                   </div>
                 ) : (
                   <label htmlFor="photo-upload" style={{ cursor: "pointer", textAlign: "center" }}>
-                    <FaCamera size={36} color="#00d4ff" style={{ marginBottom: "8px" }} />
+                    <FaCamera size={36} color="#f59e0b" style={{ marginBottom: "8px" }} />
                     <p style={{ color: "#fff", fontSize: "14px", fontWeight: 600 }}>Click to Upload Face Photo</p>
-                    <p style={{ color: "#8b9bb4", fontSize: "12px" }}>InsightFace will compute 512-dim embedding</p>
+                    <p style={{ color: "#9ca3af", fontSize: "12px" }}>InsightFace will compute 512-dim embedding</p>
                   </label>
                 )}
                 <input
@@ -400,23 +400,23 @@ export default function People() {
               {/* Input Fields */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}>
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Full Name *</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Full Name *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Ahmed Ali"
                     value={formData.full_name}
                     onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Person Type</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Person Type</label>
                   <select
                     value={formData.person_type}
                     onChange={(e) => setFormData({ ...formData, person_type: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   >
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher / Professor</option>
@@ -427,58 +427,58 @@ export default function People() {
                 </div>
 
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Department</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Department</label>
                   <input
                     type="text"
                     placeholder="e.g. Computer Science"
                     value={formData.department}
                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Position</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Position</label>
                   <input
                     type="text"
                     placeholder="e.g. AI Researcher / 4th Year"
                     value={formData.position}
                     onChange={(e) => setFormData({ ...formData, position: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Email</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Email</label>
                   <input
                     type="email"
-                    placeholder="e.g. subject@edith.ai"
+                    placeholder="e.g. subject@tars.ai"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Phone</label>
+                  <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Phone</label>
                   <input
                     type="text"
                     placeholder="e.g. +20 10xxxxxxxx"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
+                    style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none" }}
                   />
                 </div>
               </div>
 
               <div>
-                <label style={{ display: "block", color: "#8b9bb4", fontSize: "12px", marginBottom: "4px" }}>Notes / Access Permissions</label>
+                <label style={{ display: "block", color: "#9ca3af", fontSize: "12px", marginBottom: "4px" }}>Notes / Access Permissions</label>
                 <textarea
                   rows="2"
                   placeholder="Special access level, tags, or notes..."
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  style={{ width: "100%", padding: "10px 12px", background: "#192033", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none", resize: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", background: "#1a1e29", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", color: "#fff", outline: "none", resize: "none" }}
                 />
               </div>
 
@@ -487,7 +487,7 @@ export default function People() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  style={{ background: "#192033", color: "#8b9bb4", border: "none", padding: "10px 18px", borderRadius: "8px", cursor: "pointer" }}
+                  style={{ background: "#1a1e29", color: "#9ca3af", border: "none", padding: "10px 18px", borderRadius: "8px", cursor: "pointer" }}
                 >
                   Cancel
                 </button>
@@ -495,8 +495,8 @@ export default function People() {
                   type="submit"
                   disabled={submitting}
                   style={{
-                    background: "linear-gradient(135deg, #00d4ff 0%, #0077ff 100%)",
-                    color: "#050816",
+                    background: "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)",
+                    color: "#090a0f",
                     fontWeight: 700,
                     border: "none",
                     padding: "10px 24px",
@@ -518,4 +518,4 @@ export default function People() {
       )}
     </MainLayout>
   );
-}
+}

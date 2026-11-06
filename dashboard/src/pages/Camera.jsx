@@ -31,7 +31,7 @@ export default function Camera() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
         <div>
           <h1 className="title" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <FaShieldAlt style={{ color: "#00d4ff" }} /> EDITH Optical Target Recognition
+            <FaShieldAlt style={{ color: "#f59e0b" }} /> TARS Optical Target Recognition
           </h1>
           <p className="subtitle">Real-time biometric facial recognition and identity verification stream</p>
         </div>
@@ -46,9 +46,9 @@ export default function Camera() {
         {/* Live Camera Feed */}
         <div
           style={{
-            background: "#111827",
+            background: "#12151e",
             borderRadius: "16px",
-            border: "1px solid rgba(0, 212, 255, 0.2)",
+            border: "1px solid rgba(245, 158, 11, 0.2)",
             display: "flex",
             flexDirection: "column",
             overflow: "hidden",
@@ -57,7 +57,7 @@ export default function Camera() {
         >
           <div style={{ padding: "14px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: "14px", fontWeight: 600, color: "#fff" }}>PRIMARY OPTICAL SENSOR (LIVE)</span>
-            <span style={{ fontSize: "12px", color: "#00d4ff", fontFamily: "monospace" }}>BUFFALO_L / 640x640 DET</span>
+            <span style={{ fontSize: "12px", color: "#f59e0b", fontFamily: "monospace" }}>BUFFALO_L / 640x640 DET</span>
           </div>
           <div style={{ flex: 1, position: "relative", padding: "12px" }}>
             <CameraView onRecognized={handleRecognized} scanIntervalMs={2000} />
@@ -69,7 +69,7 @@ export default function Camera() {
           {/* Target Verification Card */}
           <div
             style={{
-              background: "#111827",
+              background: "#12151e",
               borderRadius: "16px",
               border: `1px solid ${isFound ? "rgba(0, 255, 153, 0.4)" : "rgba(255, 59, 92, 0.3)"}`,
               padding: "22px",
@@ -89,7 +89,7 @@ export default function Camera() {
             </div>
 
             {!latestRecognition && (
-              <div style={{ textAlign: "center", padding: "30px 0", color: "#8b9bb4" }}>
+              <div style={{ textAlign: "center", padding: "30px 0", color: "#9ca3af" }}>
                 <p>Awaiting optical target detection...</p>
               </div>
             )}
@@ -97,7 +97,7 @@ export default function Camera() {
             {latestRecognition && !isFound && (
               <div style={{ textAlign: "center", padding: "25px 0", background: "rgba(255, 59, 92, 0.05)", borderRadius: "10px", border: "1px dashed rgba(255, 59, 92, 0.3)" }}>
                 <h3 style={{ color: "#ff3b5c", marginBottom: "6px" }}>Unregistered Subject</h3>
-                <p style={{ color: "#8b9bb4", fontSize: "13px" }}>
+                <p style={{ color: "#9ca3af", fontSize: "13px" }}>
                   Face detected, but no matching biometric profile was found in the database.
                 </p>
               </div>
@@ -111,7 +111,7 @@ export default function Camera() {
                       width: "68px",
                       height: "68px",
                       borderRadius: "12px",
-                      background: "#192033",
+                      background: "#1a1e29",
                       border: "2px solid #00ff99",
                       display: "flex",
                       alignItems: "center",
@@ -137,35 +137,35 @@ export default function Camera() {
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "8px" }}>
-                  <div style={{ background: "#192033", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
-                    <span style={{ color: "#8b9bb4", display: "flex", alignItems: "center", gap: "6px" }}>
-                      <FaBuilding color="#00d4ff" /> Department
+                  <div style={{ background: "#1a1e29", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
+                    <span style={{ color: "#9ca3af", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <FaBuilding color="#f59e0b" /> Department
                     </span>
                     <strong style={{ color: "#fff" }}>{person.department || "N/A"}</strong>
                   </div>
-                  <div style={{ background: "#192033", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
-                    <span style={{ color: "#8b9bb4", display: "flex", alignItems: "center", gap: "6px" }}>
-                      <FaBriefcase color="#00d4ff" /> Position
+                  <div style={{ background: "#1a1e29", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
+                    <span style={{ color: "#9ca3af", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <FaBriefcase color="#f59e0b" /> Position
                     </span>
                     <strong style={{ color: "#fff" }}>{person.position || "N/A"}</strong>
                   </div>
-                  <div style={{ background: "#192033", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
-                    <span style={{ color: "#8b9bb4", display: "flex", alignItems: "center", gap: "6px" }}>
-                      <FaEnvelope color="#00d4ff" /> Email
+                  <div style={{ background: "#1a1e29", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
+                    <span style={{ color: "#9ca3af", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <FaEnvelope color="#f59e0b" /> Email
                     </span>
                     <strong style={{ color: "#fff", wordBreak: "break-all" }}>{person.email || "N/A"}</strong>
                   </div>
-                  <div style={{ background: "#192033", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
-                    <span style={{ color: "#8b9bb4", display: "flex", alignItems: "center", gap: "6px" }}>
-                      <FaPhone color="#00d4ff" /> Phone
+                  <div style={{ background: "#1a1e29", padding: "10px 12px", borderRadius: "8px", fontSize: "13px" }}>
+                    <span style={{ color: "#9ca3af", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <FaPhone color="#f59e0b" /> Phone
                     </span>
                     <strong style={{ color: "#fff" }}>{person.phone || "N/A"}</strong>
                   </div>
                 </div>
 
                 {person.notes && (
-                  <div style={{ background: "rgba(0, 212, 255, 0.05)", padding: "10px 12px", borderRadius: "8px", borderLeft: "3px solid #00d4ff", fontSize: "13px" }}>
-                    <span style={{ color: "#8b9bb4", fontSize: "11px", textTransform: "uppercase" }}>Special Notes:</span>
+                  <div style={{ background: "rgba(245, 158, 11, 0.05)", padding: "10px 12px", borderRadius: "8px", borderLeft: "3px solid #f59e0b", fontSize: "13px" }}>
+                    <span style={{ color: "#9ca3af", fontSize: "11px", textTransform: "uppercase" }}>Special Notes:</span>
                     <p style={{ color: "#fff", marginTop: "2px" }}>{person.notes}</p>
                   </div>
                 )}
@@ -174,8 +174,8 @@ export default function Camera() {
           </div>
 
           {/* Recent Detections Stream */}
-          <div style={{ background: "#111827", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "18px", flex: 1 }}>
-            <h3 style={{ fontSize: "15px", color: "#8b9bb4", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+          <div style={{ background: "#12151e", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.08)", padding: "18px", flex: 1 }}>
+            <h3 style={{ fontSize: "15px", color: "#9ca3af", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
               Recent Detections Log
             </h3>
             {detectionHistory.length === 0 ? (
@@ -189,7 +189,7 @@ export default function Camera() {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      background: "#192033",
+                      background: "#1a1e29",
                       padding: "8px 12px",
                       borderRadius: "8px",
                       fontSize: "13px"
@@ -208,4 +208,4 @@ export default function Camera() {
       </div>
     </MainLayout>
   );
-}
+}

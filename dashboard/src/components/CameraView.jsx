@@ -194,7 +194,7 @@ export default function CameraView({ onRecognized, scanIntervalMs = 2500 }) {
       ctx.fillStyle = strokeColor;
       ctx.fillRect(x, Math.max(0, y - tagHeight), tagWidth, tagHeight);
 
-      ctx.fillStyle = "#050816";
+      ctx.fillStyle = "#090a0f";
       ctx.fillText(tagText, x + 8, Math.max(16, y - 7));
     });
   }, [result]);
@@ -270,13 +270,13 @@ export default function CameraView({ onRecognized, scanIntervalMs = 2500 }) {
           display: "flex",
           gap: "10px",
           alignItems: "center",
-          background: "rgba(5, 8, 22, 0.75)",
+          background: "rgba(9, 10, 15, 0.78)",
           backdropFilter: "blur(6px)",
           padding: "6px 14px",
           borderRadius: "8px",
-          border: "1px solid rgba(0, 212, 255, 0.3)",
+          border: "1px solid rgba(245, 158, 11, 0.35)",
           fontSize: "12px",
-          color: "#00d4ff",
+          color: "#f59e0b",
           fontFamily: "monospace",
           zIndex: 5
         }}
@@ -287,12 +287,12 @@ export default function CameraView({ onRecognized, scanIntervalMs = 2500 }) {
             width: "8px",
             height: "8px",
             borderRadius: "50%",
-            backgroundColor: isScanning ? "#00ff99" : "#8b9bb4",
+            backgroundColor: isScanning ? "#00ff99" : "#9ca3af",
             boxShadow: isScanning ? "0 0 8px #00ff99" : "none"
           }}
         />
-        <span>EDITH OPTICAL ENGINE {isScanning ? "ACTIVE" : "PAUSED"}</span>
+        <span>TARS OPTICAL ENGINE {isScanning ? "ACTIVE" : "PAUSED"}</span>
       </div>
     </div>
   );
-}
+}
