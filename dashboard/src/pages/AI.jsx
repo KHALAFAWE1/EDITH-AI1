@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { api } from "../services/api";
+import TarsAdaptivePanel from "../components/TarsAdaptivePanel";
 import { 
   FaRobot, FaEye, FaPaperPlane, FaCamera, FaSpinner, FaMicrochip, 
   FaUser, FaInfoCircle, FaLightbulb, FaKey, FaTimes, FaBolt, 
@@ -607,6 +608,24 @@ export default function AI() {
               }}
             >
               <FaEye size={13} /> Vision Lab
+            </button>
+            <button
+              onClick={() => setActiveTab("adaptive")}
+              style={{
+                background: activeTab === "adaptive" ? "#f59e0b" : "transparent",
+                color: activeTab === "adaptive" ? "#090a0f" : "#9ca3af",
+                border: "none",
+                borderRadius: "8px",
+                padding: "8px 14px",
+                fontWeight: 700,
+                fontSize: "13px",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                cursor: "pointer"
+              }}
+            >
+              <FaMicrochip size={13} /> Adaptive Core
             </button>
           </div>
         </div>
@@ -1443,6 +1462,9 @@ export default function AI() {
           </div>
         </div>
       )}
+
+      {/* MODE 4: TARS Hybrid Adaptive Learning Core */}
+      {activeTab === "adaptive" && <TarsAdaptivePanel />}
 
       {/* Gemini API Key Configuration Modal */}
       {isKeyModalOpen && (

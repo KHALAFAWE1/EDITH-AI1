@@ -1,0 +1,11 @@
+{
+  "routing_policy": "HYBRID_AUTO",
+  "ollama_base_url": "http://127.0.0.1:11434",
+  "preferred_local_model": "llama3.2",
+  "preferred_cloud_provider": "GEMINI",
+  "openai_base_url": "https://api.openai.com/v1",
+  "openai_model": "gpt-4o-mini",
+  "block_private_data_to_cloud": true,
+  "auto_fallback": true,
+  "inject_memory_and_knowledge": true
+}

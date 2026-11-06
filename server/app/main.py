@@ -26,6 +26,7 @@ from app.routers import cyber
 from app.routers import risk
 from app.routers import cameras
 from app.routers import glasses
+from app.routers import tars_adaptive
 
 from app.database import Base, engine, get_db, run_auto_migrations
 from app.config import get_gemini_api_key
@@ -39,6 +40,19 @@ from app.models.risk_assessment import RiskAssessment
 from app.models.network_device import NetworkDevice
 from app.models.camera import Camera
 from app.models.pairing_session import PairingSession
+from app.models.adaptive_learning import (
+    MemoryRecord,
+    LearningRecord,
+    ExperienceRecord,
+    EvaluationRun,
+    ImprovementProposal,
+    KnowledgeDocument,
+    KnowledgeChunk,
+    TrainingDatasetVersion,
+    ModelVersionRecord,
+    PermissionScopeRecord,
+    ModelRoutingLog,
+)
 
 # إنشاء كافة الجداول وتطبيق التحديثات الهيكلية تلقائياً
 Base.metadata.create_all(bind=engine)
@@ -92,6 +106,7 @@ app.include_router(recognition.router)
 app.include_router(ai.router)
 app.include_router(cameras.router)
 app.include_router(glasses.router)
+app.include_router(tars_adaptive.router)
 
 
 @app.get("/api/health")
@@ -130,7 +145,7 @@ DIST_DIR = os.path.abspath(os.path.join(SERVER_DIR, "..", "..", "dashboard", "di
 API_PREFIX_TUPLE = (
     "api", "auth", "security", "events", "cyber", "risk",
     "people", "devices", "vision", "recognition", "ai",
-    "cameras", "glasses", "uploads", "docs", "openapi.json", "redoc"
+    "cameras", "glasses", "tars", "uploads", "docs", "openapi.json", "redoc"
 )
 
 

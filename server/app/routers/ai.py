@@ -21,6 +21,7 @@ from app.models.person import Person
 from app.config import get_gemini_api_key, set_gemini_api_key, DEFAULT_GEMINI_MODEL
 from app.services.vision import analyze_image_file, analyze_scene
 from app.services.recognition import recognize_all_faces
+from app.services.tars_core import route_and_execute_chat
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -386,7 +387,8 @@ def call_gemini_chat(
     history: List[ChatMessage],
     api_key: str,
     db: Optional[Session] = None,
-    personality: Optional[Dict[str, int]] = None
+    personality: Optional[Dict[str, int]] = None,
+    extra_context: str = ""
 ) -> Dict[str, Any]:
     """استدعاء محرك Google Gemini للمحادثات الفورية بشخصية TARS مع دعم الأوامر"""
     active_personality = personality or load_personality_settings()
@@ -395,6 +397,8 @@ def call_gemini_chat(
     people_count = db.query(Person).count() if db else 0
 
     sys_prompt += f"\n\n[VERIFIED LIVE SYSTEM TELEMETRY]: {metrics.get('summary_text', '')} | Registered Biometric Subjects: {people_count}"
+    if extra_context:
+        sys_prompt += f"\n\n{extra_context}"
 
     contents = []
     if history:
@@ -577,7 +581,7 @@ def update_gemini_api_key(payload: ApiKeyRequest):
 
 @router.post("/chat")
 def chat_with_tars(payload: ChatRequest, db: Session = Depends(get_db)):
-    """إرسال استفسار فوري لمساعد TARS الذكي مع دعم مصفوفة الشخصية والأوامر"""
+    """إرسال استفسار فوري لمساعد TARS الذكي عبر TARS Hybrid AI Core مع دعم الذاكرة والمعرفة والأوامر"""
     user_prompt = (payload.prompt or payload.message or "").strip()
     if not user_prompt:
         raise HTTPException(status_code=400, detail="Prompt cannot be empty.")
@@ -586,23 +590,15 @@ def chat_with_tars(payload: ChatRequest, db: Session = Depends(get_db)):
     if payload.personality:
         save_personality_settings(payload.personality)
 
-    api_key = get_gemini_api_key()
-
-    if not api_key:
-        return handle_local_tars_fallback(user_prompt, active_personality, db)
-
-    try:
-        return call_gemini_chat(user_prompt, payload.history or [], api_key, db, active_personality)
-    except Exception as e:
-        fallback = handle_local_tars_fallback(user_prompt, active_personality, db)
-        if fallback.get("success"):
-            return fallback
-        return {
-            "success": False,
-            "reply": f"[TARS DIAGNOSTIC ALERT]: Cloud LLM connection failed ({str(e)}). Local telemetry and ArcFace biometrics remain online.",
-            "error": str(e),
-            "engine": "TARS Diagnostic Handler"
-        }
+    return route_and_execute_chat(
+        db=db,
+        prompt=user_prompt,
+        history=payload.history or [],
+        personality=active_personality,
+        system_prompt_builder=build_tars_system_prompt,
+        cloud_gemini_callable=call_gemini_chat,
+        local_fallback_callable=handle_local_tars_fallback,
+    )
 
 
 @router.post("/vision")

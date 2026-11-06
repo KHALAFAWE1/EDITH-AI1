@@ -1,0 +1,177 @@
+{
+  "snapshot_id": "tars_backup_20261106_123828_38a895",
+  "label": "pytest_snapshot",
+  "created_at": "2026-11-06T12:38:28.132579",
+  "counts": {
+    "memories": 8,
+    "learning_records": 8,
+    "experiences": 6,
+    "documents": 5,
+    "proposals": 3,
+    "permissions": 8
+  },
+  "memories": [
+    {
+      "memory_uid": "mem_721b378f5923",
+      "memory_type": "SHORT_TERM",
+      "category": "conversation",
+      "subject": "recent_operator_message",
+      "content": "What is the current CPU and RAM telemetry status?",
+      "is_verified_fact": false,
+      "fact_or_inference": "INFERENCE",
+      "source_type": "conversation",
+      "source_reference": "active_chat",
+      "confidence": 0.85
+    },
+    {
+      "memory_uid": "mem_426040c83395",
+      "memory_type": "EPISODIC",
+      "category": "episode",
+      "subject": "What is the current CPU and RAM telemetry status?",
+      "content": "User Query: What is the current CPU and RAM telemetry status? | Action: Chat query routed via LOCAL_KNOWLEDGE_CORE | Outcome: [TARS Verified Local Knowledge & Memory Synthesis]\n\n• [استنتاج (INFERENCE) — recent_operator_message]: What is the current CPU and RAM telemetry status? | Error: None | Lesson: Successfully executed 'Chat query routed via LOCAL_KNOWLEDGE_CORE' using LOCAL_KNOWLEDGE_CORE, TARS_Memory_System, TARS_Knowledge_Base.",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "experience",
+      "source_reference": "tars_episodic_logger",
+      "confidence": 0.95
+    },
+    {
+      "memory_uid": "mem_7ceb6dfb02aa",
+      "memory_type": "EPISODIC",
+      "category": "episode",
+      "subject": "Run diagnostics on optical array",
+      "content": "User Query: Run diagnostics on optical array | Action: Executed optical calibration check | Outcome: All 512D biometric vectors nominal | Error: None | Lesson: Verify lighting before ArcFace extraction",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "experience",
+      "source_reference": "tars_episodic_logger",
+      "confidence": 0.95
+    },
+    {
+      "memory_uid": "mem_8d9326a87e37",
+      "memory_type": "SEMANTIC",
+      "category": "learned_knowledge",
+      "subject": "ArcFace Embedding Dimension",
+      "content": "ArcFace buffalo_l generates 512-dimensional normalized facial embeddings for biometric matching.",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "document",
+      "source_reference": "user_approved_input",
+      "confidence": 0.964
+    },
+    {
+      "memory_uid": "mem_1038f0599314",
+      "memory_type": "EPISODIC",
+      "category": "episode",
+      "subject": "Camera frame is too dark to detect faces",
+      "content": "User Query: Camera frame is too dark to detect faces | Action: Calibrate low-light camera exposure for face recognition | Outcome: Detected face with 0.89 confidence after CLAHE | Error: None | Lesson: Apply CLAHE histogram equalization when ambient brightness is low",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "experience",
+      "source_reference": "tars_episodic_logger",
+      "confidence": 0.95
+    },
+    {
+      "memory_uid": "mem_d93ba392dff2",
+      "memory_type": "LONG_TERM",
+      "category": "experience_lesson",
+      "subject": "Calibrate low-light camera exposure for face recognition",
+      "content": "Calibrate low-light camera exposure for face recognition: Operator feedback lesson: Always check frame brightness before running ArcFace.",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "user_correction",
+      "source_reference": "experience:exp_edfc66621299",
+      "confidence": 1.0
+    },
+    {
+      "memory_uid": "mem_34ed60e349f7",
+      "memory_type": "EPISODIC",
+      "category": "episode",
+      "subject": "What is the current CPU and RAM telemetry status?",
+      "content": "User Query: What is the current CPU and RAM telemetry status? | Action: Chat query routed via LOCAL_KNOWLEDGE_CORE | Outcome: [TARS Verified Local Knowledge & Memory Synthesis]\n\n• [استنتاج (INFERENCE) — recent_operator_message]: What is the current CPU and RAM telemetry status?\n\n• [حقيقة موثقة (FACT) — What is the current CPU and RAM telemetry status?]: User Query: What is the current CPU and RAM telemetry status? | Action | Error: None | Lesson: Successfully executed 'Chat query routed via LOCAL_KNOWLEDGE_CORE' using LOCAL_KNOWLEDGE_CORE, TARS_Memory_System, TARS_Knowledge_Base.",
+      "is_verified_fact": true,
+      "fact_or_inference": "FACT",
+      "source_type": "experience",
+      "source_reference": "tars_episodic_logger",
+      "confidence": 0.95
+    },
+    {
+      "memory_uid": "mem_cc7449e20261",
+      "memory_type": "LONG_TERM",
+      "category": "learned_knowledge",
+      "subject": "Quantum Telemetry Protocol",
+      "content": "Quantum telemetry link uses protocol X-99 on port 8443.",
+      "is_verified_fact": false,
+      "fact_or_inference": "INFERENCE",
+      "source_type": "conversation",
+      "source_reference": "user_approved_input",
+      "confidence": 0.86
+    }
+  ],
+  "permissions": [
+    {
+      "id": 1,
+      "scope_name": "read_only",
+      "enabled": true,
+      "requires_human_approval": false,
+      "description": "قراءة البيانات والحالة والذكريات دون تعديل (Read-only access)",
+      "updated_at": "2026-11-06T12:34:56.753785"
+    },
+    {
+      "id": 2,
+      "scope_name": "memory_write",
+      "enabled": true,
+      "requires_human_approval": false,
+      "description": "الكتابة في نظام الذاكرة (قصيرة/طويلة المدى والدلالية) مع فحص التكرار والبيانات الحساسة",
+      "updated_at": "2026-11-06T12:34:56.753803"
+    },
+    {
+      "id": 3,
+      "scope_name": "file_access",
+      "enabled": true,
+      "requires_human_approval": false,
+      "description": "قراءة وتحليل الوثائق المرفوعة (TXT, PDF, DOCX) داخل نطاق المشروع",
+      "updated_at": "2026-11-06T12:34:56.753806"
+    },
+    {
+      "id": 4,
+      "scope_name": "web_access",
+      "enabled": false,
+      "requires_human_approval": true,
+      "description": "الوصول إلى المصادر الخارجية على الويب عند تفعيله من المستخدم",
+      "updated_at": "2026-11-06T12:34:56.753808"
+    },
+    {
+      "id": 5,
+      "scope_name": "tool_execution",
+      "enabled": true,
+      "requires_human_approval": false,
+      "description": "تشغيل أدوات TARS المحلية الآمنة وقراءة مقاييس الجهاز",
+      "updated_at": "2026-11-06T12:34:56.753811"
+    },
+    {
+      "id": 6,
+      "scope_name": "code_modification",
+      "enabled": false,
+      "requires_human_approval": true,
+      "description": "تعديل كود المشروع (يتطلب اقتراح تحسين وموافقة بشرية صريحة)",
+      "updated_at": "2026-11-06T12:34:56.753814"
+    },
+    {
+      "id": 7,
+      "scope_name": "model_modification",
+      "enabled": false,
+      "requires_human_approval": true,
+      "description": "تغيير النموذج الأساسي أو أوزان النموذج أو إعدادات Fine-Tuning (يتطلب موافقة بشرية)",
+      "updated_at": "2026-11-06T12:34:56.753817"
+    },
+    {
+      "id": 8,
+      "scope_name": "system_admin",
+      "enabled": false,
+      "requires_human_approval": true,
+      "description": "إدارة الصلاحيات الحساسة وتعديل قاعدة البيانات ونشر نسخ جديدة (يتطلب موافقة بشرية)",
+      "updated_at": "2026-11-06T12:34:56.753820"
+    }
+  ]
+}
